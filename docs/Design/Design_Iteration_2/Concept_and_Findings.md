@@ -35,7 +35,7 @@ The content is not completely produced in advance. Each participant adds new mat
 
 ## Core Interaction
 
-![Borrowed Eyes interaction flow](images/borrowed-eyes-flow.png)
+![Borrowed Eyes interaction flow](../images/borrowed-eyes-flow.png)
 
 *Figure 1. The Borrowed Eyes interaction changes from a linear activity into a cumulative social loop.*
 
@@ -52,7 +52,7 @@ The order is important. The participant records an initial response before seein
 
 ### Scenario
 
-![Borrowed Eyes scenario](images/borrowed-eyes-scenario.png)
+![Borrowed Eyes scenario](../images/borrowed-eyes-scenario.png)
 
 *Figure 2. A participant follows a previous visitor's clue, records an independent response, compares perspectives, and creates a card for the next visitor.*
 
