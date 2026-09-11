@@ -106,15 +106,6 @@ Another person's perspective may cause a visitor to look again and notice someth
 
 However, this does not mean visitors always want to talk directly to strangers. Visitors may benefit from other people's perspectives without needing direct face-to-face interaction.
 
-**Evidence chain:**
-
-> Personal interpretation  
-> → Encounter another visitor's perspective  
-> → Compare ideas  
-> → Notice a difference  
-> → Return attention to the artwork  
-> → Reflect again
-
 **Design implication:**  
 The experience should make other visitors' perspectives visible while keeping social interaction low-pressure.
 
