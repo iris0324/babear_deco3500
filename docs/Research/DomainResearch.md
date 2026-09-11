@@ -27,14 +27,6 @@ Shaer et al. (2011) found that beginning museum visitors often moved through gal
 
 This suggests that low engagement does not always mean low interest. A visitor may already have a feeling or idea about an artwork, but they may not trust their own response.
 
-**Evidence chain:**
-
-> Limited art experience  
-> → Uncertainty about interpretation  
-> → Low confidence  
-> → Stronger reliance on labels or expert information  
-> → Less active personal interpretation
-
 **Design implication:**  
 The experience should not ask visitors to produce a "correct" interpretation. Instead, it should give them an easy starting point and allow personal responses.
 
