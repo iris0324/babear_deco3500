@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "Prototype/iteration-4-functional-prototype/**"
+      - "Prototype/functional-prototype/**"
       - ".github/workflows/deploy-prototype.yml"
 
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
       - name: Upload Borrowed Eyes prototype
         uses: actions/upload-pages-artifact@v4
         with:
-          path: "Prototype/iteration-4-functional-prototype"
+          path: "Prototype/functional-prototype"
 
       - name: Deploy to GitHub Pages
         id: deployment
