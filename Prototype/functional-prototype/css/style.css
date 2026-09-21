@@ -1,0 +1,1158 @@
+/* =========================================================
+   BORROWED EYES
+   Mobile-first responsive UI
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Design tokens
+   --------------------------------------------------------- */
+
+:root {
+  --background: #f2ede5;
+  --surface: #fffbf2;
+  --clue: #ece3d8;
+
+  --primary: #8b5e3c;
+  --primary-dark: #70482e;
+
+  --text: #2f2a26;
+  --muted: #6f675f;
+
+  --border: #ddd7ce;
+
+  --reference-width: 390px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --font-body: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+
+  --font-display: Georgia, "Times New Roman", serif;
+}
+
+/* ---------------------------------------------------------
+   Reset
+   --------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+
+  min-width: 320px;
+  min-height: 100vh;
+
+  background: var(--background);
+
+  color: var(--text);
+
+  font-family: var(--font-body);
+
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+}
+
+button,
+label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+img {
+  display: block;
+
+  max-width: 100%;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------
+   Main mobile shell
+   --------------------------------------------------------- */
+
+#app {
+  width: 100%;
+
+  min-height: 100vh;
+}
+
+.screen {
+  width: 100%;
+
+  min-height: 100vh;
+}
+
+.screen__content {
+  width: 100%;
+
+  max-width: var(--reference-width);
+
+  min-height: 100vh;
+
+  margin-inline: auto;
+
+  padding: 52px clamp(16px, 6.15vw, 24px) 36px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+/* ---------------------------------------------------------
+   Typography
+   --------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+p,
+blockquote {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 20px;
+
+  font-family: var(--font-display);
+
+  font-size: clamp(38px, 10.8vw, 42px);
+
+  font-weight: 500;
+
+  line-height: 1.06;
+}
+
+h2 {
+  margin-bottom: 10px;
+
+  font-family: var(--font-display);
+
+  font-size: clamp(30px, 8.7vw, 34px);
+
+  font-weight: 500;
+
+  line-height: 1.15;
+}
+
+.eyebrow {
+  margin-bottom: 6px;
+
+  color: var(--primary);
+
+  font-family: var(--font-display);
+
+  font-size: 13px;
+
+  font-style: italic;
+}
+
+.lead {
+  color: var(--muted);
+
+  font-size: 17px;
+
+  line-height: 1.5;
+}
+
+.screen-intro {
+  margin-bottom: 22px;
+
+  color: var(--muted);
+
+  font-size: 15px;
+}
+
+.meta,
+.small-note,
+.screen-hint,
+.location-text {
+  color: var(--muted);
+
+  font-size: 13px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.field-label,
+.card-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.045em;
+
+  text-transform: uppercase;
+}
+
+.divider {
+  width: 100%;
+
+  height: 1px;
+
+  margin-bottom: 20px;
+
+  background: var(--border);
+}
+
+.screen-spacer {
+  flex: 1;
+
+  min-height: 24px;
+}
+
+/* ---------------------------------------------------------
+   Buttons
+   --------------------------------------------------------- */
+
+.button {
+  width: 100%;
+
+  min-height: 48px;
+
+  padding: 12px 16px;
+
+  border: 1px solid transparent;
+
+  border-radius: var(--radius-sm);
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+.button + .button {
+  margin-top: 10px;
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.button--primary {
+  background: var(--primary);
+
+  color: white;
+}
+
+.button--primary:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+
+.button--secondary {
+  border-color: var(--primary);
+
+  background: transparent;
+
+  color: var(--primary);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.4;
+}
+
+.text-button {
+  width: 100%;
+
+  min-height: 44px;
+
+  margin-top: 10px;
+
+  padding: 8px;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--primary);
+
+  cursor: pointer;
+
+  text-align: center;
+
+  text-decoration: underline;
+
+  text-underline-offset: 3px;
+}
+
+.button:focus-visible,
+.text-button:focus-visible,
+.fragment-card:focus-visible,
+.pagination-button:focus-visible,
+.reaction-button:focus-visible,
+textarea:focus-visible,
+input:focus-visible,
+.upload-field:focus-within .upload-box {
+  outline: 3px solid rgba(139, 94, 60, 0.24);
+
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------
+   Start
+   --------------------------------------------------------- */
+
+.start-content {
+  justify-content: center;
+}
+
+.start-content .meta {
+  margin: 10px 0 30px;
+}
+
+.start-content .small-note {
+  margin: 12px 0 0;
+}
+
+/* ---------------------------------------------------------
+   Fragment selection
+   --------------------------------------------------------- */
+
+.fragment-list {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1fr);
+
+  gap: 12px;
+
+  margin-bottom: 14px;
+}
+
+.fragment-card {
+  width: 100%;
+
+  min-height: 100px;
+
+  display: grid;
+
+  grid-template-columns:
+    clamp(72px, 22vw, 84px)
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 8px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  background: var(--surface);
+
+  color: var(--text);
+
+  cursor: pointer;
+
+  text-align: left;
+
+  overflow: hidden;
+
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.fragment-card.is-selected {
+  border-color: var(--primary);
+
+  box-shadow: 0 0 0 2px rgba(139, 94, 60, 0.12);
+}
+
+.fragment-card__image {
+  width: 100%;
+
+  aspect-ratio: 1 / 1;
+
+  border-radius: 8px;
+
+  background: var(--clue);
+
+  object-fit: cover;
+
+  object-position: center;
+}
+
+.fragment-card__content {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.fragment-card__title {
+  font-size: 16px;
+
+  font-weight: 600;
+
+  line-height: 1.3;
+}
+
+.fragment-card__meta {
+  color: var(--muted);
+
+  font-size: 13px;
+}
+
+/* ---------------------------------------------------------
+   Fragment pagination
+   --------------------------------------------------------- */
+
+.fragment-pagination {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: 6px;
+
+  margin-bottom: 18px;
+}
+
+.pagination-button {
+  min-height: 42px;
+
+  padding: 6px;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--primary);
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.pagination-button:first-child {
+  text-align: left;
+}
+
+.pagination-button:last-child {
+  text-align: right;
+}
+
+.pagination-button:disabled {
+  cursor: default;
+
+  opacity: 0.25;
+}
+
+.page-indicator {
+  min-width: 42px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+   Image frames
+   --------------------------------------------------------- */
+
+.fragment-preview {
+  width: 100%;
+
+  height: clamp(105px, 29.5vw, 115px);
+
+  margin-bottom: 20px;
+
+  border-radius: var(--radius-md);
+
+  overflow: hidden;
+
+  background: var(--clue);
+}
+
+.fragment-preview--small {
+  height: clamp(76px, 21vw, 82px);
+}
+
+.fragment-preview img,
+.artwork-preview img {
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position: center;
+}
+
+.artwork-preview {
+  width: 100%;
+
+  aspect-ratio: 342 / 190;
+
+  margin-bottom: 18px;
+
+  border-radius: var(--radius-md);
+
+  overflow: hidden;
+
+  background: var(--clue);
+}
+
+.artwork-preview--look-again {
+  aspect-ratio: 342 / 210;
+}
+
+/* ---------------------------------------------------------
+   Shared cards
+   --------------------------------------------------------- */
+
+.clue-card,
+.perspective-card,
+.pass-choice-card,
+.completion-card {
+  width: 100%;
+
+  padding: 18px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  background: var(--surface);
+}
+
+.clue-card {
+  margin-bottom: 20px;
+
+  background: var(--clue);
+}
+
+.clue-card--compact {
+  padding-top: 14px;
+
+  padding-bottom: 14px;
+}
+
+.clue-card p:last-child,
+.pass-choice-card p:last-child,
+.completion-card p:last-child {
+  margin-bottom: 0;
+}
+
+.screen-hint {
+  margin: 4px 0 28px;
+}
+
+.location-text {
+  margin-bottom: 18px;
+}
+
+.artwork-title {
+  margin-bottom: 5px;
+
+  font-family: var(--font-display);
+
+  font-size: 21px;
+}
+
+/* ---------------------------------------------------------
+   Their View — perspective
+   --------------------------------------------------------- */
+
+.perspective-card {
+  min-height: 150px;
+
+  margin-bottom: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+.perspective-card .card-label {
+  width: 100%;
+
+  margin-bottom: 12px;
+
+  text-align: center;
+}
+
+.perspective-card blockquote {
+  width: 100%;
+
+  margin: 0;
+
+  font-family: var(--font-display);
+
+  font-size: 20px;
+
+  line-height: 1.45;
+
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+   Their View responses
+   --------------------------------------------------------- */
+
+.response-group {
+  margin: 0 0 20px;
+
+  padding: 0;
+
+  border: 0;
+}
+
+.response-group legend {
+  width: 100%;
+
+  margin-bottom: 10px;
+
+  padding: 0;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.reaction-options {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.notice-options {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.reaction-button {
+  min-height: 40px;
+
+  padding: 8px 10px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--surface);
+
+  color: var(--text);
+
+  cursor: pointer;
+
+  font-size: 13px;
+
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.reaction-button--small {
+  min-width: 86px;
+}
+
+.reaction-button.is-selected {
+  border-color: var(--primary);
+
+  background: var(--primary);
+
+  color: white;
+}
+
+/* ---------------------------------------------------------
+   Their View — re-observation invitation
+   --------------------------------------------------------- */
+
+.look-again-prompt {
+  margin: 2px 0 12px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+.text-button--back {
+  margin-top: 6px;
+
+  padding-left: 0;
+
+  color: var(--muted);
+
+  text-align: left;
+
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------
+   Forms
+   --------------------------------------------------------- */
+
+form {
+  width: 100%;
+}
+
+.form-field {
+  display: block;
+
+  margin-bottom: 20px;
+}
+
+.form-field > span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+textarea,
+input[type="text"] {
+  width: 100%;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  padding: 12px 14px;
+
+  background: var(--surface);
+
+  color: var(--text);
+}
+
+textarea {
+  min-height: 64px;
+
+  resize: vertical;
+
+  line-height: 1.45;
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #918981;
+}
+
+/* ---------------------------------------------------------
+   Look Again
+   --------------------------------------------------------- */
+
+.look-away-note {
+  margin: 4px 0 24px;
+
+  color: var(--muted);
+
+  font-size: 14px;
+}
+
+/* ---------------------------------------------------------
+   Artist Context
+   --------------------------------------------------------- */
+
+.artwork-info-card {
+  width: 100%;
+
+  margin-bottom: 28px;
+
+  padding: 18px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  background: var(--surface);
+}
+
+.context-artwork-title {
+  margin: 0 0 18px;
+
+  font-family: var(--font-display);
+
+  font-size: 22px;
+
+  font-weight: 500;
+
+  line-height: 1.3;
+}
+
+.context-metadata {
+  margin: 0;
+}
+
+.context-metadata div {
+  display: grid;
+
+  grid-template-columns:
+    92px
+    minmax(0, 1fr);
+
+  gap: 12px;
+
+  padding: 9px 0;
+
+  border-top: 1px solid var(--border);
+}
+
+.context-metadata dt {
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.4;
+}
+
+.context-metadata dd {
+  margin: 0;
+
+  font-size: 13px;
+
+  line-height: 1.45;
+}
+
+.metadata-separator {
+  margin-inline: 3px;
+
+  color: var(--muted);
+}
+
+.about-artwork {
+  margin-bottom: 26px;
+}
+
+.about-artwork .field-label {
+  color: var(--primary);
+}
+
+.context-main {
+  margin: 0;
+
+  font-size: 15px;
+
+  line-height: 1.65;
+}
+
+.collection-info {
+  margin-bottom: 24px;
+
+  padding-top: 18px;
+
+  border-top: 1px solid var(--border);
+}
+
+.collection-info .field-label {
+  margin-bottom: 5px;
+}
+
+.collection-info p:last-child {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+.interpretation-note {
+  margin-bottom: 24px;
+
+  padding: 16px 18px;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clue);
+}
+
+.interpretation-note strong {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--primary);
+
+  font-family: var(--font-display);
+
+  font-size: 16px;
+
+  font-weight: 500;
+}
+
+.interpretation-note p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------
+   Pass It On
+   --------------------------------------------------------- */
+
+.pass-choice-card {
+  margin-top: 8px;
+}
+
+/* ---------------------------------------------------------
+   Photo contribution
+   --------------------------------------------------------- */
+
+.upload-field {
+  display: block;
+
+  margin-bottom: 20px;
+
+  cursor: pointer;
+}
+
+.upload-box {
+  width: 100%;
+
+  min-height: 112px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: 1px dashed #bca996;
+
+  border-radius: var(--radius-md);
+
+  background: var(--surface);
+
+  overflow: hidden;
+}
+
+.upload-placeholder {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  padding: 20px;
+
+  color: var(--primary);
+
+  text-align: center;
+}
+
+.upload-placeholder strong {
+  font-size: 14px;
+}
+
+.upload-placeholder small {
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+.upload-preview {
+  width: 100%;
+
+  height: 150px;
+
+  object-fit: cover;
+
+  object-position: center;
+}
+
+.consent-row {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 10px;
+
+  margin: 4px 0 24px;
+
+  color: var(--muted);
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+.consent-row input {
+  width: 18px;
+
+  height: 18px;
+
+  margin-top: 1px;
+
+  accent-color: var(--primary);
+}
+
+.visually-hidden {
+  position: absolute;
+
+  width: 1px;
+
+  height: 1px;
+
+  margin: -1px;
+
+  padding: 0;
+
+  border: 0;
+
+  overflow: hidden;
+
+  clip: rect(0 0 0 0);
+
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------
+   Completion
+   --------------------------------------------------------- */
+
+.completion-content {
+  justify-content: center;
+}
+
+.completion-card {
+  margin: 12px 0 28px;
+
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+   Small phones
+   --------------------------------------------------------- */
+
+@media (max-width: 359px) {
+  .screen__content {
+    padding-left: 16px;
+
+    padding-right: 16px;
+  }
+
+  .fragment-card {
+    grid-template-columns:
+      72px
+      minmax(0, 1fr);
+
+    gap: 11px;
+  }
+
+  .reaction-options {
+    grid-template-columns: 1fr;
+  }
+
+  .pagination-button {
+    font-size: 13px;
+  }
+
+  .context-metadata div {
+    grid-template-columns:
+      80px
+      minmax(0, 1fr);
+
+    gap: 8px;
+  }
+}
+
+/* ---------------------------------------------------------
+   Desktop / large viewport
+   --------------------------------------------------------- */
+
+@media (min-width: 600px) {
+  body {
+    padding: 24px 0;
+  }
+
+  .screen {
+    min-height: calc(100vh - 48px);
+  }
+
+  .screen__content {
+    min-height: calc(100vh - 48px);
+
+    border-radius: var(--radius-lg);
+  }
+}
+
+/* ---------------------------------------------------------
+   Reduced motion
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+  }
+}

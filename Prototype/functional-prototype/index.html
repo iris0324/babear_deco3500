@@ -1,0 +1,728 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Borrowed Eyes</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <main id="app">
+      <!-- =========================================
+           01 START
+      ========================================== -->
+
+      <section class="screen screen--start" data-screen="start">
+        <div class="screen__content start-content">
+          <p class="eyebrow">An anonymous gallery experience</p>
+
+          <h1>Borrowed Eyes</h1>
+
+          <div class="divider"></div>
+
+          <p class="lead">
+            See an artwork through someone else's eyes, then leave your own way
+            of seeing behind.
+          </p>
+
+          <p class="meta">Anonymous · Asynchronous · 5–10 minutes</p>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="start"
+          >
+            Start
+          </button>
+
+          <p class="small-note center-text">
+            No account needed. Your name is never shared.
+          </p>
+        </div>
+      </section>
+
+      <!-- =========================================
+           02 CHOOSE FRAGMENT
+      ========================================== -->
+
+      <section class="screen" data-screen="choose-fragment" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Choose</p>
+
+          <h2>Choose someone's eyes</h2>
+
+          <p class="screen-intro">
+            Choose a fragment left by another visitor that makes you curious.
+          </p>
+
+          <div id="fragment-list" class="fragment-list"></div>
+
+          <nav class="fragment-pagination" aria-label="Fragment pages">
+            <button
+              class="pagination-button"
+              type="button"
+              data-action="previous-fragments"
+            >
+              ← Previous
+            </button>
+
+            <span class="page-indicator" data-fragment-page aria-live="polite">
+              1 / 2
+            </span>
+
+            <button
+              class="pagination-button"
+              type="button"
+              data-action="next-fragments"
+            >
+              Next →
+            </button>
+          </nav>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="continue-fragment"
+            disabled
+          >
+            Continue →
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================
+           03 FIND ARTWORK
+      ========================================== -->
+
+      <section class="screen" data-screen="find-artwork" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Find</p>
+
+          <h2>Find the artwork</h2>
+
+          <div class="fragment-preview">
+            <img data-field="fragment-image" src="" alt="" />
+          </div>
+
+          <p class="field-label">Clue 1 — from a visitor</p>
+
+          <div class="clue-card">
+            <p data-field="clue-1"></p>
+          </div>
+
+          <p class="screen-hint">
+            Look around the gallery, not just at your screen.
+          </p>
+
+          <button
+            class="button button--secondary"
+            type="button"
+            data-action="show-clue-2"
+          >
+            + I need another clue
+          </button>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="found-artwork"
+          >
+            I found it
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================
+           04 CLUE 2
+      ========================================== -->
+
+      <section class="screen" data-screen="clue-2" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Find</p>
+
+          <h2>Find the artwork</h2>
+
+          <div class="fragment-preview fragment-preview--small">
+            <img data-field="fragment-image" src="" alt="" />
+          </div>
+
+          <p class="field-label">Clue 1 — from a visitor</p>
+
+          <div class="clue-card clue-card--compact">
+            <p data-field="clue-1"></p>
+          </div>
+
+          <p class="field-label">Clue 2</p>
+
+          <div class="clue-card">
+            <p data-field="clue-2"></p>
+          </div>
+
+          <p class="location-text" data-field="artwork-location"></p>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="found-artwork"
+          >
+            I found it
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================
+           05 CONFIRM ARTWORK
+      ========================================== -->
+
+      <section class="screen" data-screen="confirm-artwork" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Confirm</p>
+
+          <h2>Is this the artwork?</h2>
+
+          <p class="screen-intro">
+            Take a moment to check before recording your view.
+          </p>
+
+          <div class="artwork-preview">
+            <img data-field="artwork-image" src="" alt="" />
+          </div>
+
+          <p class="artwork-title" data-field="artwork-title"></p>
+
+          <p class="location-text" data-field="artwork-location"></p>
+
+          <p class="small-note">
+            If this is not it, return to the clues. Your expanded Clue 2 will
+            stay visible.
+          </p>
+
+          <div class="screen-spacer"></div>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="confirm-artwork"
+          >
+            Yes, this is it
+          </button>
+
+          <button
+            class="button button--secondary"
+            type="button"
+            data-action="not-this-artwork"
+          >
+            No, keep looking
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================
+           06 MY VIEW
+      ========================================== -->
+
+      <section class="screen" data-screen="my-view" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">My View</p>
+
+          <h2>What do you see?</h2>
+
+          <p class="screen-intro">Before seeing what someone else thought…</p>
+
+          <form id="my-view-form">
+            <label class="form-field">
+              <span> What did you notice first? </span>
+
+              <textarea
+                name="myView"
+                rows="3"
+                required
+                placeholder="A colour, a shape, a figure — anything at all."
+              ></textarea>
+            </label>
+
+            <label class="form-field">
+              <span> What does this artwork make you think or feel? </span>
+
+              <textarea
+                name="myViewExtra"
+                rows="3"
+                placeholder="There is no right or wrong."
+              ></textarea>
+            </label>
+
+            <p class="small-note">
+              Your view is private until you choose to share it.
+            </p>
+
+            <button class="button button--primary" type="submit">
+              Save My View
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- =========================================
+           07 THEIR VIEW
+      ========================================== -->
+
+      <section class="screen" data-screen="their-view" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Their View</p>
+
+          <h2>Borrow someone else's eyes</h2>
+
+          <p class="screen-intro">
+            An anonymous visitor left this perspective.
+          </p>
+
+          <article class="perspective-card">
+            <p class="card-label">An anonymous visitor's perspective</p>
+
+            <blockquote data-field="previous-view"></blockquote>
+          </article>
+
+          <fieldset class="response-group">
+            <legend>How does this compare with your view?</legend>
+
+            <div class="reaction-options">
+              <button
+                class="reaction-button"
+                type="button"
+                data-reaction-group="comparison"
+                data-reaction-value="similar"
+              >
+                Similar
+              </button>
+
+              <button
+                class="reaction-button"
+                type="button"
+                data-reaction-group="comparison"
+                data-reaction-value="partly-similar"
+              >
+                Partly similar
+              </button>
+
+              <button
+                class="reaction-button"
+                type="button"
+                data-reaction-group="comparison"
+                data-reaction-value="different"
+              >
+                Different
+              </button>
+
+              <button
+                class="reaction-button"
+                type="button"
+                data-reaction-group="comparison"
+                data-reaction-value="completely-different"
+              >
+                Completely different
+              </button>
+            </div>
+          </fieldset>
+
+          <fieldset class="response-group">
+            <legend>Did this perspective make you notice something new?</legend>
+
+            <div class="notice-options">
+              <button
+                class="reaction-button reaction-button--small"
+                type="button"
+                data-reaction-group="noticed"
+                data-reaction-value="yes"
+              >
+                Yes
+              </button>
+
+              <button
+                class="reaction-button reaction-button--small"
+                type="button"
+                data-reaction-group="noticed"
+                data-reaction-value="not-yet"
+              >
+                Not yet
+              </button>
+            </div>
+          </fieldset>
+
+          <p class="look-again-prompt">
+            See if their perspective changes what you notice.
+          </p>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="continue-to-look-again"
+          >
+            Look at the artwork again →
+          </button>
+
+          <button
+            class="text-button text-button--back"
+            type="button"
+            data-action="back-to-my-view"
+          >
+            ← Back to My View
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================
+           08 LOOK AGAIN
+      ========================================== -->
+
+      <section class="screen" data-screen="look-again" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Look Again</p>
+
+          <h2>Look at the artwork again</h2>
+
+          <p class="screen-intro">
+            See if you notice something you missed before.
+          </p>
+
+          <div class="artwork-preview artwork-preview--look-again">
+            <img data-field="artwork-image" src="" alt="" />
+          </div>
+
+          <p class="look-away-note">
+            Put your phone down for a moment and look at the physical artwork.
+          </p>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="looked-again"
+          >
+            I've looked again →
+          </button>
+
+          <button
+            class="button button--secondary"
+            type="button"
+            data-action="artist-context"
+          >
+            View Artist Context
+          </button>
+
+          <button class="text-button" type="button" data-action="skip-context">
+            Skip Artist Context
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================
+           09 ARTIST CONTEXT
+      ========================================== -->
+
+      <section class="screen" data-screen="artist-context" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Context</p>
+
+          <h2>Artist Context</h2>
+
+          <p class="screen-intro">A little more about the artwork.</p>
+
+          <article class="artwork-info-card">
+            <h3 class="context-artwork-title" data-field="artwork-title"></h3>
+
+            <dl class="context-metadata">
+              <div>
+                <dt>Artist / Maker</dt>
+
+                <dd data-field="artist-name"></dd>
+              </div>
+
+              <div>
+                <dt>Date · Origin</dt>
+
+                <dd>
+                  <span data-field="artwork-date"></span>
+
+                  <span class="metadata-separator"> · </span>
+
+                  <span data-field="artwork-origin"></span>
+                </dd>
+              </div>
+
+              <div>
+                <dt>Medium</dt>
+
+                <dd data-field="artwork-medium"></dd>
+              </div>
+            </dl>
+          </article>
+
+          <section class="about-artwork">
+            <p class="field-label">About this artwork</p>
+
+            <p class="context-main" data-field="artist-context"></p>
+          </section>
+
+          <section class="collection-info">
+            <p class="field-label">Collection</p>
+
+            <p data-field="artwork-collection"></p>
+          </section>
+
+          <div class="interpretation-note">
+            <strong> Your interpretation came first. </strong>
+
+            <p>
+              This context offers another way of understanding the artwork — not
+              the “correct” answer.
+            </p>
+          </div>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="continue-to-pass-choice"
+          >
+            Continue →
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================
+           10 PASS IT ON?
+      ========================================== -->
+
+      <section class="screen" data-screen="pass-choice" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Leave Yours</p>
+
+          <h2>Pass it on?</h2>
+
+          <p class="screen-intro">
+            Would you like to leave your eyes for a future visitor?
+          </p>
+
+          <div class="pass-choice-card">
+            <p>
+              Your contribution can become another visitor's starting point.
+            </p>
+
+            <p class="small-note">This part is optional.</p>
+          </div>
+
+          <div class="screen-spacer"></div>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="start-contribution"
+          >
+            Yes, pass it on
+          </button>
+
+          <button
+            class="text-button"
+            type="button"
+            data-action="skip-contribution"
+          >
+            No, skip to completion
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================
+           11A CONTRIBUTION — PHOTOS
+      ========================================== -->
+
+      <section class="screen" data-screen="contribution-photos" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Leave Yours</p>
+
+          <h2>Create the visual clue</h2>
+
+          <p class="screen-intro">
+            Give the next visitor a mystery fragment and the full artwork
+            answer.
+          </p>
+
+          <label class="upload-field">
+            <span class="field-label"> 1. Fragment photo </span>
+
+            <span class="upload-box">
+              <img
+                id="fragment-upload-preview"
+                class="upload-preview"
+                alt="Fragment preview"
+                hidden
+              />
+
+              <span
+                class="upload-placeholder"
+                data-upload-placeholder="fragment"
+              >
+                <strong> ＋ Take or upload a small detail photo </strong>
+
+                <small> This becomes the mystery fragment. </small>
+              </span>
+            </span>
+
+            <input
+              id="fragment-upload"
+              class="visually-hidden"
+              type="file"
+              accept="image/*"
+              capture="environment"
+            />
+          </label>
+
+          <label class="upload-field">
+            <span class="field-label"> 2. Full artwork photo </span>
+
+            <span class="upload-box">
+              <img
+                id="artwork-upload-preview"
+                class="upload-preview"
+                alt="Full artwork preview"
+                hidden
+              />
+
+              <span
+                class="upload-placeholder"
+                data-upload-placeholder="artwork"
+              >
+                <strong> ＋ Take or upload the full artwork photo </strong>
+
+                <small> This becomes the answer image. </small>
+              </span>
+            </span>
+
+            <input
+              id="artwork-upload"
+              class="visually-hidden"
+              type="file"
+              accept="image/*"
+              capture="environment"
+            />
+          </label>
+
+          <p class="small-note">
+            The fragment is the mystery. The full photo is the answer.
+          </p>
+
+          <label class="form-field">
+            <span> Artwork location </span>
+
+            <input
+              id="contribution-location"
+              type="text"
+              placeholder="e.g. Card display area"
+            />
+          </label>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="contribution-next"
+          >
+            Next →
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================
+           11B CONTRIBUTION — WORDS
+      ========================================== -->
+
+      <section class="screen" data-screen="contribution-details" hidden>
+        <div class="screen__content">
+          <p class="eyebrow">Leave Yours</p>
+
+          <h2>Pass on your perspective</h2>
+
+          <p class="screen-intro">
+            Write for the next visitor in your own words.
+          </p>
+
+          <form id="contribution-form">
+            <label class="form-field">
+              <span> Clue 1 </span>
+
+              <textarea
+                name="clue1"
+                rows="2"
+                required
+                placeholder="Give the next visitor a starting clue."
+              ></textarea>
+            </label>
+
+            <label class="form-field">
+              <span> Clue 2 </span>
+
+              <textarea
+                name="clue2"
+                rows="2"
+                placeholder="Optional second clue."
+              ></textarea>
+            </label>
+
+            <label class="form-field">
+              <span> Your perspective </span>
+
+              <textarea
+                name="view"
+                rows="3"
+                required
+                placeholder="What did you see, think, or feel?"
+              ></textarea>
+            </label>
+
+            <label class="consent-row">
+              <input name="anonymous" type="checkbox" checked />
+
+              <span> Share this anonymously with a future visitor. </span>
+            </label>
+
+            <button class="button button--primary" type="submit">Submit</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- =========================================
+           12 COMPLETION
+      ========================================== -->
+
+      <section class="screen" data-screen="completion" hidden>
+        <div class="screen__content completion-content">
+          <p class="eyebrow">Complete</p>
+
+          <h2>Thanks for looking differently.</h2>
+
+          <p class="lead" data-completion-message>Your visit is complete.</p>
+
+          <div class="completion-card">
+            <p class="card-label">Borrowed Eyes</p>
+
+            <p>
+              One visitor's way of seeing can become another visitor's reason to
+              look again.
+            </p>
+          </div>
+
+          <button
+            class="button button--primary"
+            type="button"
+            data-action="restart"
+          >
+            Start again
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
