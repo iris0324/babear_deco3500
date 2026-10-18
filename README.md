@@ -98,11 +98,11 @@ Developed by **Team 6 — Babear**, DECO3500, The University of Queensland (2026
 
 | Team member | Role / contributions |
 | --- | --- |
-| [Member 1] | [Confirm actual role and contributions] |
-| [Member 2] | [Confirm actual role and contributions] |
-| [Member 3] | [Confirm actual role and contributions] |
-| [Member 4] | [Confirm actual role and contributions] |
-| [Member 5] | [Confirm actual role and contributions] |
+| [YINING ZHU] | [Confirm actual role and contributions] |
+| [XINYUE CHANG] | [Confirm actual role and contributions] |
+| [YUNLIN WANG] | [Confirm actual role and contributions] |
+| [BINYAN ZHANG] | [Confirm actual role and contributions] |
+| [MUCHU WANG] | [Confirm actual role and contributions] |
 
 Specific contributions and decisions should also be traceable through commits, Issues/Projects, and stand-up records.
 
