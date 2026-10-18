@@ -6,6 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link rel="icon" href="assets/ui/study-illustration.jpg" type="image/jpeg">
     <title>Borrowed Eyes</title>
 
     <link rel="stylesheet" href="css/style.css" />
@@ -13,715 +14,358 @@
 
   <body>
     <main id="app">
+      <section class="screen login-screen" data-screen="login">
+        <div class="login-shell">
+          <figure class="login-art"><img src="assets/ui/museum-hero.jpg" alt="A painted museum arcade with stone arches, botanical studies and a gallery bench"><figcaption>THE VISITOR'S ENTRANCE · VOL. I</figcaption></figure>
+          <section class="login-folio" aria-labelledby="login-title">
+            <p class="eyebrow">A museum of perspectives</p>
+            <h1 id="login-title">Borrowed Eyes</h1>
+            <p class="login-intro">Enter the museum, borrow another visitor's perspective, and leave your own.</p>
+            <div class="login-rule" aria-hidden="true"><span>✦</span></div>
+            <div class="auth-tabs" role="tablist" aria-label="Account access"><button type="button" role="tab" aria-selected="true" data-auth-mode="login">Log In</button><button type="button" role="tab" aria-selected="false" data-auth-mode="signup">Sign Up</button><button type="button" role="tab" aria-selected="false" data-auth-mode="qr">QR Code</button></div>
+            <form id="auth-form" class="auth-form" novalidate>
+              <div class="auth-name" hidden><label class="form-field"><span>Display name</span><input name="name" autocomplete="name" maxlength="30"></label></div>
+              <label class="form-field"><span>Email</span><input name="email" type="email" autocomplete="email" inputmode="email" required placeholder="visitor@example.com"></label>
+              <label class="form-field"><span>Password</span><span class="password-control"><input name="password" type="password" autocomplete="current-password" required minlength="8"><button class="text-button" type="button" data-password-toggle aria-label="Show password">Show</button></span></label>
+              <label class="form-field auth-confirm" hidden><span>Confirm password</span><input name="confirm" type="password" autocomplete="new-password" minlength="8"></label>
+              <div class="auth-options"><label><input name="remember" type="checkbox"> Remember me</label><button type="button" class="text-button" data-auth-help="forgot">Forgot Password?</button></div>
+              <p class="game-feedback auth-feedback" role="status"></p>
+              <button class="button button--primary login-enter" type="submit">Log In</button>
+            </form>
+            <div class="auth-qr" hidden><div class="qr-frame" aria-hidden="true"><span>BE</span></div><h2>QR Code Login</h2><p>QR authentication needs a configured identity service and cannot operate in this local prototype.</p></div>
+            <div class="prototype-entry"><span>Preview access</span><button class="text-button" type="button" data-action="demo-login">Continue to Prototype</button></div>
+          </section>
+        </div>
+      </section>
+
       <!-- =========================================
            01 START
       ========================================== -->
 
-      <section class="screen screen--start" data-screen="start">
-        <div class="screen__content start-content">
-          <p class="eyebrow">An anonymous gallery experience</p>
-
-          <h1>Borrowed Eyes</h1>
-
-          <div class="divider"></div>
-
-          <p class="lead">
-            See an artwork through someone else's eyes, then leave your own way
-            of seeing behind.
-          </p>
-
-          <p class="meta">Anonymous · Asynchronous · 5–10 minutes</p>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="start"
-          >
-            Start
-          </button>
-
-          <p class="small-note center-text">
-            No account needed. Your name is never shared.
-          </p>
+      <section class="screen screen--start" data-screen="start" hidden>
+        <div class="screen__content home-content">
+          <header class="masthead">
+            <div class="brand"><h1>Borrowed Eyes</h1><p>A MUSEUM OF PERSPECTIVES</p></div>
+            <span class="edition-label">FIELD NOTES<br><span aria-hidden="true">VOL. I &nbsp;—&nbsp; ✧</span></span>
+          </header>
+          <figure class="gallery-feature">
+            <img src="assets/ui/museum-hero.jpg" alt="A painted museum arcade with stone arches, botanical studies and a gallery bench" fetchpriority="high" />
+            <figcaption class="hero-caption"><span class="hero-kicker">A DIFFERENT WAY TO WANDER</span><h2>The art of<br><em>looking closer.</em></h2><p>Borrow a perspective. Discover your own.</p></figcaption>
+            <span class="hero-index" aria-hidden="true">THE GALLERY JOURNAL &nbsp; / &nbsp; I</span>
+          </figure>
+          <div class="section-heading"><h2>Choose your curiosity</h2><span>FOUR WAYS TO SEE</span></div>
+          <div class="entry-grid">
+            <button class="entry-card entry-card--borrow" data-action="start" type="button">
+              <span class="entry-art"><img src="assets/ui/borrow-illustration.jpg" alt="" width="800" height="533" /><span class="entry-number" aria-hidden="true">I</span></span>
+              <span class="entry-body"><span class="entry-title">Borrow the Eyes</span><span class="entry-description">Find an artwork through a visitor’s clue.</span><span class="entry-link">Begin your journey <span aria-hidden="true">→</span></span></span>
+            </button>
+            <button class="entry-card entry-card--blind" data-route="blind" type="button">
+              <span class="entry-art"><img src="assets/ui/blind-illustration.jpg" alt="" width="800" height="533" /><span class="entry-number" aria-hidden="true">II</span></span>
+              <span class="entry-body"><span class="entry-title">Blind Eyes</span><span class="entry-description">One describes. One guesses. Discover together.</span><span class="entry-link">Meet your mystery <span aria-hidden="true">→</span></span></span>
+            </button>
+            <button class="entry-card entry-card--chat" data-route="chat" type="button">
+              <span class="entry-art"><img src="assets/ui/chat-illustration.jpg" alt="" width="800" height="533" /><span class="entry-number" aria-hidden="true">III</span></span>
+              <span class="entry-body"><span class="entry-title">Live Gallery Chat</span><span class="entry-description">Share thoughts with other gallery visitors.</span><span class="entry-link">Join the conversation <span aria-hidden="true">→</span></span></span>
+            </button>
+            <button class="entry-card entry-card--leave" data-route="leave" type="button">
+              <span class="entry-art"><img src="assets/ui/leave-illustration.jpg" alt="" width="800" height="533" /><span class="entry-number" aria-hidden="true">IV</span></span>
+              <span class="entry-body"><span class="entry-title">Leave Your Eyes</span><span class="entry-description">Leave a clue for the next curious visitor.</span><span class="entry-link">Pass on a perspective <span aria-hidden="true">→</span></span></span>
+            </button>
+          </div>
+          <footer class="home-footer"><span aria-hidden="true">✧</span><p>Look slowly. Think freely. See together.</p><small>Anonymous by nature · No account needed</small></footer>
         </div>
       </section>
 
-      <!-- =========================================
-           02 CHOOSE FRAGMENT
-      ========================================== -->
+      <section class="screen borrow-screen borrow-mode-screen" data-screen="play-mode" hidden>
+        <div class="screen__content borrow-content">
+          <p class="eyebrow">Borrow the Eyes</p><h2>How will you look?</h2>
+          <p class="screen-intro">Follow a fragment alone or share one set of eyes with a local team.</p>
+          <div class="mode-grid borrow-mode-grid">
+            <button class="mode-card borrow-mode-card borrow-mode-card--solo" type="button" data-action="choose-solo"><span class="mode-card__mark" aria-hidden="true">I</span><span class="mode-card__copy"><small>Personal journey</small><strong>Solo</strong><span>A quiet trail of fragments, observations and discoveries.</span></span><span class="mode-card__action">Enter alone <b aria-hidden="true">→</b></span></button>
+            <button class="mode-card borrow-mode-card borrow-mode-card--team" type="button" data-action="choose-team"><span class="mode-card__mark" aria-hidden="true">II</span><span class="mode-card__copy"><small>Shared looking</small><strong>Team</strong><span>Exchange perspectives with 2–5 local simulated visitors.</span></span><span class="mode-card__action">Gather a team <b aria-hidden="true">→</b></span></button>
+          </div>
+          <button class="button button--secondary" type="button" data-action="resume-team" hidden>Resume saved team</button>
+        </div>
+      </section>
 
-      <section class="screen" data-screen="choose-fragment" hidden>
-        <div class="screen__content">
-          <p class="eyebrow">Choose</p>
+      <section class="screen borrow-screen borrow-team-screen" data-screen="team-lobby" hidden>
+        <div class="screen__content borrow-content">
+          <p class="eyebrow">Borrow the Eyes · Team</p><h2>How would you gather?</h2>
+          <p class="screen-intro">Choose first. Every participant shown here is simulated on this device.</p>
+          <div class="team-entry-grid">
+            <button class="mode-card team-entry" type="button" data-team-entry="find"><span class="team-entry__number">01</span><strong>Find a Team</strong><span>Browse simulated rooms with an open place.</span></button>
+            <button class="mode-card team-entry" type="button" data-team-entry="create"><span class="team-entry__number">02</span><strong>Create a Team</strong><span>Open a private local room and welcome a simulated visitor.</span></button>
+            <button class="mode-card team-entry" type="button" data-team-entry="invite"><span class="team-entry__number">03</span><strong>Invite Friends</strong><span>Add a clearly labelled mock friend to your existing room.</span></button>
+          </div>
+        </div>
+      </section>
 
-          <h2>Choose someone's eyes</h2>
+      <section class="screen borrow-screen borrow-team-screen" data-screen="team-match" hidden>
+        <div class="screen__content borrow-content">
+          <p class="eyebrow">Borrow the Eyes · Team</p><h2>Find a Team</h2>
+          <section id="team-match-panel" class="team-lobby-panel"><p class="field-label">Simulated open teams</p><div id="team-match-list" class="open-team-list"></div></section>
+        </div>
+      </section>
 
-          <p class="screen-intro">
-            Choose a fragment left by another visitor that makes you curious.
-          </p>
+      <section class="screen borrow-screen borrow-team-screen team-waiting-screen" data-screen="team-waiting" hidden>
+        <div class="screen__content borrow-content">
+          <header class="team-waiting-header"><p class="eyebrow">Borrow the Eyes · Team</p><h2>Team waiting room</h2><p>Gather a small circle of visitors before entering the exhibition together.</p></header>
+          <section id="team-room-panel" class="team-lobby-panel archival-folio-panel">
+            <div class="waiting-room-status"><span class="field-label" data-team-challenge>No challenge selected</span><label class="switch"><input id="team-open-toggle" type="checkbox"><span>Open to Players</span></label></div>
+            <section class="waiting-members"><div class="folio-section-heading"><span>Visitor circle</span><small>2 minimum · 5 maximum</small></div><div id="team-member-list" class="member-list" aria-live="polite"></div></section>
+            <section class="waiting-recruitment antique-correspondence-panel"><div class="folio-section-heading"><span>Local invitation</span><small>Simulated on this device</small></div><form id="team-member-form" class="inline-form"><label class="form-field"><span>Visitor name</span><input name="name" required maxlength="30" autocomplete="off" placeholder="Add another visitor"></label><button class="button button--secondary" type="submit">Add visitor</button></form></section>
+            <footer class="waiting-room-actions"><p class="game-feedback" data-team-lobby-feedback role="status"></p><button class="button button--primary" data-action="team-start" type="button" disabled>Enter the Exhibition</button><p class="small-note simulation-note">Local prototype · invitations and matching are simulated.</p></footer>
+          </section>
+        </div>
+      </section>
 
-          <div id="fragment-list" class="fragment-list"></div>
+      <!-- Phase 2.1: database-backed Borrow the Eyes -->
+      <section class="screen borrow-screen borrow-library-screen" data-screen="challenge-list" hidden>
+        <div class="screen__content borrow-content">
+          <p class="eyebrow" data-play-eyebrow>Borrow the Eyes · Solo</p>
+          <h2>Choose a fragment</h2>
+          <p class="screen-intro">Begin with another visitor’s close-up view. The artwork stays hidden until the challenge ends.</p>
+          <div id="challenge-list" class="challenge-grid" aria-live="polite"></div>
+        </div>
+      </section>
 
-          <nav class="fragment-pagination" aria-label="Fragment pages">
-            <button
-              class="pagination-button"
-              type="button"
-              data-action="previous-fragments"
-            >
-              ← Previous
-            </button>
+      <section class="screen borrow-screen borrow-play-screen" data-screen="challenge-play" hidden>
+        <div class="screen__content borrow-content borrow-play-content">
+          <header class="challenge-heading"><p class="eyebrow" data-play-eyebrow>Borrow the Eyes · Solo</p><div class="challenge-status"><span data-game-stars></span><span data-game-attempts></span></div><h2 data-game-title>Find the artwork</h2><p>Study the borrowed view, then search the gallery for its source.</p></header>
+          <figure class="fragment-preview"><img data-game-fragment src="" alt="Mystery artwork fragment" /></figure>
+          <article class="perspective-card"><p class="card-label">Creator’s Comment</p><blockquote data-game-comment></blockquote></article>
+          <section class="game-section clue-section"><div class="game-section__heading"><p class="field-label">Clue cabinet</p><span>Unlocked deliberately through Comments</span></div><div class="clue-list" data-game-clue-area></div></section>
+          <form id="clue-comment-form" class="clue-unlock-form game-section">
+            <label class="form-field"><span>Post your own Comment to unlock one clue</span><textarea name="comment" rows="2" required placeholder="What does this fragment make you notice or feel?"></textarea></label>
+            <button class="button button--secondary" type="submit">Unlock one clue</button>
+          </form>
+          <form id="answer-form" class="answer-panel game-section">
+            <label class="form-field"><span>Your artwork answer</span><input id="artwork-answer" name="answer" type="text" required autocomplete="off" placeholder="Enter the title from the gallery label" /></label>
+            <p class="small-note">Use the title printed beside the physical artwork. Titles and makers remain hidden here while you play.</p>
+            <button class="button button--primary" type="submit">Submit formal answer</button>
+          </form>
+          <p class="game-feedback" data-game-feedback role="status"></p>
+          <section id="solo-help" class="solo-help"><button class="button button--secondary" type="button" data-action="open-solo-help">Ask for Help</button></section>
+        </div>
+      </section>
 
-            <span class="page-indicator" data-fragment-page aria-live="polite">
-              1 / 2
-            </span>
-
-            <button
-              class="pagination-button"
-              type="button"
-              data-action="next-fragments"
-            >
-              Next →
-            </button>
+      <section class="screen borrow-screen team-game-screen" data-screen="team-game" hidden>
+        <div class="screen__content team-game-content">
+          <header class="team-game-header">
+            <button class="team-fragment-button" type="button" data-team-panel="fragment" aria-label="Expand mystery fragment"><img id="team-game-fragment" src="" alt="Mystery artwork fragment"></button>
+            <div><p class="eyebrow">Borrow the Eyes · Team room</p><h2 id="team-game-challenge">Mystery challenge</h2><p id="team-game-status"></p></div>
+            <button class="members-entry" type="button" data-team-panel="members"><span id="team-member-count">0</span> Members</button>
+          </header>
+          <div id="team-pending-banner" class="team-pending-banner" hidden><span>A formal answer is waiting for votes.</span><button type="button" data-team-panel="voting">Open voting</button></div>
+          <nav class="team-action-dock" aria-label="Team game actions">
+            <button type="button" data-team-panel="comment">Observation</button>
+            <button type="button" data-team-panel="clues">Clues <span id="team-clue-count"></span></button>
+            <button type="button" data-team-panel="proposal">Propose</button>
+            <button type="button" data-team-panel="voting">Voting</button>
           </nav>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="continue-fragment"
-            disabled
-          >
-            Continue →
-          </button>
+          <section class="team-chat team-chat--primary" aria-label="Team conversation">
+            <div id="team-chat-log" class="chat-log" aria-live="polite"></div>
+            <form id="team-chat-form" class="team-chat-composer"><label><span class="sr-only">Message the team</span><input name="message" required maxlength="180" autocomplete="off" placeholder="Share what you notice…"></label><button class="button button--primary" type="submit">Send</button></form>
+          </section>
+          <div class="team-simulation-control"><label for="team-actor">Local simulation · acting as</label><select id="team-actor" data-team-actor></select></div>
+          <p class="game-feedback" data-team-feedback role="status"></p>
+        </div>
+        <div id="team-action-sheet" class="team-action-sheet" hidden>
+          <button class="team-sheet-backdrop" type="button" data-team-panel-close aria-label="Close panel"></button>
+          <section role="dialog" aria-modal="true" aria-labelledby="team-sheet-title">
+            <header><h3 id="team-sheet-title">Team action</h3><button type="button" data-team-panel-close aria-label="Close panel">×</button></header>
+            <div id="team-sheet-content"></div>
+          </section>
         </div>
       </section>
 
-      <!-- =========================================
-           03 FIND ARTWORK
-      ========================================== -->
-
-      <section class="screen" data-screen="find-artwork" hidden>
-        <div class="screen__content">
-          <p class="eyebrow">Find</p>
-
-          <h2>Find the artwork</h2>
-
-          <div class="fragment-preview">
-            <img data-field="fragment-image" src="" alt="" />
+      <section class="screen borrow-screen" data-screen="solo-help" hidden>
+        <div class="screen__content borrow-content">
+          <p class="eyebrow">Borrow the Eyes · Help</p><h2>Ask another visitor</h2>
+          <div class="help-options">
+            <p class="small-note">Send a local invitation, discover simulated players, or post a Gallery Chat request.</p>
+            <button class="help-choice" type="button" data-help-method="invite"><strong>Invite Friends</strong><span>Send an invitation and wait for local acceptance</span></button>
+            <button class="help-choice" type="button" data-help-method="match"><strong>Find a Team</strong><span>Open simulated teams for this challenge</span></button>
+            <button class="help-choice" type="button" data-help-method="gallery"><strong>Share to Chat</strong><span>Post a mock help request</span></button>
           </div>
-
-          <p class="field-label">Clue 1 — from a visitor</p>
-
-          <div class="clue-card">
-            <p data-field="clue-1"></p>
-          </div>
-
-          <p class="screen-hint">
-            Look around the gallery, not just at your screen.
-          </p>
-
-          <button
-            class="button button--secondary"
-            type="button"
-            data-action="show-clue-2"
-          >
-            + I need another clue
-          </button>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="found-artwork"
-          >
-            I found it
-          </button>
         </div>
       </section>
 
-      <!-- =========================================
-           04 CLUE 2
-      ========================================== -->
-
-      <section class="screen" data-screen="clue-2" hidden>
+      <section class="screen" data-screen="challenge-result" hidden>
         <div class="screen__content">
-          <p class="eyebrow">Find</p>
-
-          <h2>Find the artwork</h2>
-
-          <div class="fragment-preview fragment-preview--small">
-            <img data-field="fragment-image" src="" alt="" />
+          <p class="eyebrow">Challenge complete</p>
+          <h2 data-result-heading></h2>
+          <p class="screen-intro" data-result-summary></p>
+          <div data-result-reveal hidden>
+            <div class="artwork-preview"><img data-result-image src="" alt="Full artwork" /></div>
+            <article class="artwork-info-card">
+              <h3 data-result-title></h3>
+              <dl class="context-metadata">
+                <div><dt>Artist / Maker</dt><dd data-result-artist></dd></div>
+                <div><dt>Year</dt><dd data-result-date></dd></div>
+              </dl>
+            </article>
+            <section class="about-artwork"><p class="field-label">Artist’s Perspective</p><p class="context-main" data-result-perspective></p></section>
           </div>
-
-          <p class="field-label">Clue 1 — from a visitor</p>
-
-          <div class="clue-card clue-card--compact">
-            <p data-field="clue-1"></p>
-          </div>
-
-          <p class="field-label">Clue 2</p>
-
-          <div class="clue-card">
-            <p data-field="clue-2"></p>
-          </div>
-
-          <p class="location-text" data-field="artwork-location"></p>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="found-artwork"
-          >
-            I found it
-          </button>
+          <div id="result-actions" class="result-actions"></div>
+          <div id="result-invitation" class="result-invitation" aria-live="polite"></div>
         </div>
       </section>
 
-      <!-- =========================================
-           05 CONFIRM ARTWORK
-      ========================================== -->
-
-      <section class="screen" data-screen="confirm-artwork" hidden>
+      <section class="screen" data-screen="blind-role" hidden>
         <div class="screen__content">
-          <p class="eyebrow">Confirm</p>
-
-          <h2>Is this the artwork?</h2>
-
-          <p class="screen-intro">
-            Take a moment to check before recording your view.
-          </p>
-
-          <div class="artwork-preview">
-            <img data-field="artwork-image" src="" alt="" />
+          <p class="eyebrow">Blind Eyes · Step 1</p><h2>Choose your role</h2>
+          <p class="screen-intro">Choose how you want to enter this anonymous local simulation.</p>
+          <div class="mode-grid">
+            <button class="mode-card" type="button" data-blind-role-choice="describer"><strong>Describer</strong><span>See the complete artwork and describe it to a partner. Identity details stay hidden.</span></button>
+            <button class="mode-card" type="button" data-blind-role-choice="guesser"><strong>Guesser</strong><span>See no artwork or fragment. Use conversation to find the correct work.</span></button>
           </div>
-
-          <p class="artwork-title" data-field="artwork-title"></p>
-
-          <p class="location-text" data-field="artwork-location"></p>
-
-          <p class="small-note">
-            If this is not it, return to the clues. Your expanded Clue 2 will
-            stay visible.
-          </p>
-
-          <div class="screen-spacer"></div>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="confirm-artwork"
-          >
-            Yes, this is it
-          </button>
-
-          <button
-            class="button button--secondary"
-            type="button"
-            data-action="not-this-artwork"
-          >
-            No, keep looking
-          </button>
         </div>
       </section>
 
-      <!-- =========================================
-           06 MY VIEW
-      ========================================== -->
-
-      <section class="screen" data-screen="my-view" hidden>
+      <section class="screen" data-screen="blind-preferences" hidden>
         <div class="screen__content">
-          <p class="eyebrow">My View</p>
-
-          <h2>What do you see?</h2>
-
-          <p class="screen-intro">Before seeing what someone else thought…</p>
-
-          <form id="my-view-form">
-            <label class="form-field">
-              <span> What did you notice first? </span>
-
-              <textarea
-                name="myView"
-                rows="3"
-                required
-                placeholder="A colour, a shape, a figure — anything at all."
-              ></textarea>
-            </label>
-
-            <label class="form-field">
-              <span> What does this artwork make you think or feel? </span>
-
-              <textarea
-                name="myViewExtra"
-                rows="3"
-                placeholder="There is no right or wrong."
-              ></textarea>
-            </label>
-
-            <p class="small-note">
-              Your view is private until you choose to share it.
-            </p>
-
-            <button class="button button--primary" type="submit">
-              Save My View
-            </button>
+          <p class="eyebrow">Blind Eyes · Step 2</p><h2>Select preferences</h2>
+          <p class="screen-intro">A complementary partner will be simulated locally. No real person is connected.</p>
+          <form id="blind-preferences-form" class="blind-preferences-form">
+            <label class="form-field"><span>Difficulty</span><select name="difficulty" required><option value="">Choose 1–5 stars…</option><option value="1">1 star</option><option value="2">2 stars</option><option value="3">3 stars</option><option value="4">4 stars</option><option value="5">5 stars</option></select></label>
+            <label class="form-field"><span>Interest</span><select name="interest" required><option value="">Choose an interest…</option><option>Portraits</option><option>Landscapes</option><option>Abstract</option><option>Historical</option><option>Surprise Me</option></select></label>
+            <button class="button button--primary" type="submit">Find a Partner</button>
+            <p class="small-note">Simulated matching · the selected partner and room exist only on this device.</p>
           </form>
         </div>
       </section>
 
-      <!-- =========================================
-           07 THEIR VIEW
-      ========================================== -->
-
-      <section class="screen" data-screen="their-view" hidden>
+      <section class="screen" data-screen="blind-list" hidden>
         <div class="screen__content">
-          <p class="eyebrow">Their View</p>
-
-          <h2>Borrow someone else's eyes</h2>
-
-          <p class="screen-intro">
-            An anonymous visitor left this perspective.
-          </p>
-
-          <article class="perspective-card">
-            <p class="card-label">An anonymous visitor's perspective</p>
-
-            <blockquote data-field="previous-view"></blockquote>
-          </article>
-
-          <fieldset class="response-group">
-            <legend>How does this compare with your view?</legend>
-
-            <div class="reaction-options">
-              <button
-                class="reaction-button"
-                type="button"
-                data-reaction-group="comparison"
-                data-reaction-value="similar"
-              >
-                Similar
-              </button>
-
-              <button
-                class="reaction-button"
-                type="button"
-                data-reaction-group="comparison"
-                data-reaction-value="partly-similar"
-              >
-                Partly similar
-              </button>
-
-              <button
-                class="reaction-button"
-                type="button"
-                data-reaction-group="comparison"
-                data-reaction-value="different"
-              >
-                Different
-              </button>
-
-              <button
-                class="reaction-button"
-                type="button"
-                data-reaction-group="comparison"
-                data-reaction-value="completely-different"
-              >
-                Completely different
-              </button>
-            </div>
-          </fieldset>
-
-          <fieldset class="response-group">
-            <legend>Did this perspective make you notice something new?</legend>
-
-            <div class="notice-options">
-              <button
-                class="reaction-button reaction-button--small"
-                type="button"
-                data-reaction-group="noticed"
-                data-reaction-value="yes"
-              >
-                Yes
-              </button>
-
-              <button
-                class="reaction-button reaction-button--small"
-                type="button"
-                data-reaction-group="noticed"
-                data-reaction-value="not-yet"
-              >
-                Not yet
-              </button>
-            </div>
-          </fieldset>
-
-          <p class="look-again-prompt">
-            See if their perspective changes what you notice.
-          </p>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="continue-to-look-again"
-          >
-            Look at the artwork again →
-          </button>
-
-          <button
-            class="text-button text-button--back"
-            type="button"
-            data-action="back-to-my-view"
-          >
-            ← Back to My View
-          </button>
+          <p class="eyebrow">Blind Eyes · Two players</p><h2>Choose a mystery</h2>
+          <p class="screen-intro">Only the difficulty is shown here. The Describer will see the artwork after selection.</p>
+          <div id="blind-challenge-list" class="blind-challenge-list" aria-live="polite"></div>
         </div>
       </section>
 
-      <!-- =========================================
-           08 LOOK AGAIN
-      ========================================== -->
-
-      <section class="screen" data-screen="look-again" hidden>
+      <section class="screen" data-screen="blind-play" hidden>
         <div class="screen__content">
-          <p class="eyebrow">Look Again</p>
-
-          <h2>Look at the artwork again</h2>
-
-          <p class="screen-intro">
-            See if you notice something you missed before.
-          </p>
-
-          <div class="artwork-preview artwork-preview--look-again">
-            <img data-field="artwork-image" src="" alt="" />
-          </div>
-
-          <p class="look-away-note">
-            Put your phone down for a moment and look at the physical artwork.
-          </p>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="looked-again"
-          >
-            I've looked again →
-          </button>
-
-          <button
-            class="button button--secondary"
-            type="button"
-            data-action="artist-context"
-          >
-            View Artist Context
-          </button>
-
-          <button class="text-button" type="button" data-action="skip-context">
-            Skip Artist Context
-          </button>
-        </div>
-      </section>
-
-      <!-- =========================================
-           09 ARTIST CONTEXT
-      ========================================== -->
-
-      <section class="screen" data-screen="artist-context" hidden>
-        <div class="screen__content">
-          <p class="eyebrow">Context</p>
-
-          <h2>Artist Context</h2>
-
-          <p class="screen-intro">A little more about the artwork.</p>
-
-          <article class="artwork-info-card">
-            <h3 class="context-artwork-title" data-field="artwork-title"></h3>
-
-            <dl class="context-metadata">
-              <div>
-                <dt>Artist / Maker</dt>
-
-                <dd data-field="artist-name"></dd>
-              </div>
-
-              <div>
-                <dt>Date · Origin</dt>
-
-                <dd>
-                  <span data-field="artwork-date"></span>
-
-                  <span class="metadata-separator"> · </span>
-
-                  <span data-field="artwork-origin"></span>
-                </dd>
-              </div>
-
-              <div>
-                <dt>Medium</dt>
-
-                <dd data-field="artwork-medium"></dd>
-              </div>
-            </dl>
-          </article>
-
-          <section class="about-artwork">
-            <p class="field-label">About this artwork</p>
-
-            <p class="context-main" data-field="artist-context"></p>
+          <p class="eyebrow">Blind Eyes · Local simulation</p>
+          <div class="challenge-status"><span data-blind-stars></span><span data-blind-attempts></span></div>
+          <div class="role-banner"><div><span>Your anonymous role</span><strong data-blind-role></strong><small data-blind-partner></small></div><button class="button button--secondary" type="button" data-action="switch-blind-role" hidden>Switch role</button></div>
+          <details class="demo-tools"><summary>Local Demo / Test mode</summary><label class="switch"><input id="blind-demo-mode" type="checkbox"><span>Enable role-switch testing</span></label><p class="small-note">Development tool for testing both local views. Keep off during normal play.</p></details>
+          <section id="blind-describer-view">
+            <h2>Describe what you see</h2><p class="screen-intro">The title, artist, answer ID and location remain hidden.</p>
+            <div class="artwork-preview blind-artwork"><img data-blind-artwork src="" alt="Complete mystery artwork" /></div>
           </section>
-
-          <section class="collection-info">
-            <p class="field-label">Collection</p>
-
-            <p data-field="artwork-collection"></p>
+          <section id="blind-guesser-view" hidden>
+            <h2>Listen, imagine, guess</h2><div class="blind-hidden-art" aria-label="Artwork hidden from Guesser"><span aria-hidden="true">✧</span><p>The artwork and fragment are hidden in this role.</p></div>
+            <form id="blind-answer-form"><label class="form-field"><span>Formal artwork answer</span><input name="answer" required autocomplete="off" placeholder="Enter the gallery-label title"></label><button class="button button--primary" type="submit">Submit formal answer</button></form>
           </section>
-
-          <div class="interpretation-note">
-            <strong> Your interpretation came first. </strong>
-
-            <p>
-              This context offers another way of understanding the artwork — not
-              the “correct” answer.
-            </p>
-          </div>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="continue-to-pass-choice"
-          >
-            Continue →
-          </button>
+          <p class="game-feedback" data-blind-feedback role="status"></p>
+          <section class="team-chat"><p class="field-label">Private game chat</p><div id="blind-chat-log" class="chat-log" aria-live="polite"></div><form id="blind-chat-form" class="inline-form"><input name="message" required maxlength="180" autocomplete="off" placeholder="Message the other player"><button class="button button--secondary" type="submit">Send</button></form></section>
+          <div class="blind-room-actions"><button class="text-button" type="button" data-action="blind-add-friend">Add anonymous partner</button><button class="text-button" type="button" data-action="blind-rematch">Rematch</button><button class="text-button" type="button" data-action="blind-leave">Exit / Leave</button></div>
         </div>
       </section>
 
-      <!-- =========================================
-           10 PASS IT ON?
-      ========================================== -->
-
-      <section class="screen" data-screen="pass-choice" hidden>
-        <div class="screen__content">
-          <p class="eyebrow">Leave Yours</p>
-
-          <h2>Pass it on?</h2>
-
-          <p class="screen-intro">
-            Would you like to leave your eyes for a future visitor?
-          </p>
-
-          <div class="pass-choice-card">
-            <p>
-              Your contribution can become another visitor's starting point.
-            </p>
-
-            <p class="small-note">This part is optional.</p>
-          </div>
-
-          <div class="screen-spacer"></div>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="start-contribution"
-          >
-            Yes, pass it on
-          </button>
-
-          <button
-            class="text-button"
-            type="button"
-            data-action="skip-contribution"
-          >
-            No, skip to completion
-          </button>
+      <section class="screen museum-screen messages-screen" data-screen="messages" hidden>
+        <div class="screen__content messages-content museum-content">
+          <header class="museum-editorial-header chat-editorial-header"><div><p class="eyebrow">Live Gallery Chat</p><h2>Correspondence</h2><p>Public looking, private letters and your visitor circle.</p></div><span class="editorial-folio" aria-hidden="true">Letters<b>I</b></span></header>
+          <nav class="chat-destination-grid" aria-label="Chat destinations">
+            <button class="correspondence-entry" data-chat-destination="public"><span>01</span><strong>Museum Public Chat</strong><small>Onsite conversation</small></button>
+            <button class="correspondence-entry" data-chat-destination="artwork"><span>02</span><strong>Artwork Conversations</strong><small>Gallery topics</small></button>
+            <button class="correspondence-entry" data-chat-destination="messages"><span>03</span><strong>My Messages</strong><small>DMs and private groups</small></button>
+            <button class="correspondence-entry" data-chat-destination="friends"><span>04</span><strong>My Friends</strong><small>Visitors and requests</small></button>
+            <button class="correspondence-entry correspondence-entry--teams" data-chat-destination="teams"><span>05</span><strong>Find Teams</strong><small>Open rooms and challenge discovery</small></button>
+          </nav>
+          <div class="checkin-card"><div><strong>Museum check-in</strong><span>Required only for Public Chat</span></div><label class="switch"><input id="mock-checkin" type="checkbox"><span>Onsite</span></label></div>
         </div>
       </section>
 
-      <!-- =========================================
-           11A CONTRIBUTION — PHOTOS
-      ========================================== -->
+      <section class="screen museum-screen messages-screen" data-screen="artwork-chats" hidden><div class="screen__content messages-content museum-content"><p class="eyebrow">Correspondence · Artwork</p><h2>Artwork Conversations</h2><p class="screen-intro">Discuss what can be seen without revealing hidden challenge answers.</p><div id="artwork-room-list" class="room-list"></div></div></section>
 
-      <section class="screen" data-screen="contribution-photos" hidden>
-        <div class="screen__content">
-          <p class="eyebrow">Leave Yours</p>
+      <section class="screen museum-screen messages-screen" data-screen="message-list" hidden><div class="screen__content messages-content museum-content"><p class="eyebrow">Correspondence · Private</p><h2>My Messages</h2><p class="screen-intro">One private thread per friend, plus your persistent groups.</p><div id="message-list" class="room-list"></div><button class="button button--secondary" type="button" data-action="open-groups">Private Groups</button></div></section>
 
-          <h2>Create the visual clue</h2>
-
-          <p class="screen-intro">
-            Give the next visitor a mystery fragment and the full artwork
-            answer.
-          </p>
-
-          <label class="upload-field">
-            <span class="field-label"> 1. Fragment photo </span>
-
-            <span class="upload-box">
-              <img
-                id="fragment-upload-preview"
-                class="upload-preview"
-                alt="Fragment preview"
-                hidden
-              />
-
-              <span
-                class="upload-placeholder"
-                data-upload-placeholder="fragment"
-              >
-                <strong> ＋ Take or upload a small detail photo </strong>
-
-                <small> This becomes the mystery fragment. </small>
-              </span>
-            </span>
-
-            <input
-              id="fragment-upload"
-              class="visually-hidden"
-              type="file"
-              accept="image/*"
-              capture="environment"
-            />
-          </label>
-
-          <label class="upload-field">
-            <span class="field-label"> 2. Full artwork photo </span>
-
-            <span class="upload-box">
-              <img
-                id="artwork-upload-preview"
-                class="upload-preview"
-                alt="Full artwork preview"
-                hidden
-              />
-
-              <span
-                class="upload-placeholder"
-                data-upload-placeholder="artwork"
-              >
-                <strong> ＋ Take or upload the full artwork photo </strong>
-
-                <small> This becomes the answer image. </small>
-              </span>
-            </span>
-
-            <input
-              id="artwork-upload"
-              class="visually-hidden"
-              type="file"
-              accept="image/*"
-              capture="environment"
-            />
-          </label>
-
-          <p class="small-note">
-            The fragment is the mystery. The full photo is the answer.
-          </p>
-
-          <label class="form-field">
-            <span> Artwork location </span>
-
-            <input
-              id="contribution-location"
-              type="text"
-              placeholder="e.g. Card display area"
-            />
-          </label>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="contribution-next"
-          >
-            Next →
-          </button>
+      <section class="screen museum-screen messages-screen" data-screen="friends" hidden>
+        <div class="screen__content messages-content museum-content">
+          <header class="museum-editorial-header chat-editorial-header"><div><p class="eyebrow">Visitor index</p><h2>My Friends</h2><p>Confirmed friendships and requests on this device.</p></div><span class="editorial-folio" aria-hidden="true">Index<b>II</b></span></header>
+          <button class="button button--primary" type="button" data-action="find-players">Find Players</button>
+          <div class="museum-list-heading"><span>Friends</span><small>Confirmed</small></div><div id="friends-list" class="social-list"></div>
+          <div class="museum-list-heading"><span>Incoming requests</span><small>Respond</small></div><div id="incoming-requests" class="social-list"></div>
+          <div class="museum-list-heading"><span>Sent requests</span><small>Pending</small></div><div id="sent-requests" class="social-list"></div>
+          <div class="museum-list-heading"><span>Game invitations</span><small>Optional</small></div><div id="social-invitations" class="social-list"></div>
         </div>
       </section>
 
-      <!-- =========================================
-           11B CONTRIBUTION — WORDS
-      ========================================== -->
+      <section class="screen museum-screen" data-screen="find-players" hidden><div class="screen__content museum-content"><p class="eyebrow">Visitor index · Simulated</p><h2>Find Players</h2><label class="directory-search"><span>Search by nickname</span><input id="player-search" type="search" autocomplete="off" placeholder="Search visitors"></label><div id="player-directory" class="player-directory"></div></div></section>
 
-      <section class="screen" data-screen="contribution-details" hidden>
-        <div class="screen__content">
-          <p class="eyebrow">Leave Yours</p>
+      <section class="screen museum-screen" data-screen="player-profile" hidden><div class="screen__content museum-content"><div id="player-profile-card" class="public-profile"></div></div></section>
 
-          <h2>Pass on your perspective</h2>
+      <section class="screen museum-screen" data-screen="groups" hidden><div class="screen__content museum-content"><p class="eyebrow">Private correspondence</p><h2>Private Groups</h2><div id="groups-list" class="room-list"></div><button class="button button--primary" type="button" data-action="create-group">Create Group</button></div></section>
 
-          <p class="screen-intro">
-            Write for the next visitor in your own words.
-          </p>
+      <section class="screen museum-screen" data-screen="group-create" hidden><div class="screen__content museum-content"><p class="eyebrow">Private correspondence</p><h2>Create a Group</h2><form id="private-group-form" class="folio-form"><label class="form-field"><span>Group name</span><input name="name" required maxlength="40"></label><fieldset><legend>Choose existing friends</legend><div id="group-friends" class="friend-checklist"></div></fieldset><button class="button button--primary" type="submit">Create Group</button><p class="game-feedback" data-group-feedback></p></form></div></section>
 
-          <form id="contribution-form">
-            <label class="form-field">
-              <span> Clue 1 </span>
+      <section class="screen museum-screen" data-screen="group-members" hidden><div class="screen__content museum-content"><p class="eyebrow">Private group</p><h2 data-group-members-title>Members</h2><div id="group-members-list" class="social-list"></div><form id="group-add-member-form" class="folio-form"><label class="form-field"><span>Add an eligible friend</span><select name="userId" id="group-add-friend"></select></label><button class="button button--secondary" type="submit">Add Member</button></form><button class="text-button" data-action="leave-group">Leave Group</button></div></section>
 
-              <textarea
-                name="clue1"
-                rows="2"
-                required
-                placeholder="Give the next visitor a starting clue."
-              ></textarea>
-            </label>
-
-            <label class="form-field">
-              <span> Clue 2 </span>
-
-              <textarea
-                name="clue2"
-                rows="2"
-                placeholder="Optional second clue."
-              ></textarea>
-            </label>
-
-            <label class="form-field">
-              <span> Your perspective </span>
-
-              <textarea
-                name="view"
-                rows="3"
-                required
-                placeholder="What did you see, think, or feel?"
-              ></textarea>
-            </label>
-
-            <label class="consent-row">
-              <input name="anonymous" type="checkbox" checked />
-
-              <span> Share this anonymously with a future visitor. </span>
-            </label>
-
-            <button class="button button--primary" type="submit">Submit</button>
-          </form>
+      <section class="screen museum-screen conversation-screen" data-screen="chat-room" hidden>
+        <div class="screen__content conversation-content">
+          <header class="conversation-header"><p class="eyebrow" data-room-category></p><h2 data-room-title></h2><p data-room-participants></p><div id="conversation-actions" class="conversation-actions"></div></header>
+          <div id="room-messages" class="room-messages" aria-live="polite"></div>
+          <form id="room-message-form" class="message-composer"><label class="visually-hidden" for="room-message-input">Message</label><textarea id="room-message-input" name="message" rows="1" required maxlength="500" placeholder="Write a message…"></textarea><button type="submit">Send</button></form>
         </div>
       </section>
 
-      <!-- =========================================
-           12 COMPLETION
-      ========================================== -->
-
-      <section class="screen" data-screen="completion" hidden>
-        <div class="screen__content completion-content">
-          <p class="eyebrow">Complete</p>
-
-          <h2>Thanks for looking differently.</h2>
-
-          <p class="lead" data-completion-message>Your visit is complete.</p>
-
-          <div class="completion-card">
-            <p class="card-label">Borrowed Eyes</p>
-
-            <p>
-              One visitor's way of seeing can become another visitor's reason to
-              look again.
-            </p>
-          </div>
-
-          <button
-            class="button button--primary"
-            type="button"
-            data-action="restart"
-          >
-            Start again
-          </button>
+      <section class="screen museum-screen" data-screen="profile" hidden><div class="screen__content museum-content"><div id="profile-main"></div></div></section>
+      <section class="screen museum-screen" data-screen="profile-edit" hidden><div class="screen__content museum-content"><p class="eyebrow">Personal museum folio</p><h2>Edit Profile</h2><form id="profile-edit-form" class="folio-form"><label class="form-field"><span>Nickname</span><input name="nickname" required maxlength="30"></label><label class="form-field"><span>Short bio</span><textarea name="bio" rows="3" maxlength="160"></textarea></label><fieldset><legend>Art interests</legend><div class="interest-checklist"><label><input type="checkbox" name="interest" value="Portraits"> Portraits</label><label><input type="checkbox" name="interest" value="Landscapes"> Landscapes</label><label><input type="checkbox" name="interest" value="Abstract"> Abstract</label><label><input type="checkbox" name="interest" value="Historical"> Historical</label><label><input type="checkbox" name="interest" value="Colour"> Colour</label><label><input type="checkbox" name="interest" value="Texture"> Texture</label></div></fieldset><button class="button button--primary" type="submit">Save Profile</button></form></div></section>
+      <section class="screen museum-screen" data-screen="profile-detail" hidden><div class="screen__content museum-content"><p class="eyebrow" data-profile-detail-eyebrow></p><h2 data-profile-detail-title></h2><div id="profile-detail-content" class="folio-list"></div></div></section>
+      <section class="screen museum-screen map-screen" data-screen="museum-map" hidden><div class="screen__content museum-content map-content"><header class="museum-editorial-header"><div><p class="eyebrow">Museum guide</p><h2>Gallery Map</h2><p>An illustrative floor plan. Select a marker to inspect a gallery record.</p></div><span class="editorial-folio" aria-hidden="true">Plan<b>I</b></span></header><div id="museum-map" class="museum-map" aria-label="Conceptual Borrowed Eyes museum floor plan"></div><div id="map-panel" class="map-panel" aria-live="polite"><p>Select an artwork marker to view its gallery information.</p></div><div class="map-legend"><span><i class="map-key map-key--you"></i>You are here</span><span><i class="map-key map-key--art"></i>Artwork location</span></div></div></section>
+      <section class="screen museum-screen leave-screen" data-screen="leave-eyes" hidden>
+        <div class="screen__content leave-content museum-content">
+          <header class="museum-editorial-header leave-editorial-header"><div><p class="eyebrow">Leave Your Eyes</p><h2>Curator’s Desk</h2><p>Create a challenge in six focused steps.</p></div><span class="editorial-folio" aria-hidden="true">Notebook<b>VI</b></span></header>
+          <div class="creator-start-actions"><button class="button button--primary" data-action="creator-new">Begin a New Eye</button><button id="creator-resume" class="button button--secondary" data-action="creator-resume" hidden>Resume Draft</button></div>
+          <section class="review-section"><div class="section-heading"><h2>Mock admin review</h2><span>LOCAL ONLY</span></div><div id="submission-list" class="submission-list"></div></section>
         </div>
+      </section>
+
+      <section class="screen museum-screen creator-wizard" data-screen="creator-fragment" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 1 of 6</p><h2>Complete Artwork</h2><p>Upload one photograph cropped to the artwork itself, without walls or frames.</p></header><label class="photo-control"><span>Add Complete Artwork</span><input id="creator-full-first" type="file" accept="image/*" capture="environment"></label><figure id="full-first-preview-frame" class="wizard-image" hidden><img id="creator-full-first-preview" alt="Complete artwork preview"><figcaption>Complete artwork photograph</figcaption></figure><button id="replace-full-first" class="text-button" type="button" data-photo-target="creator-full-first" hidden>Replace Photo</button><p class="game-feedback" data-creator-feedback="1"></p><div class="wizard-actions"><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-creator-next="2">Continue</button></div></div></section>
+
+      <section class="screen museum-screen creator-wizard" data-screen="creator-artwork" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 2 of 6</p><h2>Select the Detail</h2><p>Drag on the artwork to create the fragment. Move it or resize from any corner.</p></header><button id="replace-full" class="text-button" type="button" data-photo-target="creator-full-first">Replace Photo</button><div id="crop-stage" class="crop-stage"><img id="creator-full-preview" alt="Complete artwork preview"><canvas id="crop-canvas" aria-label="Drag to mark or resize the fragment area"></canvas></div><div id="crop-live-preview" class="crop-live-preview"></div><p class="crop-instruction">The selection is constrained to the artwork image.</p><p id="crop-feedback" class="game-feedback"></p><div class="wizard-actions"><button class="text-button" data-creator-back="1">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-creator-next="3">Continue</button></div></div></section>
+
+      <section class="screen museum-screen creator-wizard" data-screen="creator-difficulty" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 3 of 6</p><h2>Difficulty Preview</h2><p>Calculated automatically from the exact crop area.</p></header><div class="difficulty-preview"><img id="creator-fragment-preview" alt="Selected fragment preview"><div class="difficulty-folio"><span id="creator-stars"></span><strong id="creator-ratio"></strong><p id="creator-clue-requirement"></p></div></div><ol class="difficulty-scale"><li>80–100% · 1 star</li><li>60–&lt;80% · 2 stars</li><li>40–&lt;60% · 3 stars</li><li>20–&lt;40% · 4 stars</li><li>&gt;0–&lt;20% · 5 stars</li></ol><div class="wizard-actions"><button class="text-button" data-creator-back="2">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-creator-next="4">Continue</button></div></div></section>
+
+      <section class="screen museum-screen creator-wizard" data-screen="creator-perspective" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 4 of 6</p><h2>Your Perspective</h2><p>A personal reflection, kept separate from the formal clues.</p></header><form id="creator-details-form" class="creator-folio-form"><label class="form-field"><span>Artwork title</span><input name="title" required></label><label class="form-field"><span>Artist / Maker</span><input name="artist" required></label><label class="form-field"><span>Year, if known</span><input name="year"></label><label class="form-field"><span>What does this detail mean to you?</span><textarea name="comment" rows="4" required placeholder="Share a feeling, memory or personal association."></textarea></label><label class="form-field attribution-field"><span>Artist’s Perspective · optional</span><textarea name="perspective" rows="3" placeholder="Creator-supplied and unverified unless independently verified"></textarea></label></form><p class="game-feedback" data-creator-feedback="4"></p><div class="wizard-actions"><button class="text-button" data-creator-back="3">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-creator-next="5">Continue to Clues</button></div></div></section>
+
+      <section class="screen museum-screen creator-wizard" data-screen="creator-review" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 5 of 6</p><h2>Clue Questions</h2><p>Answer each required question from abstract to specific.</p></header><div id="creator-clues" class="clue-question-card"></div><p class="game-feedback" data-creator-feedback="5"></p><div class="wizard-actions"><button class="text-button" data-creator-back="4">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-action="creator-clue-next">Next Question</button></div></div></section>
+
+      <section class="screen museum-screen creator-wizard" data-screen="creator-submit-review" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 6 of 6</p><h2>Review &amp; Submit</h2><p>Check every part before sending it to local review.</p></header><div id="creator-summary" class="submission-preview"></div><div class="wizard-edit-links"><button data-creator-edit="1">Edit Artwork</button><button data-creator-edit="2">Edit Crop</button><button data-creator-edit="4">Edit Perspective</button><button data-creator-edit="5">Edit Clues</button></div><p id="creator-feedback" class="game-feedback"></p><div class="wizard-actions"><button class="text-button" data-creator-back="5">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-action="creator-submit">Submit for Review</button></div></div></section>
+
+      <section class="screen museum-screen creator-wizard" data-screen="creator-status" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · Submission</p><h2>Submission Status</h2></header><div id="creator-status-card" class="status-folio"></div><button class="button button--secondary" data-route="leave">Return to Curator’s Desk</button></div></section>
+
+      <section class="screen" data-screen="submission-review" hidden>
+        <div class="screen__content review-content"><p class="eyebrow">Mock administration</p><h2>Review submission</h2><div id="review-detail"></div></div>
+      </section>
+
+      <section class="screen" data-screen="destination" hidden>
+        <div class="screen__content"><p class="eyebrow">The visitor’s companion</p><h2 id="destination-title"></h2><p class="screen-intro" id="destination-description"></p><div id="destination-content"></div><button type="button" class="button button--primary" data-route="start">Return home</button></div>
       </section>
     </main>
+    <nav class="bottom-nav" aria-label="Main navigation" hidden>
+      <button type="button" data-route="start">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="m4 10 12-6 12 6H4Zm3 3h18M5 25h22M3 28h26"/><path d="M8 13v9m5-9v9m6-9v9m5-9v9M7 22h18"/><path d="M14 10h4m-2-2v2"/></svg>
+        <span class="nav-label">Home</span>
+      </button>
+      <button type="button" data-route="chat">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5C8 5 4 9 4 15c0 4 2 7 6 8l-2 5 7-4h1c8 0 12-4 12-9S24 5 16 5Z"/><path d="M10 12h12m-12 4h9"/><path d="M22 22q4 0 6-3"/></svg>
+        <span class="nav-label">Chat</span>
+      </button>
+      <button type="button" data-route="map">
+        <svg class="map-nav-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29S6 20 6 12a10 10 0 0 1 20 0c0 8-10 17-10 17Z"/><circle cx="16" cy="12" r="3.5"/></svg>
+        <span class="nav-label">Map</span>
+      </button>
+      <button type="button" data-route="profile">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="16" rx="10" ry="13"/><ellipse cx="16" cy="16" rx="8" ry="11"/><path d="M11 24v-2l4-2v-3c-2-1-3-3-3-5 0-3 2-5 5-4 2 0 3 2 3 4l2 3h-3v3h-2v2l4 2v2"/><path d="M12 25h8"/></svg>
+        <span class="nav-label">Profile</span>
+      </button>
+    </nav>
+    <div class="toast" id="toast" role="status" hidden></div>
+    <dialog id="confirmation" class="vintage-dialog" aria-labelledby="dialog-title"><form method="dialog"><p class="eyebrow">Borrowed Eyes</p><h2 id="dialog-title"></h2><p id="dialog-description"></p><button class="button button--primary" value="confirm">Continue</button><button class="button button--secondary" value="cancel">Cancel</button></form></dialog>
+    <noscript><p>Please enable JavaScript to explore Borrowed Eyes.</p></noscript>
 
     <script type="module" src="js/app.js"></script>
   </body>

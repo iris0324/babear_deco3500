@@ -1,0 +1,662 @@
+[
+  {
+    "id": "challenge-001",
+    "artworkId": "artwork-photo-02",
+    "fragmentImage": "assets/images/fragments/challenge-001.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-02.jpg",
+    "stars": 5,
+    "difficulty": 5,
+    "areaPercentOfArtwork": 12.75,
+    "fragmentBoxInArtworkPx": [
+      131,
+      222,
+      369,
+      458
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "It feels a little chaotic, but somehow I find that comforting.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "It feels a little chaotic, but somehow I find that comforting."
+      }
+    ],
+    "clues": [
+      "Start by looking at the overall composition.",
+      "Don't assume the work represents a real place.",
+      "Think about how separate parts fit together.",
+      "Strong edges help organise the picture.",
+      "Look among abstract works built from overlapping geometric forms."
+    ],
+    "maxFormalAttempts": 5,
+    "cluesToUnlock": 5,
+    "answerArtworkId": "artwork-photo-02",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-002",
+    "artworkId": "artwork-photo-02",
+    "fragmentImage": "assets/images/fragments/challenge-002.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-02.jpg",
+    "stars": 3,
+    "difficulty": 3,
+    "areaPercentOfArtwork": 50.24,
+    "fragmentBoxInArtworkPx": [
+      63,
+      122,
+      510,
+      617
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "I feel like my eyes can't settle anywhere. It's a strange feeling.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "I feel like my eyes can't settle anywhere. It's a strange feeling."
+      }
+    ],
+    "clues": [
+      "Look for something that doesn't try to show a realistic scene.",
+      "Pay attention to how the composition is divided.",
+      "Look for overlapping shapes and strong boundaries."
+    ],
+    "maxFormalAttempts": 3,
+    "cluesToUnlock": 3,
+    "answerArtworkId": "artwork-photo-02",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-003",
+    "artworkId": "artwork-photo-03",
+    "fragmentImage": "assets/images/fragments/challenge-003.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-03.jpg",
+    "stars": 4,
+    "difficulty": 4,
+    "areaPercentOfArtwork": 29.96,
+    "fragmentBoxInArtworkPx": [
+      284,
+      140,
+      771,
+      676
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "She looks so close, but I still feel a bit distant from her.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "She looks so close, but I still feel a bit distant from her."
+      }
+    ],
+    "clues": [
+      "Start with paintings of ordinary moments.",
+      "Look for an indoor setting.",
+      "One person is the main focus.",
+      "The scene suggests a moment of personal routine."
+    ],
+    "maxFormalAttempts": 4,
+    "cluesToUnlock": 4,
+    "answerArtworkId": "artwork-photo-03",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-004",
+    "artworkId": "artwork-photo-03",
+    "fragmentImage": "assets/images/fragments/challenge-004.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-03.jpg",
+    "stars": 2,
+    "difficulty": 2,
+    "areaPercentOfArtwork": 69.61,
+    "fragmentBoxInArtworkPx": [
+      93,
+      76,
+      783,
+      955
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "This reminds me of those quiet moments when I'm alone with myself.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "This reminds me of those quiet moments when I'm alone with myself."
+      }
+    ],
+    "clues": [
+      "Start with paintings of everyday life.",
+      "Look for a single person in a private indoor setting."
+    ],
+    "maxFormalAttempts": 2,
+    "cluesToUnlock": 2,
+    "answerArtworkId": "artwork-photo-03",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-005",
+    "artworkId": "artwork-photo-05",
+    "fragmentImage": "assets/images/fragments/challenge-005.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-05.jpg",
+    "stars": 5,
+    "difficulty": 5,
+    "areaPercentOfArtwork": 12.74,
+    "fragmentBoxInArtworkPx": [
+      161,
+      0,
+      355,
+      269
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "There's something lonely about this little patch of light.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "There's something lonely about this little patch of light."
+      }
+    ],
+    "clues": [
+      "Look for a work with a strong sense of atmosphere.",
+      "Light and darkness create much of its effect.",
+      "The composition draws attention toward one area.",
+      "A figure is important to the work.",
+      "Look among dramatic figurative paintings with unusual lighting."
+    ],
+    "maxFormalAttempts": 5,
+    "cluesToUnlock": 5,
+    "answerArtworkId": "artwork-photo-05",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-006",
+    "artworkId": "artwork-photo-06",
+    "fragmentImage": "assets/images/fragments/challenge-006.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-06.jpg",
+    "stars": 2,
+    "difficulty": 2,
+    "areaPercentOfArtwork": 69.66,
+    "fragmentBoxInArtworkPx": [
+      46,
+      115,
+      573,
+      787
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "This makes me miss afternoons when I had nothing to worry about.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "This makes me miss afternoons when I had nothing to worry about."
+      }
+    ],
+    "clues": [
+      "Start with outdoor scenes.",
+      "Look for a painting where the natural surroundings take up most of the space."
+    ],
+    "maxFormalAttempts": 2,
+    "cluesToUnlock": 2,
+    "answerArtworkId": "artwork-photo-06",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-007",
+    "artworkId": "artwork-photo-01",
+    "fragmentImage": "assets/images/fragments/challenge-007.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-01.jpg",
+    "stars": 3,
+    "difficulty": 3,
+    "areaPercentOfArtwork": 50.16,
+    "fragmentBoxInArtworkPx": [
+      76,
+      124,
+      677,
+      549
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "I don't know why, but this makes me feel slightly uncomfortable.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "I don't know why, but this makes me feel slightly uncomfortable."
+      }
+    ],
+    "clues": [
+      "Look for a work focused on the human body.",
+      "The background is fairly simple.",
+      "The artist has chosen to show only part of the figure."
+    ],
+    "maxFormalAttempts": 3,
+    "cluesToUnlock": 3,
+    "answerArtworkId": "artwork-photo-01",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-008",
+    "artworkId": "artwork-photo-04",
+    "fragmentImage": "assets/images/fragments/challenge-008.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-04.jpg",
+    "stars": 4,
+    "difficulty": 4,
+    "areaPercentOfArtwork": 29.95,
+    "fragmentBoxInArtworkPx": [
+      271,
+      224,
+      921,
+      672
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "This feels tense. I keep wondering what I'm not seeing.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "This feels tense. I keep wondering what I'm not seeing."
+      }
+    ],
+    "clues": [
+      "Don't rely on colour when searching.",
+      "Look for a scene with strong contrasts.",
+      "The picture contains several overlapping details.",
+      "Look for an image that mixes a natural form with a constructed environment."
+    ],
+    "maxFormalAttempts": 4,
+    "cluesToUnlock": 4,
+    "answerArtworkId": "artwork-photo-04",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-009",
+    "artworkId": "artwork-004",
+    "fragmentImage": "assets/images/fragments/card4.jpg",
+    "fullImage": "assets/images/artworks/artwork-004.jpg",
+    "stars": 3,
+    "difficulty": 3,
+    "areaPercentOfArtwork": 50.07,
+    "fragmentBoxInArtworkPx": [
+      82,
+      117,
+      727,
+      364
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "Looking at this makes me wish I could disappear somewhere quiet for a while.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "Looking at this makes me wish I could disappear somewhere quiet for a while."
+      }
+    ],
+    "clues": [
+      "Start with older landscape paintings.",
+      "Look for a wide view rather than a close-up.",
+      "Pay attention to how the artist shows distance across the scene."
+    ],
+    "maxFormalAttempts": 3,
+    "cluesToUnlock": 3,
+    "answerArtworkId": "artwork-004",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-010",
+    "artworkId": "artwork-005",
+    "fragmentImage": "assets/images/fragments/card5.jpg",
+    "fullImage": "assets/images/artworks/artwork-005.jpg",
+    "stars": 4,
+    "difficulty": 4,
+    "areaPercentOfArtwork": 29.92,
+    "fragmentBoxInArtworkPx": [
+      187,
+      203,
+      652,
+      578
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "I feel a bit lost looking at all these details.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "I feel a bit lost looking at all these details."
+      }
+    ],
+    "clues": [
+      "Look for an artwork with intricate surface details.",
+      "Pay attention to patterns rather than a single central subject.",
+      "Nature is an important part of the imagery.",
+      "Look for an artwork where many organic forms seem to blend together."
+    ],
+    "maxFormalAttempts": 4,
+    "cluesToUnlock": 4,
+    "answerArtworkId": "artwork-005",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-011",
+    "artworkId": "artwork-002",
+    "fragmentImage": "assets/images/fragments/card2.jpg",
+    "fullImage": "assets/images/artworks/artwork-002.jpg",
+    "stars": 1,
+    "difficulty": 1,
+    "areaPercentOfArtwork": 90.17,
+    "fragmentBoxInArtworkPx": [
+      11,
+      15,
+      429,
+      575
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "Something about her expression makes me feel sad.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "Something about her expression makes me feel sad."
+      }
+    ],
+    "clues": [
+      "Look for a traditional portrait with a dark background."
+    ],
+    "maxFormalAttempts": 1,
+    "cluesToUnlock": 1,
+    "answerArtworkId": "artwork-002",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-012",
+    "artworkId": "artwork-003",
+    "fragmentImage": "assets/images/fragments/card3.jpg",
+    "fullImage": "assets/images/artworks/artwork-003.jpg",
+    "stars": 2,
+    "difficulty": 2,
+    "areaPercentOfArtwork": 69.55,
+    "fragmentBoxInArtworkPx": [
+      42,
+      137,
+      506,
+      838
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "There's so much happening here that I almost feel overwhelmed.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "There's so much happening here that I almost feel overwhelmed."
+      }
+    ],
+    "clues": [
+      "Look among older European paintings.",
+      "Pay attention to works with a detailed decorative border around the main scene."
+    ],
+    "maxFormalAttempts": 2,
+    "cluesToUnlock": 2,
+    "answerArtworkId": "artwork-003",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-013",
+    "artworkId": "artwork-001",
+    "fragmentImage": "assets/images/fragments/card1.jpg",
+    "fullImage": "assets/images/artworks/artwork-001.jpg",
+    "stars": 5,
+    "difficulty": 5,
+    "areaPercentOfArtwork": 12.79,
+    "fragmentBoxInArtworkPx": [
+      283,
+      289,
+      529,
+      532
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "This makes me think about how much of other people's lives we never really see.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "This makes me think about how much of other people's lives we never really see."
+      }
+    ],
+    "clues": [
+      "The full artwork contains far more than this detail suggests.",
+      "Look for a work with several smaller scenes.",
+      "The composition encourages you to explore different areas.",
+      "Storytelling is an important part of the work.",
+      "Look for a traditional artwork made across several connected panels."
+    ],
+    "maxFormalAttempts": 5,
+    "cluesToUnlock": 5,
+    "answerArtworkId": "artwork-001",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-014",
+    "artworkId": "artwork-photo-07",
+    "fragmentImage": "assets/images/fragments/challenge-014.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-07.jpg",
+    "stars": 3,
+    "difficulty": 3,
+    "areaPercentOfArtwork": 50.16,
+    "fragmentBoxInArtworkPx": [
+      103,
+      95,
+      676,
+      505
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "I feel like something bad might happen, even though I can't explain why.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "I feel like something bad might happen, even though I can't explain why."
+      }
+    ],
+    "clues": [
+      "Look for a scene with a dramatic atmosphere.",
+      "Movement is important to the composition.",
+      "Pay attention to the way fabric stands out against its surroundings."
+    ],
+    "maxFormalAttempts": 3,
+    "cluesToUnlock": 3,
+    "answerArtworkId": "artwork-photo-07",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-015",
+    "artworkId": "artwork-photo-14",
+    "fragmentImage": "assets/images/fragments/challenge-015.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-14.jpg",
+    "stars": 4,
+    "difficulty": 4,
+    "areaPercentOfArtwork": 29.95,
+    "fragmentBoxInArtworkPx": [
+      88,
+      359,
+      614,
+      777
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "This reminds me of being a kid and feeling that everything was a little mysterious.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "This reminds me of being a kid and feeling that everything was a little mysterious."
+      }
+    ],
+    "clues": [
+      "Look for a highly detailed composition.",
+      "The scene has a slightly unusual atmosphere.",
+      "Several elements compete for your attention.",
+      "Look for a figurative work with a storybook-like quality."
+    ],
+    "maxFormalAttempts": 4,
+    "cluesToUnlock": 4,
+    "answerArtworkId": "artwork-photo-14",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-016",
+    "artworkId": "artwork-photo-10-upper",
+    "fragmentImage": "assets/images/fragments/challenge-016.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-10-upper.jpg",
+    "stars": 1,
+    "difficulty": 1,
+    "areaPercentOfArtwork": 89.92,
+    "fragmentBoxInArtworkPx": [
+      12,
+      9,
+      470,
+      339
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "I feel strangely homesick looking at this.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "I feel strangely homesick looking at this."
+      }
+    ],
+    "clues": [
+      "Look for a small painting with broad areas of land and sky."
+    ],
+    "maxFormalAttempts": 1,
+    "cluesToUnlock": 1,
+    "answerArtworkId": "artwork-photo-10-upper",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-017",
+    "artworkId": "artwork-photo-11-lower",
+    "fragmentImage": "assets/images/fragments/challenge-017.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-11-lower.jpg",
+    "stars": 1,
+    "difficulty": 1,
+    "areaPercentOfArtwork": 89.91,
+    "fragmentBoxInArtworkPx": [
+      13,
+      10,
+      490,
+      357
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "This feels peaceful at first, but also a little lonely.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "This feels peaceful at first, but also a little lonely."
+      }
+    ],
+    "clues": [
+      "Look among figurative paintings with a quiet, intimate setting."
+    ],
+    "maxFormalAttempts": 1,
+    "cluesToUnlock": 1,
+    "answerArtworkId": "artwork-photo-11-lower",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-018",
+    "artworkId": "artwork-photo-12-upper",
+    "fragmentImage": "assets/images/fragments/challenge-018.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-12-upper.jpg",
+    "stars": 1,
+    "difficulty": 1,
+    "areaPercentOfArtwork": 90.0,
+    "fragmentBoxInArtworkPx": [
+      9,
+      7,
+      348,
+      261
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "These faces make me uneasy. I can't tell if they're funny or sad.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "These faces make me uneasy. I can't tell if they're funny or sad."
+      }
+    ],
+    "clues": [
+      "Look for a small artwork with unusually expressive faces."
+    ],
+    "maxFormalAttempts": 1,
+    "cluesToUnlock": 1,
+    "answerArtworkId": "artwork-photo-12-upper",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-019",
+    "artworkId": "artwork-photo-13",
+    "fragmentImage": "assets/images/fragments/challenge-019.jpg",
+    "fullImage": "assets/images/artworks/artwork-photo-13.jpg",
+    "stars": 2,
+    "difficulty": 2,
+    "areaPercentOfArtwork": 69.38,
+    "fragmentBoxInArtworkPx": [
+      26,
+      24,
+      312,
+      239
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "I feel like I've walked into a moment I wasn't supposed to see.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "I feel like I've walked into a moment I wasn't supposed to see."
+      }
+    ],
+    "clues": [
+      "Check the smaller works in the gallery.",
+      "Look for a scene where the figures are partly surrounded by darkness."
+    ],
+    "maxFormalAttempts": 2,
+    "cluesToUnlock": 2,
+    "answerArtworkId": "artwork-photo-13",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  },
+  {
+    "id": "challenge-020",
+    "artworkId": "artwork-006",
+    "fragmentImage": "assets/images/fragments/card6.jpg",
+    "fullImage": "assets/images/artworks/artwork-006.jpg",
+    "stars": 5,
+    "difficulty": 5,
+    "areaPercentOfArtwork": 12.75,
+    "fragmentBoxInArtworkPx": [
+      268,
+      172,
+      574,
+      360
+    ],
+    "cropAreaFormula": "fragment pixel area / artwork-crop pixel area; frame and wall excluded approximately",
+    "areaStatus": "estimated_due_to_photograph_perspective",
+    "comment": "This makes me think about how tiring it must be to keep moving all the time.",
+    "comments": [
+      {
+        "authorLabel": "Anonymous visitor",
+        "text": "This makes me think about how tiring it must be to keep moving all the time."
+      }
+    ],
+    "clues": [
+      "Look for a scene set outdoors.",
+      "There is a sense of activity beyond the cropped area.",
+      "The surroundings feel open rather than enclosed.",
+      "Human and animal subjects appear together.",
+      "Look among paintings of rural life where a large animal plays an important role."
+    ],
+    "maxFormalAttempts": 5,
+    "cluesToUnlock": 5,
+    "answerArtworkId": "artwork-006",
+    "reviewStatus": "approved_copy_pending_geometry_verification"
+  }
+]
