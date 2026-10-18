@@ -48,6 +48,44 @@ select { width: 100%; min-height: 48px; padding: 10px 38px 10px 12px; color: var
 .result-actions .button, .result-actions .text-button { margin: 0; }
 .result-invitation:not(:empty) { padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); }
 .blind-room-actions { display: flex; justify-content: space-between; gap: 12px; }
+.blind-match-card { margin: 22px 0 16px; padding: 28px 20px; text-align: center; background: rgba(249,243,229,.94); border: 1px solid #ad9667; box-shadow: inset 0 0 0 5px rgba(255,255,255,.3), 4px 5px 0 #d7cdbb; }
+.blind-match-card h3 { margin: 8px 0; color: var(--forest); font-size: clamp(30px,9vw,46px); }
+.match-seal { width: 62px; height: 62px; margin: 0 auto 15px; display: grid; place-items: center; color: #f8efdc; background: var(--forest); border: 3px double #c5a45d; border-radius: 50%; font-family: var(--font-display); }
+.blind-role-heading { margin: 8px 0 10px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.blind-role-heading > div { min-width: 0; flex: 1 1 auto; }
+.blind-role-heading h2, .blind-role-heading p { margin: 0; }
+.blind-role-heading h2 { max-width: 100%; line-height: 1.08; overflow-wrap: normal; word-break: normal; }
+.blind-role-heading p { margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.blind-role-heading > .button, .blind-role-heading > .text-button { flex: 0 0 auto; }
+.blind-role-view { flex: 0 0 auto; }
+[data-screen="blind-play"] .screen__content { min-height: calc(100dvh - 86px); display: flex; flex-direction: column; }
+[data-screen="blind-play"] .team-chat { min-height: 300px; flex: 1 1 360px; display: flex; flex-direction: column; overflow: hidden; }
+[data-screen="blind-play"] .chat-log { min-height: 180px; flex: 1 1 auto; overflow-y: auto; }
+[data-screen="blind-play"] .inline-form { flex: 0 0 auto; }
+.blind-artwork { margin: 0; padding: 6px; }
+.blind-artwork img { max-height: min(25dvh,210px); }
+.blind-clue-drawer:empty { display: none; }
+.blind-clue-drawer { margin: 8px 0; padding: 10px 12px; max-height: 128px; overflow-y: auto; background: #f5eddd; border-left: 3px solid #a48649; }
+.blind-clue-drawer article { padding: 5px 0; border-top: 1px solid #d6c8aa; }
+.blind-clue-drawer p { margin: 2px 0; }
+.museum-dialog { width: min(92vw,520px); max-height: min(88dvh,680px); padding: 22px; overflow-y: auto; color: var(--text); background: #f8f1e3; border: 1px solid #a98a50; box-shadow: 0 18px 60px #17221dcc; }
+.museum-dialog::backdrop { background: rgba(20,31,26,.68); backdrop-filter: blur(2px); }
+.museum-dialog h3 { margin: 4px 0 16px; color: var(--forest); font-size: 30px; }
+.dialog-actions { margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.blind-art-dialog img { width: 100%; max-height: 62dvh; margin-bottom: 14px; object-fit: contain; background: #272d28; }
+.team-clue-card { width: 100%; min-height: 72px; padding: 13px; display: grid; place-items: center; color: var(--forest); background: #eee4cf; border: 1px solid #ae9154; transform-style: preserve-3d; transition: transform .35s ease, background .25s ease; }
+.team-clue-card .clue-card-back { display: none; }
+.team-clue-message.is-open .team-clue-card { background: #f9f2e3; transform: rotateX(0deg); }
+.team-clue-message.is-open .clue-card-front { display: none; }
+.team-clue-message.is-open .clue-card-back { display: block; font: 18px/1.35 var(--font-display); }
+.focused-clue { margin-bottom: 14px; padding: 18px; }
+.agreement-actions { margin-top: 14px; padding-top: 12px; border-top: 1px solid #cabc9f; }
+.proposal-navigation { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #cabc9f; }
+.proposal-navigation .button { width: auto; min-height: 44px; margin: 0; }
+.proposal-author { display: flex; align-items: center; gap: 9px; }
+.proposal-author p, .proposal-author .field-label { margin: 0; }
+.proposal-author strong { display: block; color: var(--forest); font-family: var(--font-display); font-size: 19px; }
+@media (prefers-reduced-motion: reduce) { .team-clue-card { transition: none; } }
 .member-row, .approval-row {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
   padding: 10px 12px; background: linear-gradient(100deg, var(--card-paper), rgba(235,239,229,.9)); border: 0; border-bottom: 1px solid #c7b78f; border-radius: 0;
@@ -117,8 +155,21 @@ select { width: 100%; min-height: 48px; padding: 10px 38px 10px 12px; color: var
 .blind-hidden-art span { font-size: 36px; }
 .blind-hidden-art p { max-width: 230px; margin: 8px auto 0; }
 .blind-artwork img { max-height: 460px; width: 100%; object-fit: contain; background: #292e29; }
-#blind-answer-form { margin-top: 18px; }
+#blind-answer-form { margin-top: 0; }
+.blind-guess-dialog { overflow: hidden; padding: clamp(16px,4vw,22px); }
+.blind-guess-dialog #blind-answer-form { width: 100%; max-height: calc(88dvh - 44px); display: grid; grid-template-rows: minmax(0,1fr) auto; }
+.blind-guess-dialog .dialog-body { min-width: 0; overflow-y: auto; padding-right: 1px; }
+.blind-guess-dialog .form-field, .blind-guess-dialog input { width: 100%; min-width: 0; }
+.blind-guess-dialog .dialog-actions { margin-top: 14px; padding-top: 12px; flex-wrap: nowrap; border-top: 1px solid #c9b990; background: #f8f1e3; }
+.blind-guess-dialog .dialog-actions .button { flex: 1 1 0; width: auto; min-height: 46px; margin: 0; }
 @media (min-width: 600px) { .blind-challenge-list { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 430px) {
+  [data-screen="blind-play"] .screen__content { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  .blind-role-heading { align-items: flex-start; }
+  .blind-role-heading h2 { font-size: 25px; }
+  .blind-artwork img { max-height: 170px; }
+  .museum-dialog { padding: 17px; }
+}
 
 /* Explicitly enabled local development tools */
 .development-test-actions { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 12px; }
@@ -318,6 +369,50 @@ select { width: 100%; min-height: 48px; padding: 10px 38px 10px 12px; color: var
 #team-chat-log .visitor-avatar { flex-basis: 30px; width: 30px; height: 34px; }
 
 [data-screen="blind-role"] [data-blind-role-choice="guesser"]::before { content: ""; position: absolute; inset: 0 0 0 62%; background: url("../assets/ui/listening-illustration.jpg") 42% center / auto 100% no-repeat; border-left: 1px solid #bba77e; }
+
+/* Blind Eyes chat-first room overrides legacy stacked-game sizing. */
+[data-screen="blind-play"] .blind-artwork img { max-height: min(25dvh, 210px); }
+[data-screen="blind-play"] #blind-guesser-view { min-height: 74px; padding: 10px 12px; background: rgba(248,242,228,.82); border-left: 3px solid #9b804b; }
+.blind-describer-study { display: grid; grid-template-columns: minmax(120px,.85fr) minmax(0,1.15fr); align-items: stretch; gap: 9px; }
+.blind-describer-study .blind-artwork { min-width: 0; }
+.blind-visitor-perspective { min-height: 0; max-height: min(25dvh,210px); padding: 11px 12px; overflow-y: auto; color: #3e4e42; background: rgba(249,242,226,.95); border: 1px solid #bba675; border-left: 3px solid #9b7941; }
+.blind-visitor-perspective p { margin: 0; }
+.blind-visitor-perspective p:last-child { margin-top: 6px; font: 16px/1.35 var(--font-display); }
+[data-screen="blind-play"] #blind-chat-log { padding: 10px; }
+.blind-message { max-width: 84%; margin: 0 0 9px; display: flex; }
+.blind-message > div { min-width: 0; padding: 8px 10px; background: #fffaf0; border: 1px solid #d1c3a6; border-radius: 3px 13px 13px 13px; }
+.blind-message.is-mine { margin-left: auto; justify-content: flex-end; }
+.blind-message.is-mine { flex-direction: row-reverse; }
+.blind-message.is-mine > div { color: #fff8e9; background: var(--forest); border-color: var(--forest); border-radius: 13px 3px 13px 13px; }
+.blind-message.is-system { max-width: 92%; margin: 9px auto; justify-content: center; color: #756b5d; text-align: center; }
+.blind-message.is-system p { margin: 0; padding: 5px 10px; background: #e9e2d4; border-radius: 999px; font-size: 10px; }
+.blind-message header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 10px; }
+.blind-message header time { opacity: .68; font-size: 9px; white-space: nowrap; }
+.blind-message p { margin: 4px 0 0; overflow-wrap: anywhere; }
+.blind-message .visitor-avatar, .blind-message .visitor-monogram { flex: 0 0 30px; width: 30px; height: 34px; }
+[data-screen="blind-play"] #blind-chat-form { margin: 0; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 7px; }
+[data-screen="blind-play"] #blind-chat-form input { width: 100%; min-height: 44px; }
+[data-screen="blind-play"] #blind-chat-form .button { width: auto; min-height: 44px; margin: 0; padding-inline: 13px; }
+.blind-next-actions { grid-column: 1 / -1; margin-top: 6px; padding: 14px; background: #f5eddd; border: 1px solid #c6b38a; }
+.blind-next-actions > p { margin: 0 0 9px; }
+.blind-next-actions > div { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
+.blind-next-actions button { min-height: 44px; padding: 8px 10px; color: var(--forest); background: rgba(255,252,244,.75); border: 1px solid #b8a477; border-radius: 3px 10px 3px 3px; font-size: 12px; }
+.blind-next-actions button:last-child { grid-column: 1 / -1; }
+@media (max-width: 430px) {
+  .blind-role-heading { display: grid; grid-template-columns: minmax(0,1fr); gap: 8px; }
+  .blind-role-heading h2 { font-size: clamp(24px, 8vw, 30px); line-height: 1.08; }
+  .blind-role-heading .button, .blind-role-heading .text-button { width: 100%; min-height: 42px; margin: 0; }
+  [data-screen="blind-play"] #blind-guesser-view { min-height: 0; }
+  .blind-describer-study { grid-template-columns: minmax(105px,.8fr) minmax(0,1.2fr); }
+  .blind-visitor-perspective { max-height: 150px; padding: 8px; }
+  .blind-visitor-perspective p:last-child { font-size: 14px; }
+}
+@media (max-width: 359px) {
+  .blind-describer-study { grid-template-columns: 1fr; }
+  .blind-artwork img { max-height: 180px; }
+  .blind-visitor-perspective { max-height: 132px; }
+  .blind-guess-dialog .dialog-actions { display: grid; grid-template-columns: 1fr; }
+}
 .member-chip .visitor-monogram { font-size: 10px; white-space: nowrap; word-break: normal; overflow-wrap: normal; display: inline-grid; }
 
 /* Chat-first Team game room */
@@ -332,8 +427,8 @@ select { width: 100%; min-height: 48px; padding: 10px 38px 10px 12px; color: var
 .members-entry span { display: block; color: #e5c77f; font: 22px/1 var(--font-display); }
 .team-pending-banner { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; color: #352a1c; background: #e6cf98; border-left: 4px solid #8b6730; font-size: 12px; }
 .team-pending-banner button { width: auto; min-height: 38px; padding: 6px 10px; color: #fff; background: var(--forest); border: 0; }
-.team-action-dock { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 6px; }
-.team-action-dock button { min-height: 46px; padding: 7px 4px; color: #2c4438; background: rgba(250,245,233,.94); border: 1px solid #bca979; border-radius: 2px 10px 2px 2px; font-size: 10px; font-weight: 700; line-height: 1.2; }
+.team-action-dock { height: fit-content; min-height: 0; align-self: start; align-items: start; display: grid; grid-auto-rows: minmax(46px,auto); grid-template-columns: repeat(4,minmax(0,1fr)); gap: 6px; }
+.team-action-dock button { width: 100%; height: auto; min-height: 46px; max-height: 62px; align-self: start; padding: 7px 4px; color: #2c4438; background: rgba(250,245,233,.94); border: 1px solid #bca979; border-radius: 2px 10px 2px 2px; font-size: 10px; font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; }
 .team-action-dock button:disabled { color: #898174; background: #ddd7ca; }
 .team-chat--primary { min-height: 0; margin: 0; padding: 10px; display: grid; grid-template-rows: minmax(240px,1fr) auto; gap: 8px; background: rgba(248,243,232,.95); border: 1px solid #c4b48e; border-radius: 3px 16px 3px 3px; box-shadow: var(--paper-shadow); }
 .team-chat--primary .chat-log { min-height: 240px; max-height: none; overflow-y: auto; overscroll-behavior: contain; padding: 8px; scroll-behavior: smooth; }
@@ -341,6 +436,8 @@ select { width: 100%; min-height: 48px; padding: 10px 38px 10px 12px; color: var
 .team-message.is-mine { margin-left: auto; flex-direction: row-reverse; }
 .team-message > div { min-width: 0; padding: 8px 10px; background: #fffaf0; border: 1px solid #d4c7ac; border-radius: 2px 12px 12px 12px; }
 .team-message.is-mine > div { color: #f8f1df; background: #355343; border-color: #355343; border-radius: 12px 2px 12px 12px; }
+.team-message.is-system { max-width: 92%; margin: 7px auto; justify-content: center; color: #756b5d; text-align: center; }
+.team-message.is-system p { margin: 0; padding: 5px 10px; background: #e9e2d4; border-radius: 999px; font-size: 10px; }
 .team-message header { display: flex; gap: 8px; align-items: baseline; justify-content: space-between; }
 .team-message header strong { font-size: 11px; }
 .team-message header time { opacity: .72; font-size: 9px; }
@@ -356,11 +453,15 @@ select { width: 100%; min-height: 48px; padding: 10px 38px 10px 12px; color: var
 .team-action-sheet { position: fixed; z-index: 90; inset: 0; display: grid; align-items: end; }
 .team-action-sheet[hidden] { display: none; }
 .team-sheet-backdrop { position: absolute; inset: 0; width: 100%; height: 100%; background: rgba(20,29,25,.62); border: 0; }
-.team-action-sheet > section { position: relative; width: min(100%,720px); max-height: min(78dvh,700px); margin: 0 auto; overflow-y: auto; padding: 16px 16px calc(24px + env(safe-area-inset-bottom)); background: #f8f1df; border: 1px solid #a98a50; border-radius: 18px 18px 0 0; box-shadow: 0 -12px 40px rgba(20,28,23,.25); }
+.team-action-sheet > section { position: relative; width: min(100%,720px); height: min(88dvh,720px); max-height: calc(100dvh - 8px); margin: 0 auto; overflow: hidden; padding: 16px 16px calc(12px + env(safe-area-inset-bottom)); display: grid; grid-template-rows: auto minmax(0,1fr); background: #f8f1df; border: 1px solid #a98a50; border-radius: 18px 18px 0 0; box-shadow: 0 -12px 40px rgba(20,28,23,.25); }
 .team-action-sheet > section > header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid #cdbd99; }
 .team-action-sheet h3 { margin: 0; color: var(--forest); font-size: 27px; }
 .team-action-sheet header button { width: 44px; height: 44px; padding: 0; color: var(--forest); background: transparent; border: 1px solid #bba675; border-radius: 50%; font-size: 27px; }
-#team-sheet-content { padding-top: 14px; }
+#team-sheet-content { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 14px 2px calc(18px + env(safe-area-inset-bottom)); }
+#team-comment-form { min-height: 100%; display: grid; grid-template-rows: minmax(0,1fr) auto; }
+.team-sheet-form-body { min-height: 0; overflow-y: auto; }
+.team-sheet-footer { padding-top: 12px; background: #f8f1df; border-top: 1px solid #cdbd99; }
+#team-comment-form .button { width: 100%; min-height: 48px; margin: 0; }
 .team-expanded-fragment { margin: 0; }
 .team-expanded-fragment img { width: 100%; max-height: 58dvh; object-fit: contain; background: #242823; }
 .team-expanded-fragment figcaption, .sheet-note { color: #665d50; font-size: 12px; }
@@ -376,7 +477,8 @@ body.has-team-sheet { overflow: hidden; }
   .team-game-header { grid-template-columns: 62px minmax(0,1fr) 52px; gap: 7px; }
   .team-fragment-button { width: 62px; height: 62px; }
   .team-game-header h2 { font-size: 18px; }
-  .team-action-dock button { font-size: 9px; }
+  .team-action-dock { gap: 4px; }
+  .team-action-dock button { min-height: 44px; max-height: 58px; padding-inline: 2px; font-size: 9px; }
   .team-chat--primary { padding: 7px; }
   .team-simulation-control { justify-content: space-between; }
 }

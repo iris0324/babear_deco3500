@@ -72,6 +72,8 @@
 .room-messages { height: clamp(220px, 42svh, 420px); min-height: 0; max-height: none; padding: 18px 0; overflow-y: auto; }
 .message-bubble { width: fit-content; max-width: 86%; margin: 0 0 12px; padding: 10px 12px; background: #fffaf0; border: 1px solid #ddd2bd; border-radius: 4px 15px 15px 15px; }
 .message-bubble.is-mine { margin-left: auto; background: #e2e9df; border-color: #bdc9b9; border-radius: 15px 4px 15px 15px; }
+.message-bubble.is-mine header { flex-direction: row-reverse; }
+.message-bubble.is-mine time { margin-right: auto; margin-left: 0; }
 .message-bubble header { display: flex; gap: 8px; color: #355343; font-size: 11px; }
 .message-bubble time { color: var(--muted); }
 .message-bubble p { margin: 3px 0 0; overflow-wrap: anywhere; }
