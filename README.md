@@ -1,61 +1,111 @@
-# Team6 - Babear — DECO3500 Social & Mobile Computing
+# Borrowed Eyes
 
-## Domain 
-
-**Enhancing the Art Gallery Experience — Increasing Art Gallery Involvement through Social and Mobile Computing**
-
-Our project is situated in the domain of art galleries and museums.
-
-We focus on how visitors engage with physical artworks in gallery spaces, particularly how social and contextual technologies could support interpretation, reflection, and awareness of other visitors' perspectives.
-
-The project considers both the individual experience of viewing artworks and the social experience of understanding how other people respond to the same artwork.
+**DECO3500 — Social & Mobile Computing | Semester 2, 2026**  
+**The University of Queensland | Team 6 — Babear**
 
 ## Project Overview
 
-This project explores how social and mobile computing can support art gallery visitors in actively interpreting artworks and becoming aware of other visitors' perspectives.
+**Borrowed Eyes** is a gallery-based social and mobile computing design project exploring how artworks can become shared starting points for communication. Rather than treating finding the correct artwork as the end of an activity, the project investigates how visitors might exchange interpretations, contribute different observations, and better understand one another's perspectives.
 
-Many gallery visitors, especially inexperienced visitors, may feel unsure about how to interpret artworks or express their own opinions. Our project investigates how a lightweight social experience can help visitors reflect on artworks, compare different perspectives, and engage more actively with the gallery experience.
-
----
+The project has evolved through research, concept development, and formative evaluation. Earlier explorations included artwork interpretation and the **Card–Clue–Comment** interaction; the current design direction explores different levels of participation through **Solo**, **Blind Eyes**, and **Face-to-Face**.
 
 ## Design Opportunity
 
-There is an opportunity to use artworks as shared conversation anchors, helping gallery visitors move beyond discussing art to sharing personal experiences, understanding different backgrounds, and building meaningful human connections.
+> There is an opportunity to use artworks as shared conversation anchors, helping gallery visitors move beyond discussing art to sharing personal experiences, understanding different backgrounds, and building meaningful human connections.
 
----
+This is a **design opportunity and goal**, not an outcome already demonstrated by the prototype tests. See [Design Opportunity](docs/Research/Iteration2/Design_Opportunity.md).
 
-## Prototype
+## Interaction Concepts
 
+| Mode | Intended experience | Evidence status |
+| --- | --- | --- |
+| **Solo** | Explore and respond to artworks independently, without requiring direct social interaction. | Informed by survey preferences; not evaluated in the latest testing sessions. |
+| **Blind Eyes** | Two participants with different information use questions and interpretations to identify an artwork and compare perspectives. | Four formative testing rounds on 14 October 2026. |
+| **Face-to-Face** | A small group receives different clues, discusses possible artworks, coordinates its search, and makes a shared decision. | One three-person formative testing session on 14 October 2026. |
 
----
+The three modes represent the latest design direction. **They should not be assumed to be fully implemented in the existing web prototype.**
 
-## How to Use the Prototype
+## Research and Evaluation
 
+Our work uses literature review, interviews, an exploratory survey, and prototype testing to inform design decisions.
 
----
+- **Survey:** 30 responses exploring gallery preferences, communication concerns, group participation, and group formation. The survey reflects self-reported preferences, not observed behaviour or a representative sample of all gallery visitors.
+- **Blind Eyes testing:** Four two-player rounds, with some participants taking part more than once. Observation records include 17 perspective initiations and 21 substantive responses. Event counts alone do not demonstrate deep mutual understanding.
+- **Face-to-Face testing:** One group of three participants. Interviews reported clue sharing, negotiation, and joint decision-making; complete observation counts and confirmed task-success data are not available.
 
-## Repository Structure
+Overall, the evaluation suggests that **information exchange and task completion do not automatically become meaningful perspective exchange**. This finding informs the next design iteration.
 
-- [`docs/Research`](docs/Research/) — Background research, literature, user research and findings
-- [`docs/Requirements`](docs/Requirements/) — User needs and experience requirements
-- [`docs/Design`](docs/Design/) — Sketches, user flows, wireframes and design iterations
-- [`docs/Evaluation`](docs/Evaluation/) — User testing plans, results and evaluation findings
-- [`docs/Poster`](docs/Poster/) — Final poster and promotional materials
-- [`Prototype`](Prototype/) — Interactive prototype, source files and setup instructions
+### Research documents
 
----
+- [Initial research (Iteration 1)](docs/Research/Iteration1/)
+- [Design opportunity and targeted research (Iteration 2)](docs/Research/Iteration2/)
+- [Research directory](docs/Research/)
 
-## Project Documentation
+### Survey and prototype testing documents
 
+Add or update the following links after these files have been committed to the repository:
 
----
+- **Survey questionnaire:** `Survey_Questionnaire.md` — insert actual repository link
+- **Survey results:** `Survey_Results.md` — insert actual repository link
+- **Survey key findings:** `Survey_Key_Findings.md` — insert actual repository link
+- **Latest prototype testing results:** `Prototype_Testing_Results.md` — insert actual repository link
 
-## Team
+## Prototype Access and Usage
 
-This project was developed as part of **DECO3500 Social & Mobile Computing, Semester 2, 2026** at The University of Queensland.
+### Existing web prototype
 
-Team member roles and individual contributions will be documented throughout the project.
+Source entry point: [`Prototype/functional-prototype/index.html`](Prototype/functional-prototype/index.html)  
+Prototype documentation: [`Prototype/README.md`](Prototype/README.md)
 
-| Team member| Role | Main REsponsibilities | 
-|---|---|
-||
+To inspect the existing web prototype locally:
+
+1. Download or clone this repository.
+2. Open `Prototype/functional-prototype/index.html` in a desktop browser.
+3. Follow the on-screen interaction instructions.
+
+This is the **earlier web-based proof of concept**. The new Solo, Blind Eyes, and Face-to-Face modes are documented as evolving concepts and testing activities; do not infer that all three are implemented in this build.
+
+**Hosted demo:** [Add the verified live prototype URL, if available]  
+**Devices / browsers tested:** [Confirm before submission]  
+**Known limitations and simulated features:** [Update based on the final build]  
+**Login:** [State “Not required” if accurate; otherwise provide an appropriate assessment/test access method without exposing private credentials.]
+
+## Repository Guide
+
+| Location | Contents |
+| --- | --- |
+| [`docs/Research/`](docs/Research/) | Initial and targeted literature, domain research, interviews, survey evidence, and design opportunity |
+| [`docs/Requirements/`](docs/Requirements/) | Experience requirements and research-to-design links |
+| [`docs/Design/`](docs/Design/) | Concept development, interaction flows, prototype iterations, and design decisions |
+| [`docs/Evaluation/`](docs/Evaluation/) | Evaluation plans, observations, findings, and testing evidence |
+| [`docs/Poster/`](docs/Poster/) | Exhibition poster and promotional resources |
+| [`Prototype/`](Prototype/) | Interactive proof of concept and assets |
+| [`Wiki/`](Wiki/) | Draft Wiki content, including ethics and design process materials |
+
+## Process Documentation
+
+- [Design process overview — repository draft](Wiki/Design-Process-Overview.md)
+- [Ethical considerations — repository draft](Wiki/Ethical-Considerations.md)
+- [Internal meeting record template](Wiki/Internal-Meeting-Record-Template.md)
+
+**Before submission:** add direct links to the **published GitHub Wiki** pages for the Design Process Overview, Ethics Charter, and actual team stand-up/meeting records. A Markdown file under `Wiki/` is not automatically a published GitHub Wiki page.
+
+Use GitHub Issues/Projects to track tasks, decisions, ownership, and outstanding work. **Issues / Projects board:** [Insert verified URL].
+
+## Team and Contributions
+
+Developed by **Team 6 — Babear**, DECO3500, The University of Queensland (2026 Semester 2).
+
+| Team member | Role / contributions |
+| --- | --- |
+| [YINING ZHU] | [Confirm actual role and contributions] |
+| [XINYUE CHANG] | [Confirm actual role and contributions] |
+| [YUNLIN WANG] | [Confirm actual role and contributions] |
+| [BINYAN ZHANG] | [Confirm actual role and contributions] |
+| [MUCHU WANG] | [Confirm actual role and contributions] |
+
+Specific contributions and decisions should also be traceable through commits, Issues/Projects, and stand-up records.
+
+## Current Status
+
+The project has completed multiple rounds of concept exploration and formative evaluation. Work still to confirm for final submission includes the latest functional prototype state, published Wiki documentation, final poster, and verified access links.
