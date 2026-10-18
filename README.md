@@ -20,6 +20,7 @@ Many gallery visitors, especially inexperienced visitors, may feel unsure about 
 
 ## Design Opportunity
 
+There is an opportunity to use artworks as shared conversation anchors, helping gallery visitors move beyond discussing art to sharing personal experiences, understanding different backgrounds, and building meaningful human connections.
 
 ---
 
