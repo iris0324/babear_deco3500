@@ -35,6 +35,7 @@ export const SCREENS = Object.freeze({
   CREATOR_PERSPECTIVE: "creator-perspective",
   CREATOR_REVIEW: "creator-review",
   CREATOR_SUBMIT_REVIEW: "creator-submit-review",
+  CREATOR_THANKS: "creator-thanks",
   CREATOR_STATUS: "creator-status",
   REVIEW: "submission-review",
   DESTINATION: "destination",

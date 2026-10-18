@@ -36,6 +36,8 @@ const state = {
 const navigation = createScreenNavigation();
 let toastTimer;
 let authMode = "login";
+let creatorSubmitting = false;
+let lastSubmittedId = null;
 const CREATOR_QUESTIONS = Object.freeze(["What feeling or memories does this detail make you think of?", "What kind of scene or story does it remind you of?", "What colours, shapes or textures can you see?", "How does this part connect with the surrounding elements?", "What specific visual or location features could help others find the artwork?"]);
 function requiredCreatorQuestionIndexes(stars) { return [0,1,2,3,4].slice(5 - Number(stars)); }
 
@@ -268,7 +270,29 @@ function openChatRoom(roomId) {
 function renderRoomMessages() {
   const roomId = state.galleryChat.currentRoomId;
   const stored = ensureSocialRoom(roomId);
-  document.querySelector("#room-messages").innerHTML = stored.messages.map((message) => `<article class="message-bubble ${message.authorId === LOCAL_USER_ID ? "is-mine" : ""}"><header>${message.authorId && message.authorId !== LOCAL_USER_ID ? visitorAvatar(socialUser(message.authorId)) : ""}${message.authorId && message.authorId !== LOCAL_USER_ID ? `<button class="message-author" data-player-id="${message.authorId}">${escapeHtml(message.author)}</button>` : `<strong>${escapeHtml(message.author)}</strong>`}<time>${escapeHtml(message.time)}</time></header><p>${escapeHtml(message.text)}</p>${message.teamSessionId ? `<button class="text-button" data-open-team-session="${escapeHtml(message.teamSessionId)}">Open Team Waiting Room</button>` : ""}</article>`).join("") || '<p class="small-note">No messages yet. Begin the correspondence.</p>';
+  document.querySelector("#room-messages").innerHTML = stored.messages.map((message) => {
+    const teamRoom = message.teamSessionId ? state.openTeams.find((item) => item.sessionId === message.teamSessionId || item.id === message.teamSessionId) : null;
+    const recruitment = message.kind === "team-recruitment";
+    const status = !teamRoom ? "Unavailable" : teamRoom.started || teamRoom.membershipLocked ? "Started" : teamRoom.completed || teamRoom.closed ? "Closed" : teamRoom.members.length >= TEAM_LIMIT ? "Full" : "Open";
+    const action = recruitment ? `<section class="recruitment-card"><p class="field-label">${escapeHtml(message.challengeLabel || "Mystery artwork")} · ${Number(message.stars) || 0}★</p><strong>Looking for fellow explorers to help investigate this artwork.</strong><span>${teamRoom ? `${uniqueTeamMembers(teamRoom.members).length} of ${TEAM_LIMIT} visitors · ${status}` : status}</span><button class="button button--secondary" type="button" data-join-recruitment="${escapeHtml(message.teamSessionId)}" ${status !== "Open" ? "disabled" : ""}>${status === "Open" ? "Join Team" : status}</button></section>` : message.teamSessionId ? `<button class="text-button" data-open-team-session="${escapeHtml(message.teamSessionId)}">Open Team Waiting Room</button>` : "";
+    const avatar = message.authorId ? visitorAvatar(message.authorId === LOCAL_USER_ID ? { id: LOCAL_USER_ID, name: state.profile.nickname } : socialUser(message.authorId)) : "";
+    return `<article class="message-bubble ${message.authorId === LOCAL_USER_ID ? "is-mine" : ""}"><header>${avatar}${message.authorId && message.authorId !== LOCAL_USER_ID ? `<button class="message-author" data-player-id="${message.authorId}">${escapeHtml(message.author)}</button>` : `<strong>${escapeHtml(message.author)}</strong>`}<time>${escapeHtml(message.time)}</time></header>${recruitment ? "" : `<p>${escapeHtml(message.text)}</p>`}${action}</article>`;
+  }).join("") || '<p class="small-note">No messages yet. Begin the correspondence.</p>';
+}
+
+function joinRecruitmentFromChat(sessionId) {
+  const room = state.openTeams.find((item) => item.sessionId === sessionId || item.id === sessionId);
+  if (!room) { showToast("This recruitment is no longer available."); renderRoomMessages(); return; }
+  if (!room.members.some((member) => member.id === LOCAL_USER_ID)) { joinOpenTeam(room.id); return; }
+  const visitor = PUBLIC_PLAYERS.find((player) => !room.members.some((member) => member.id === player.id));
+  const status = canJoinTeam(room, visitor?.id);
+  if (!visitor || !status.allowed) { showToast(status.reason || "No simulated visitor is available."); renderRoomMessages(); return; }
+  room.members.push({ id: visitor.id, name: visitor.name, stars: 0 });
+  room.chat ||= []; room.chat.push({ authorId: visitor.id, name: visitor.name, message: "I joined through Museum Public Chat.", createdAt: new Date().toISOString() });
+  state.team = { ...room, members: [...room.members], comments: { ...(room.comments || {}) }, chat: [...room.chat] };
+  state.mode = "team"; state.challenge = state.database.challenges.find((item) => item.id === room.challengeId);
+  saveOpenTeams(); saveTeam(); renderRoomMessages(); renderTeamLobby(); showScreen(SCREENS.TEAM_WAITING);
+  showToast(`${visitor.name} joined the same waiting room in this local simulation.`);
 }
 
 function submitRoomMessage(event) {
@@ -406,6 +430,13 @@ function sendGameInvitation(userId) {
 function createRecruitmentTeamFromSolo(openToPlayers = false) {
   const solo = state.soloSession;
   if (!solo?.sessionId || solo.completed || !state.challenge || solo.challengeId !== state.challenge.id) return null;
+  const persisted = state.openTeams.find((room) => room.sourceSoloSessionId === solo.sessionId && room.challengeId === solo.challengeId && !room.closed);
+  if (persisted) {
+    state.team = { ...persisted, members: [...persisted.members], comments: { ...(persisted.comments || {}) }, chat: [...(persisted.chat || [])] };
+    if (openToPlayers && !state.team.started && !state.team.membershipLocked && !state.team.completed) state.team.openToPlayers = true;
+    saveTeam(); syncTeamRoom();
+    return state.team;
+  }
   if (state.team.sourceSoloSessionId === solo.sessionId && state.team.challengeId === solo.challengeId && !state.team.started && !state.team.completed && !state.team.closed) {
     if (openToPlayers) state.team.openToPlayers = true;
     saveTeam(); syncTeamRoom();
@@ -464,6 +495,8 @@ function renderCreatorClues() {
   state.creator.clueIndex = Math.min(Number(state.creator.clueIndex) || 0, required.length - 1);
   const questionNumber = required[state.creator.clueIndex], existing = state.creator.details.clues?.[questionNumber] || "";
   area.innerHTML = `<p class="eyebrow">Question ${state.creator.clueIndex + 1} of ${required.length} · Q${questionNumber + 1}</p><h3>${CREATOR_QUESTIONS[questionNumber]}</h3><label class="form-field"><span>Your clue</span><textarea id="creator-clue-answer" rows="5" required placeholder="Write one clear English clue.">${escapeHtml(existing)}</textarea></label><div class="clue-step-dots">${required.map((_, index) => `<i class="${index === state.creator.clueIndex ? "is-current" : index < state.creator.clueIndex ? "is-complete" : ""}"></i>`).join("")}</div>`;
+  const next = document.querySelector('[data-action="creator-clue-next"]');
+  if (next) next.textContent = state.creator.clueIndex === required.length - 1 ? "Confirm & Review" : "Confirm & Next";
 }
 
 async function updateCropResult() {
@@ -476,11 +509,10 @@ async function updateCropResult() {
   fragment.getContext("2d").drawImage(full, crop.x * full.naturalWidth, crop.y * full.naturalHeight, crop.w * full.naturalWidth, crop.h * full.naturalHeight, 0, 0, fragment.width, fragment.height);
   state.creator.fragmentData = fragment.toDataURL("image/jpeg", .88);
   document.querySelector("#creator-stars").textContent = `${"★".repeat(state.creator.stars)} ${state.creator.stars}-star challenge`;
-  document.querySelector("#creator-ratio").textContent = `${state.creator.ratio.toFixed(1)}% of the complete artwork`;
   document.querySelector("#creator-clue-requirement").textContent = `Exactly ${state.creator.stars} English ${state.creator.stars === 1 ? "Clue is" : "Clues are"} required.`;
   document.querySelector("#crop-feedback").textContent = "Detail selected. You can still move or resize it.";
   const preview = document.querySelector("#creator-fragment-preview"); if (preview) preview.src = state.creator.fragmentData;
-  const live = document.querySelector("#crop-live-preview"); if (live) live.innerHTML = `<img src="${state.creator.fragmentData}" alt="Live selected fragment"><span>${state.creator.ratio.toFixed(1)}% · ${state.creator.stars}★ · ${state.creator.stars} clues</span>`;
+  const live = document.querySelector("#crop-live-preview"); if (live) live.innerHTML = `<img src="${state.creator.fragmentData}" alt="Live selected fragment"><span>Difficulty ${"★".repeat(state.creator.stars)} · ${state.creator.stars} ${state.creator.stars === 1 ? "Clue" : "Clues"} to write</span>`;
 }
 
 function drawCrop() {
@@ -510,7 +542,7 @@ function renderSubmissionList() {
 function captureCreatorDetails() {
   const form = document.querySelector("#creator-details-form"); if (!form) return;
   const data = new FormData(form);
-  state.creator.details = { ...state.creator.details, title: String(data.get("title") || "").trim(), artist: String(data.get("artist") || "").trim(), year: String(data.get("year") || "").trim(), comment: String(data.get("comment") || "").trim(), perspective: String(data.get("perspective") || "").trim() };
+  state.creator.details = { ...state.creator.details, title: String(data.get("title") || "").trim(), artist: String(data.get("artist") || "").trim(), year: String(data.get("year") || "").trim(), comment: String(data.get("comment") || "").trim() };
 }
 
 function captureCreatorClue() {
@@ -533,7 +565,7 @@ function advanceCreatorClue() {
 function creatorPreview() {
   const details = state.creator.details, summary = document.querySelector("#creator-summary");
   const clues = requiredCreatorQuestionIndexes(state.creator.stars).map((index) => details.clues[index]);
-  summary.innerHTML = `<div class="creator-pair"><figure><img src="${state.creator.fragmentData}" alt="Fragment"><figcaption>Selected detail</figcaption></figure><figure><canvas id="creator-review-canvas" aria-label="Complete artwork with selected area"></canvas><figcaption>Marked on complete artwork</figcaption></figure></div><h3>${escapeHtml(details.title || "Untitled")}</h3><p>${escapeHtml(details.artist || "Pending verification")}${details.year ? ` · ${escapeHtml(details.year)}` : ""}</p><p><strong>${state.creator.stars} stars</strong> · ${state.creator.ratio.toFixed(1)}% · ${state.creator.stars} required Clues</p><blockquote><strong>Personal perspective:</strong> ${escapeHtml(details.comment)}</blockquote><ol>${clues.map((clue) => `<li>${escapeHtml(clue)}</li>`).join("")}</ol>${details.perspective ? `<p><strong>Creator-supplied Artist’s Perspective · unverified:</strong> ${escapeHtml(details.perspective)}</p>` : ""}`;
+  summary.innerHTML = `<div class="creator-pair"><figure><img src="${state.creator.fragmentData}" alt="Fragment"><figcaption>Selected detail</figcaption></figure><figure><canvas id="creator-review-canvas" aria-label="Complete artwork with selected area"></canvas><figcaption>Complete artwork with selected detail</figcaption></figure></div><h3>${escapeHtml(details.title || "Untitled")}</h3><p>${escapeHtml(details.artist || "Pending verification")}${details.year ? ` · ${escapeHtml(details.year)}` : ""}</p><p><strong>Difficulty ${"★".repeat(state.creator.stars)}</strong> · ${state.creator.stars} required ${state.creator.stars === 1 ? "Clue" : "Clues"}</p><blockquote><strong>Personal perspective:</strong> ${escapeHtml(details.comment)}</blockquote><ol>${clues.map((clue) => `<li>${escapeHtml(clue)}</li>`).join("")}</ol>${details.perspective ? `<p><strong>Creator-supplied Artist’s Perspective · unverified:</strong> ${escapeHtml(details.perspective)}</p>` : ""}`;
   const canvas = document.querySelector("#creator-review-canvas"); loadImage(state.creator.fullData).then((image) => { canvas.width = image.naturalWidth; canvas.height = image.naturalHeight; const context = canvas.getContext("2d"), crop = state.creator.crop; context.drawImage(image, 0, 0); context.fillStyle = "rgba(53,83,67,.18)"; context.strokeStyle = "#b08a3e"; context.lineWidth = Math.max(3, image.naturalWidth / 180); context.fillRect(crop.x * canvas.width, crop.y * canvas.height, crop.w * canvas.width, crop.h * canvas.height); context.strokeRect(crop.x * canvas.width, crop.y * canvas.height, crop.w * canvas.width, crop.h * canvas.height); });
 }
 
@@ -542,8 +574,8 @@ function renderCreatorStep(step, remember = true) {
   state.creator.step = step;
   if (step === 1 && state.creator.fullData) { const image = document.querySelector("#creator-full-first-preview"); image.src = state.creator.fullData; document.querySelector("#full-first-preview-frame").hidden = false; document.querySelector("#replace-full-first").hidden = false; }
   if (step === 2 && state.creator.fullData) { const image = document.querySelector("#creator-full-preview"); image.src = state.creator.fullData; image.onload = drawCrop; document.querySelector("#crop-stage").hidden = false; document.querySelector("#replace-full").hidden = false; setTimeout(drawCrop); }
-  if (step === 3 && state.creator.stars) { document.querySelector("#creator-fragment-preview").src = state.creator.fragmentData; document.querySelector("#creator-stars").textContent = `${"★".repeat(state.creator.stars)} ${state.creator.stars}-star challenge`; document.querySelector("#creator-ratio").textContent = `${state.creator.ratio.toFixed(1)}% of the complete artwork`; document.querySelector("#creator-clue-requirement").textContent = `Exactly ${state.creator.stars} English ${state.creator.stars === 1 ? "Clue is" : "Clues are"} required.`; }
-  if (step === 4) { const form = document.querySelector("#creator-details-form"), details = state.creator.details; ["title","artist","year","comment","perspective"].forEach((name) => { form.elements[name].value = details[name] || ""; }); }
+  if (step === 3 && state.creator.stars) { document.querySelector("#creator-fragment-preview").src = state.creator.fragmentData; document.querySelector("#creator-stars").textContent = `Difficulty ${"★".repeat(state.creator.stars)}`; document.querySelector("#creator-clue-requirement").textContent = `${state.creator.stars} ${state.creator.stars === 1 ? "Clue" : "Clues"} to write`; }
+  if (step === 4) { const form = document.querySelector("#creator-details-form"), details = state.creator.details; ["title","artist","year","comment"].forEach((name) => { form.elements[name].value = details[name] || ""; }); }
   if (step === 5) renderCreatorClues();
   if (step === 6) creatorPreview();
   syncCreatorPhotoControls();
@@ -552,13 +584,15 @@ function renderCreatorStep(step, remember = true) {
 }
 
 function submitCreator() {
+  if (creatorSubmitting) return;
   const feedback = document.querySelector("#creator-feedback"), error = validateCreatorDraft(state.creator);
   if (error) { feedback.textContent = error; return; }
+  creatorSubmitting = true;
   const details = state.creator.details, editing = state.submissions.find((item) => item.id === state.creator.editingSubmissionId && item.status === "Changes Requested");
   const submission = { id: editing?.id || `${Date.now()}-${Math.random().toString(16).slice(2)}`, title: details.title, artist: details.artist, year: details.year, comment: details.comment, perspective: details.perspective, perspectiveVerification: "unverified", fragmentImage: state.creator.fragmentData, fullImage: state.creator.fullData, crop: state.creator.crop, areaPercentage: Number(state.creator.ratio.toFixed(1)), stars: state.creator.stars, clues: requiredCreatorQuestionIndexes(state.creator.stars).map((index) => details.clues[index]), matchFlag: false, status: "Pending", reviewReason: "", createdAt: editing?.createdAt || new Date().toISOString(), resubmittedAt: editing ? new Date().toISOString() : undefined, sourceSubmissionId: state.creator.sourceSubmissionId || undefined };
   const next = editing ? state.submissions.map((item) => item.id === editing.id ? submission : item) : [...state.submissions, submission];
-  if (!saveSubmissions(next)) { feedback.textContent = "Submission was not saved because browser storage is full."; return; }
-  state.submissions = next; clearCreatorDraft(); state.creator = freshCreatorDraft(); renderSubmissionStatus(submission.id); showScreen(SCREENS.CREATOR_STATUS, true, "leave");
+  if (!saveSubmissions(next)) { creatorSubmitting = false; feedback.textContent = "Submission was not saved because browser storage is full."; return; }
+  state.submissions = next; lastSubmittedId = submission.id; clearCreatorDraft(); state.creator = freshCreatorDraft(); creatorSubmitting = false; showScreen(SCREENS.CREATOR_THANKS, true, "leave");
 }
 
 function renderSubmissionStatus(id) {
@@ -587,7 +621,15 @@ function creatorStepAllowed(step) {
   if (step === 2 && !state.creator.fullData) return "Add a valid complete artwork photo first.";
   if (step === 3 && (!state.creator.fullData || !state.creator.crop || !state.creator.stars || !state.creator.fragmentData)) return "Mark a valid, non-zero detail on the artwork.";
   if (step === 4 && !state.creator.stars) return "Difficulty cannot be calculated without a valid marked area.";
-  if (step === 5) { captureCreatorDetails(); const d = state.creator.details; if (!d.title || !d.artist || !d.comment || !/[A-Za-z]/.test(d.comment)) return "Complete the artwork details and personal perspective in English."; state.creator.clueIndex = 0; }
+  if (step === 5) {
+    captureCreatorDetails(); const d = state.creator.details;
+    if (!d.title) return "Add the artwork title before continuing.";
+    if (!d.artist) return "Add the artist or maker before continuing.";
+    if (!d.comment) return "Write what this detail means to you before continuing.";
+    if (!/[A-Za-z]/.test(d.comment)) return "Write your personal perspective in English before continuing.";
+    const required = requiredCreatorQuestionIndexes(state.creator.stars);
+    state.creator.clueIndex = Math.max(0, Math.min(Number(state.creator.clueIndex) || 0, required.length - 1));
+  }
   if (step === 6) return validateCreatorDraft(state.creator);
   return "";
 }
@@ -641,7 +683,7 @@ function showScreen(name, remember = true, route = navigation.current.route) {
     : name === SCREENS.MAP ? "map"
     : [SCREENS.MESSAGES, SCREENS.ARTWORK_CHATS, SCREENS.MESSAGE_LIST, SCREENS.CHAT_ROOM, SCREENS.FRIENDS, SCREENS.PLAYERS, SCREENS.PLAYER_PROFILE, SCREENS.GROUPS, SCREENS.GROUP_CREATE, SCREENS.GROUP_MEMBERS].includes(name) ? "chat"
       : [SCREENS.PROFILE, SCREENS.PROFILE_EDIT, SCREENS.PROFILE_DETAIL].includes(name) ? "profile"
-      : name === SCREENS.DESTINATION ? route : [SCREENS.LEAVE, SCREENS.REVIEW, SCREENS.CREATOR_FRAGMENT, SCREENS.CREATOR_ARTWORK, SCREENS.CREATOR_DIFFICULTY, SCREENS.CREATOR_PERSPECTIVE, SCREENS.CREATOR_REVIEW, SCREENS.CREATOR_SUBMIT_REVIEW, SCREENS.CREATOR_STATUS].includes(name) ? "start" : "games";
+      : name === SCREENS.DESTINATION ? route : [SCREENS.LEAVE, SCREENS.REVIEW, SCREENS.CREATOR_FRAGMENT, SCREENS.CREATOR_ARTWORK, SCREENS.CREATOR_DIFFICULTY, SCREENS.CREATOR_PERSPECTIVE, SCREENS.CREATOR_REVIEW, SCREENS.CREATOR_SUBMIT_REVIEW, SCREENS.CREATOR_STATUS, SCREENS.CREATOR_THANKS].includes(name) ? "start" : "games";
   navigation.go(name, { remember, route, tab, context: { challengeId: state.challenge?.id || null, sessionId: state.team.sessionId || state.blind.sessionId || state.soloSession?.sessionId || null, mode: state.mode, roomId: state.galleryChat.currentRoomId || null } });
   state.currentScreen = name;
   document.querySelector(".bottom-nav").hidden = name === SCREENS.LOGIN;
@@ -949,13 +991,15 @@ function shareHelpToGallery() {
   if (state.mode !== "solo" || !state.challenge) return;
   const recruitment = createRecruitmentTeamFromSolo(true);
   if (!recruitment) { showToast("The Solo challenge is no longer active."); return; }
-  const roomId = CHAT_ROOMS.find((item) => item.id.startsWith("artwork-"))?.id;
-  if (!roomId) { showToast("Artwork Conversations are unavailable."); return; }
+  const roomId = "public";
   const room = ensureSocialRoom(roomId);
-  room.messages.push({ author: state.profile.nickname, authorId: LOCAL_USER_ID, text: `Mock help request: join my ${state.challenge.stars}-star Borrow the Eyes challenge (${challengeNumber(state.challenge.id)}).`, time: formatChatTime(), challengeId: state.challenge.id, teamSessionId: recruitment.sessionId });
+  const existing = room.messages.find((message) => message.kind === "team-recruitment" && message.teamSessionId === recruitment.sessionId);
+  if (!existing) room.messages.push({ kind: "team-recruitment", author: state.profile.nickname, authorId: LOCAL_USER_ID, time: formatChatTime(), challengeId: state.challenge.id, challengeLabel: challengeNumber(state.challenge.id), stars: state.challenge.stars, teamSessionId: recruitment.sessionId, sourceSoloSessionId: state.soloSession.sessionId });
   saveGalleryChat();
-  state.mode = "team"; renderTeamLobby(); showScreen(SCREENS.TEAM_WAITING);
-  showToast("Help request posted. A public waiting room was created; your Solo game remains separate.");
+  state.mode = "team";
+  if (recruitment.started) { renderTeamPlay(); showScreen(SCREENS.TEAM_GAME); }
+  else { renderTeamLobby(); showScreen(SCREENS.TEAM_WAITING); }
+  showToast(existing ? "Your existing Public Chat recruitment was reopened." : "Recruitment posted to Museum Public Chat. Your Solo game remains separately resumable.");
 }
 
 function submitAnswer(event) {
@@ -1367,6 +1411,8 @@ function setupEvents() {
       if (!room) { showToast("This Team waiting room is no longer available."); return; }
       joinOpenTeam(room.id); return;
     }
+    const recruitmentJoin = event.target.closest("[data-join-recruitment]");
+    if (recruitmentJoin) { joinRecruitmentFromChat(recruitmentJoin.dataset.joinRecruitment); return; }
     const findChallengeTeam = event.target.closest("[data-find-challenge-team]");
     if (findChallengeTeam) { state.matchingChallengeId = findChallengeTeam.dataset.findChallengeTeam; renderExplore(); return; }
     const resumeSession = event.target.closest("[data-resume-session]");
@@ -1455,7 +1501,9 @@ function setupEvents() {
     if (action === "creator-resume") { renderCreatorStep(state.creator.step || 1); return; }
     if (action === "creator-save") { if (state.currentScreen === SCREENS.CREATOR_PERSPECTIVE) captureCreatorDetails(); if (state.currentScreen === SCREENS.CREATOR_REVIEW) captureCreatorClue(); if (saveCreatorDraft()) showToast("Draft saved on this device."); return; }
     if (action === "creator-clue-next") { advanceCreatorClue(); return; }
+    if (action === "creator-clue-back") { captureCreatorClue(); if (state.creator.clueIndex > 0) { state.creator.clueIndex -= 1; saveCreatorDraft(); renderCreatorClues(); } else renderCreatorStep(4); return; }
     if (action === "creator-submit") { submitCreator(); return; }
+    if (action === "view-last-submission") { if (lastSubmittedId) { renderSubmissionStatus(lastSubmittedId); showScreen(SCREENS.CREATOR_STATUS, true, "leave"); } return; }
     if (action === "invite-team-friend") { openFriends(); showToast("Choose an accepted friend and send a local game invitation."); return; }
     if (action === "open-solo-help") { showScreen(SCREENS.SOLO_HELP); return; }
     if (action === "open-friends") { openFriends(); return; }

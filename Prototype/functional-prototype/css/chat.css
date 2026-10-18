@@ -141,6 +141,10 @@
 .conversation-screen .message-bubble { max-width: 84%; background: #fffaf1; border-color: #d1c5ad; border-radius: 4px 15px 15px 15px; box-shadow: 2px 2px 0 #e2dacb; }
 .conversation-screen .message-bubble.is-mine { background: #dfe8de; border-color: #afc0ad; border-radius: 15px 4px 15px 15px; }
 .conversation-screen .message-composer { border-color: #bbaa85; background: #f7f1e5f2; box-shadow: 0 -5px 18px #63584418; }
+.recruitment-card { margin-top: 8px; padding: 13px; display: grid; gap: 7px; background: linear-gradient(145deg,#f8f1df,#e6eadf); border: 1px solid #b89b61; border-radius: 2px 14px 3px 3px; }
+.recruitment-card strong { color: var(--forest); font: 18px/1.25 var(--font-display); }
+.recruitment-card > span { color: var(--muted); font-size: 12px; }
+.recruitment-card .button { width: 100%; min-height: 44px; margin: 3px 0 0; }
 
 /* Visitor portraits: medallion identity plus compact archival actions. */
 .player-card { position: relative; min-height: 72px; padding: 10px 12px; border: 0; border-bottom: 1px solid #bca97c; border-radius: 0; background: linear-gradient(90deg, var(--card-paper), var(--card-paper-green)); }

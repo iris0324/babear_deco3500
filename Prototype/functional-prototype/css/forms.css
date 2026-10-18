@@ -71,8 +71,6 @@ input[type="file"] { max-width: 100%; padding: 10px; color: var(--text); backgro
 .difficulty-folio span { color: #d7b76f; font-size: 27px; letter-spacing: .12em; }
 .difficulty-folio strong { margin: 10px 0 4px; font: 35px/1 var(--font-display); }
 .difficulty-folio p { margin: 4px 0 0; color: #e4ddcf; }
-.difficulty-scale { margin: 20px 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; list-style: none; }
-.difficulty-scale li { padding: 9px; color: #6f624f; border-bottom: 1px solid #cdbc98; font-size: 11px; }
 .creator-folio-form { display: grid; gap: 15px; }
 .creator-folio-form .form-field input, .creator-folio-form .form-field textarea { background: #fffaf2; border-color: #bfb298; }
 .attribution-field { padding: 15px; background: #ebe6da; border-left: 3px solid #9a7840; }
@@ -93,7 +91,7 @@ input[type="file"] { max-width: 100%; padding: 10px; color: var(--text); backgro
 .submission-row > span:last-child { align-items: flex-end; gap: 4px; }
 .submission-row .text-button { margin: 0; font-size: 11px; }
 .review-actions { grid-template-columns: 1fr; }
-@media (max-width: 374px) { .wizard-actions { grid-template-columns: 1fr 1fr; } .wizard-actions .button { grid-column: 1 / -1; } .difficulty-scale { grid-template-columns: 1fr; } }
+@media (max-width: 374px) { .wizard-actions { grid-template-columns: 1fr 1fr; } .wizard-actions .button { grid-column: 1 / -1; } }
 @media (min-width: 700px) { .creator-wizard .museum-content { max-width: 720px; } .review-actions { grid-template-columns: repeat(3,1fr); } }
 
 /* Phase 6.5 — curatorial workshop. */
@@ -105,7 +103,7 @@ input[type="file"] { max-width: 100%; padding: 10px; color: var(--text); backgro
 .photo-control { background-color: #f4ebd9; background-image: linear-gradient(135deg, rgba(101,116,95,.12), transparent 46%), radial-gradient(ellipse at 82% 18%, rgba(155,89,70,.08), transparent 32%); box-shadow: inset 0 0 0 6px rgba(255,255,255,.24), 5px 6px 0 rgba(92,70,43,.1), var(--paper-shadow); }
 .difficulty-folio { position: relative; overflow: hidden; background-image: radial-gradient(circle at 85% 15%, rgba(216,191,134,.13), transparent 26%), linear-gradient(145deg, #21372e, #3f5143); border: 1px solid #a98a50; box-shadow: inset 0 0 0 6px rgba(255,255,255,.035), 5px 6px 0 #d8ceba, var(--paper-shadow); }
 .difficulty-folio::after { content: "V"; position: absolute; right: 14px; bottom: -20px; color: rgba(216,191,134,.09); font: 110px/1 var(--font-display); }
-.difficulty-scale li, .attribution-field, .submission-preview, .status-folio { background-color: rgba(250,245,233,.9); }
+.attribution-field, .submission-preview, .status-folio { background-color: rgba(250,245,233,.9); }
 .creator-folio-form { padding: 17px; background: rgba(247,240,225,.68); border: 1px solid #c7b58f; box-shadow: inset 0 0 0 4px rgba(255,255,255,.22); }
 .wizard-actions { border-color: #ad9667; box-shadow: inset 0 0 0 3px rgba(255,255,255,.2), 0 -8px 25px rgba(72,54,31,.13); }
 @media (max-width: 375px) { .wizard-header { padding-inline: 8px; } .photo-control { min-height: 145px; } .wizard-actions { grid-template-columns: 1fr 1fr; bottom: calc(76px + env(safe-area-inset-bottom)); padding: 8px; } .wizard-actions .button { grid-column: 1 / -1; } .submission-row { grid-template-columns: 52px minmax(0,1fr); } .submission-row > span:last-child { grid-column: 1 / -1; align-items: flex-start; flex-direction: row; flex-wrap: wrap; } }
@@ -141,4 +139,9 @@ input[type="file"] { max-width: 100%; padding: 10px; color: var(--text); backgro
 .clue-step-dots i { width: 9px; height: 9px; border: 1px solid #8c7649; border-radius: 50%; }
 .clue-step-dots .is-current { background: var(--terracotta); border-color: var(--terracotta); }
 .clue-step-dots .is-complete { background: var(--forest); border-color: var(--forest); }
+.thank-you-content { text-align: center; }
+.thank-you-content > h2 { max-width: 13ch; margin: 12px auto; color: var(--forest); font-size: clamp(38px, 10vw, 62px); line-height: 1; }
+.thank-you-seal { width: 92px; height: 92px; margin: 18px auto; display: grid; place-items: center; color: #f7edda; background: var(--forest); border: 4px double #c7a65d; border-radius: 50%; font: 25px/1 var(--font-display); box-shadow: 0 0 0 6px #eee3ce, 4px 6px 0 #d6cab3; }
+.thank-you-lede { max-width: 30rem; margin: 0 auto 18px; color: #624d36; font: 22px/1.4 var(--font-display); font-style: italic; }
+.thank-you-actions { display: grid; gap: 9px; margin-top: 18px; }
 @media (max-width: 359px) { .difficulty-preview { grid-template-columns: 1fr; } .difficulty-preview > img { height: 135px; } }
