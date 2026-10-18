@@ -1,0 +1,114 @@
+{
+  "room": "49-316 & 316A",
+  "version": 1,
+  "stations": [
+    {
+      "id": "BE01",
+      "wall": "A",
+      "slot": 1,
+      "artworkId": "artwork-001"
+    },
+    {
+      "id": "BE02",
+      "wall": "A",
+      "slot": 2,
+      "artworkId": "artwork-002"
+    },
+    {
+      "id": "BE03",
+      "wall": "A",
+      "slot": 3,
+      "artworkId": "artwork-003"
+    },
+    {
+      "id": "BE04",
+      "wall": "A",
+      "slot": 4,
+      "artworkId": "artwork-004"
+    },
+    {
+      "id": "BE05",
+      "wall": "A",
+      "slot": 5,
+      "artworkId": "artwork-005"
+    },
+    {
+      "id": "BE06",
+      "wall": "B",
+      "slot": 1,
+      "artworkId": "artwork-006"
+    },
+    {
+      "id": "BE07",
+      "wall": "B",
+      "slot": 2,
+      "artworkId": "artwork-photo-01"
+    },
+    {
+      "id": "BE08",
+      "wall": "B",
+      "slot": 3,
+      "artworkId": "artwork-photo-02"
+    },
+    {
+      "id": "BE09",
+      "wall": "B",
+      "slot": 4,
+      "artworkId": "artwork-photo-03"
+    },
+    {
+      "id": "BE10",
+      "wall": "C",
+      "slot": 1,
+      "artworkId": "artwork-photo-04"
+    },
+    {
+      "id": "BE11",
+      "wall": "C",
+      "slot": 2,
+      "artworkId": "artwork-photo-05"
+    },
+    {
+      "id": "BE12",
+      "wall": "C",
+      "slot": 3,
+      "artworkId": "artwork-photo-06"
+    },
+    {
+      "id": "BE13",
+      "wall": "C",
+      "slot": 4,
+      "artworkId": "artwork-photo-07"
+    },
+    {
+      "id": "BE14",
+      "wall": "C",
+      "slot": 5,
+      "artworkId": "artwork-photo-10-upper"
+    },
+    {
+      "id": "BE15",
+      "wall": "D",
+      "slot": 1,
+      "artworkId": "artwork-photo-11-lower"
+    },
+    {
+      "id": "BE16",
+      "wall": "D",
+      "slot": 2,
+      "artworkId": "artwork-photo-12-upper"
+    },
+    {
+      "id": "BE17",
+      "wall": "D",
+      "slot": 3,
+      "artworkId": "artwork-photo-13"
+    },
+    {
+      "id": "BE18",
+      "wall": "D",
+      "slot": 4,
+      "artworkId": "artwork-photo-14"
+    }
+  ]
+}
