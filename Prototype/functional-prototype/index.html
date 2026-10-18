@@ -91,7 +91,7 @@
       <section class="screen borrow-screen borrow-team-screen" data-screen="team-lobby" hidden>
         <div class="screen__content borrow-content">
           <p class="eyebrow">Borrow the Eyes · Team</p><h2>How would you gather?</h2>
-          <p class="screen-intro">Choose first. Every participant shown here is simulated on this device.</p>
+          <p class="screen-intro">Choose how you would like to explore together.</p>
           <div class="team-entry-grid">
             <button class="mode-card team-entry" type="button" data-team-entry="find"><span class="team-entry__number">01</span><strong>Find a Team</strong><span>Browse simulated rooms with an open place.</span></button>
             <button class="mode-card team-entry" type="button" data-team-entry="create"><span class="team-entry__number">02</span><strong>Create a Team</strong><span>Open a private local room and welcome a simulated visitor.</span></button>
@@ -113,7 +113,7 @@
           <section id="team-room-panel" class="team-lobby-panel archival-folio-panel">
             <div class="waiting-room-status"><span class="field-label" data-team-challenge>No challenge selected</span><label class="switch"><input id="team-open-toggle" type="checkbox"><span>Open to Players</span></label></div>
             <section class="waiting-members"><div class="folio-section-heading"><span>Visitor circle</span><small>2 minimum · 5 maximum</small></div><div id="team-member-list" class="member-list" aria-live="polite"></div></section>
-            <section class="waiting-recruitment antique-correspondence-panel"><div class="folio-section-heading"><span>Local invitation</span><small>Simulated on this device</small></div><form id="team-member-form" class="inline-form"><label class="form-field"><span>Visitor name</span><input name="name" required maxlength="30" autocomplete="off" placeholder="Add another visitor"></label><button class="button button--secondary" type="submit">Add visitor</button></form></section>
+            <section class="waiting-recruitment antique-correspondence-panel"><div class="folio-section-heading"><span>Visitor invitation</span><small>Up to five participants</small></div><form id="team-member-form" class="inline-form"><label class="form-field"><span>Visitor name</span><input name="name" required maxlength="30" autocomplete="off" placeholder="Add another visitor"></label><button class="button button--secondary" type="submit">Add visitor</button></form></section>
             <footer class="waiting-room-actions"><p class="game-feedback" data-team-lobby-feedback role="status"></p><button class="button button--primary" data-action="team-start" type="button" disabled>Enter the Exhibition</button><p class="small-note simulation-note">Local prototype · invitations and matching are simulated.</p></footer>
           </section>
         </div>
@@ -156,18 +156,18 @@
             <div><p class="eyebrow">Borrow the Eyes · Team room</p><h2 id="team-game-challenge">Mystery challenge</h2><p id="team-game-status"></p></div>
             <button class="members-entry" type="button" data-team-panel="members"><span id="team-member-count">0</span> Members</button>
           </header>
-          <div id="team-pending-banner" class="team-pending-banner" hidden><span>A formal answer is waiting for votes.</span><button type="button" data-team-panel="voting">Open voting</button></div>
+          <div id="team-pending-banner" class="team-pending-banner" hidden><span>A formal answer is waiting for agreement.</span><button type="button" data-team-panel="agreement">Answer Approval</button></div>
           <nav class="team-action-dock" aria-label="Team game actions">
-            <button type="button" data-team-panel="comment">Observation</button>
+            <button type="button" data-team-panel="comment">Comment</button>
             <button type="button" data-team-panel="clues">Clues <span id="team-clue-count"></span></button>
-            <button type="button" data-team-panel="proposal">Propose</button>
-            <button type="button" data-team-panel="voting">Voting</button>
+            <button type="button" data-team-panel="proposal">Propose Answer</button>
+            <button type="button" data-team-panel="agreement">Agreement</button>
           </nav>
           <section class="team-chat team-chat--primary" aria-label="Team conversation">
             <div id="team-chat-log" class="chat-log" aria-live="polite"></div>
             <form id="team-chat-form" class="team-chat-composer"><label><span class="sr-only">Message the team</span><input name="message" required maxlength="180" autocomplete="off" placeholder="Share what you notice…"></label><button class="button button--primary" type="submit">Send</button></form>
           </section>
-          <div class="team-simulation-control"><label for="team-actor">Local simulation · acting as</label><select id="team-actor" data-team-actor></select></div>
+          <div class="team-simulation-control" hidden><label for="team-actor">Acting as</label><select id="team-actor" data-team-actor></select></div>
           <p class="game-feedback" data-team-feedback role="status"></p>
         </div>
         <div id="team-action-sheet" class="team-action-sheet" hidden>
@@ -215,7 +215,7 @@
       <section class="screen" data-screen="blind-role" hidden>
         <div class="screen__content">
           <p class="eyebrow">Blind Eyes · Step 1</p><h2>Choose your role</h2>
-          <p class="screen-intro">Choose how you want to enter this anonymous local simulation.</p>
+          <p class="screen-intro">Choose how you want to enter this anonymous exchange.</p>
           <div class="mode-grid">
             <button class="mode-card" type="button" data-blind-role-choice="describer"><strong>Describer</strong><span>See the complete artwork and describe it to a partner. Identity details stay hidden.</span></button>
             <button class="mode-card" type="button" data-blind-role-choice="guesser"><strong>Guesser</strong><span>See no artwork or fragment. Use conversation to find the correct work.</span></button>
@@ -226,43 +226,47 @@
       <section class="screen" data-screen="blind-preferences" hidden>
         <div class="screen__content">
           <p class="eyebrow">Blind Eyes · Step 2</p><h2>Select preferences</h2>
-          <p class="screen-intro">A complementary partner will be simulated locally. No real person is connected.</p>
+          <p class="screen-intro">Choose a difficulty and perspective to find a complementary partner.</p>
           <form id="blind-preferences-form" class="blind-preferences-form">
             <label class="form-field"><span>Difficulty</span><select name="difficulty" required><option value="">Choose 1–5 stars…</option><option value="1">1 star</option><option value="2">2 stars</option><option value="3">3 stars</option><option value="4">4 stars</option><option value="5">5 stars</option></select></label>
             <label class="form-field"><span>Interest</span><select name="interest" required><option value="">Choose an interest…</option><option>Portraits</option><option>Landscapes</option><option>Abstract</option><option>Historical</option><option>Surprise Me</option></select></label>
             <button class="button button--primary" type="submit">Find a Partner</button>
-            <p class="small-note">Simulated matching · the selected partner and room exist only on this device.</p>
+            <p class="small-note">Preview matching keeps this anonymous room on your device.</p>
           </form>
         </div>
       </section>
 
       <section class="screen" data-screen="blind-list" hidden>
         <div class="screen__content">
-          <p class="eyebrow">Blind Eyes · Two players</p><h2>Choose a mystery</h2>
-          <p class="screen-intro">Only the difficulty is shown here. The Describer will see the artwork after selection.</p>
-          <div id="blind-challenge-list" class="blind-challenge-list" aria-live="polite"></div>
+          <p class="eyebrow">Blind Eyes · Step 3</p><h2>Finding a pair of eyes…</h2>
+          <div id="blind-match-card" class="blind-match-card" aria-live="polite"></div>
+          <button class="button button--primary" type="button" data-action="blind-start-chat">Start Chat</button>
         </div>
       </section>
 
       <section class="screen" data-screen="blind-play" hidden>
         <div class="screen__content">
-          <p class="eyebrow">Blind Eyes · Local simulation</p>
+          <p class="eyebrow">Blind Eyes</p>
           <div class="challenge-status"><span data-blind-stars></span><span data-blind-attempts></span></div>
           <div class="role-banner"><div><span>Your anonymous role</span><strong data-blind-role></strong><small data-blind-partner></small></div><button class="button button--secondary" type="button" data-action="switch-blind-role" hidden>Switch role</button></div>
-          <details class="demo-tools"><summary>Local Demo / Test mode</summary><label class="switch"><input id="blind-demo-mode" type="checkbox"><span>Enable role-switch testing</span></label><p class="small-note">Development tool for testing both local views. Keep off during normal play.</p></details>
-          <section id="blind-describer-view">
-            <h2>Describe what you see</h2><p class="screen-intro">The title, artist, answer ID and location remain hidden.</p>
-            <div class="artwork-preview blind-artwork"><img data-blind-artwork src="" alt="Complete mystery artwork" /></div>
+          <details class="demo-tools" hidden><summary>Development tools</summary><label class="switch"><input id="blind-demo-mode" type="checkbox"><span>Enable role switching</span></label></details>
+          <section id="blind-describer-view" class="blind-role-view">
+            <div class="blind-role-heading"><div><h2>Describe what you see</h2><p>The artwork identity remains hidden.</p></div><button class="text-button" type="button" data-action="blind-expand-art">Inspect artwork</button></div>
+            <div class="blind-describer-study"><div class="artwork-preview blind-artwork"><img data-blind-artwork src="" alt="Complete mystery artwork" /></div><aside class="blind-visitor-perspective"><p class="field-label">Original Visitor’s Perspective</p><p data-blind-creator-perspective></p></aside></div>
           </section>
-          <section id="blind-guesser-view" hidden>
-            <h2>Listen, imagine, guess</h2><div class="blind-hidden-art" aria-label="Artwork hidden from Guesser"><span aria-hidden="true">✧</span><p>The artwork and fragment are hidden in this role.</p></div>
-            <form id="blind-answer-form"><label class="form-field"><span>Formal artwork answer</span><input name="answer" required autocomplete="off" placeholder="Enter the gallery-label title"></label><button class="button button--primary" type="submit">Submit formal answer</button></form>
+          <section id="blind-guesser-view" class="blind-role-view" hidden>
+            <div class="blind-role-heading"><div><h2>Listen, imagine, guess</h2><p>The artwork is concealed from this role.</p></div><button class="button button--secondary" type="button" data-action="blind-open-guess">Make a Guess</button></div>
           </section>
+          <div id="blind-clue-drawer" class="blind-clue-drawer" aria-live="polite"></div>
           <p class="game-feedback" data-blind-feedback role="status"></p>
           <section class="team-chat"><p class="field-label">Private game chat</p><div id="blind-chat-log" class="chat-log" aria-live="polite"></div><form id="blind-chat-form" class="inline-form"><input name="message" required maxlength="180" autocomplete="off" placeholder="Message the other player"><button class="button button--secondary" type="submit">Send</button></form></section>
-          <div class="blind-room-actions"><button class="text-button" type="button" data-action="blind-add-friend">Add anonymous partner</button><button class="text-button" type="button" data-action="blind-rematch">Rematch</button><button class="text-button" type="button" data-action="blind-leave">Exit / Leave</button></div>
+          <div class="blind-room-actions"><button class="text-button" type="button" data-action="blind-leave">Exit / Leave</button></div>
         </div>
       </section>
+
+      <dialog id="blind-guess-dialog" class="museum-dialog blind-guess-dialog"><form id="blind-answer-form"><div class="dialog-body"><p class="eyebrow">Blind Eyes · Formal guess</p><h3>Make a Guess</h3><label class="form-field"><span>Artwork title</span><input name="answer" required autocomplete="off" placeholder="Enter the gallery-label title"></label><p class="game-feedback" data-blind-guess-feedback></p></div><div class="dialog-actions"><button class="button button--secondary" type="button" data-action="blind-close-guess">Back to Chat</button><button class="button button--primary" type="submit">Submit Answer</button></div></form></dialog>
+      <dialog id="blind-feedback-dialog" class="museum-dialog blind-feedback-dialog"><div><p class="eyebrow">Blind Eyes</p><h3 data-blind-feedback-title>Not Quite!</h3><p data-blind-feedback-copy></p><div data-blind-new-clue></div><div class="dialog-actions"><button class="button button--primary" type="button" data-action="blind-feedback-continue">Continue Chat</button></div></div></dialog>
+      <dialog id="blind-art-dialog" class="museum-dialog blind-art-dialog"><div><p class="eyebrow">Describer’s view</p><img data-blind-expanded-art alt="Complete mystery artwork without identity details"><button class="button button--secondary" type="button" data-action="blind-close-art">Return to Chat</button></div></dialog>
 
       <section class="screen museum-screen messages-screen" data-screen="messages" hidden>
         <div class="screen__content messages-content museum-content">
@@ -323,17 +327,17 @@
         </div>
       </section>
 
-      <section class="screen museum-screen creator-wizard" data-screen="creator-fragment" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 1 of 6</p><h2>Complete Artwork</h2><p>Upload one photograph cropped to the artwork itself, without walls or frames.</p></header><label class="photo-control"><span>Add Complete Artwork</span><input id="creator-full-first" type="file" accept="image/*" capture="environment"></label><figure id="full-first-preview-frame" class="wizard-image" hidden><img id="creator-full-first-preview" alt="Complete artwork preview"><figcaption>Complete artwork photograph</figcaption></figure><button id="replace-full-first" class="text-button" type="button" data-photo-target="creator-full-first" hidden>Replace Photo</button><p class="game-feedback" data-creator-feedback="1"></p><div class="wizard-actions"><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-creator-next="2">Continue</button></div></div></section>
+      <section class="screen museum-screen creator-wizard" data-screen="creator-fragment" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 1 of 6</p><h2>Complete Artwork</h2><p>Upload one photograph cropped to the artwork itself, without walls or frames.</p></header><label class="photo-control"><span>Add Complete Artwork</span><input id="creator-full-first" type="file" accept="image/*" capture="environment"></label><figure id="full-first-preview-frame" class="wizard-image" hidden><img id="creator-full-first-preview" alt="Complete artwork preview"><figcaption>Complete artwork photograph</figcaption></figure><button id="replace-full-first" class="text-button" type="button" data-photo-target="creator-full-first" hidden>Replace Photo</button><p class="game-feedback" data-creator-feedback="1"></p><div class="wizard-actions"><button class="button button--primary" data-creator-next="2">Continue</button></div></div></section>
 
-      <section class="screen museum-screen creator-wizard" data-screen="creator-artwork" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 2 of 6</p><h2>Select the Detail</h2><p>Drag on the artwork to create the fragment. Move it or resize from any corner.</p></header><button id="replace-full" class="text-button" type="button" data-photo-target="creator-full-first">Replace Photo</button><div id="crop-stage" class="crop-stage"><img id="creator-full-preview" alt="Complete artwork preview"><canvas id="crop-canvas" aria-label="Drag to mark or resize the fragment area"></canvas></div><div id="crop-live-preview" class="crop-live-preview"></div><p class="crop-instruction">The selection is constrained to the artwork image.</p><p id="crop-feedback" class="game-feedback"></p><div class="wizard-actions"><button class="text-button" data-creator-back="1">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-creator-next="3">Continue</button></div></div></section>
+      <section class="screen museum-screen creator-wizard" data-screen="creator-artwork" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 2 of 6</p><h2>Select the Detail</h2><p>Drag on the artwork to create the fragment. Move it or resize from any corner.</p></header><button id="replace-full" class="text-button" type="button" data-photo-target="creator-full-first">Replace Photo</button><div id="crop-stage" class="crop-stage"><img id="creator-full-preview" alt="Complete artwork preview"><canvas id="crop-canvas" aria-label="Drag to mark or resize the fragment area"></canvas></div><div id="crop-live-preview" class="crop-live-preview"></div><p class="crop-instruction">The selection is constrained to the artwork image.</p><p id="crop-feedback" class="game-feedback"></p><div class="wizard-actions"><button class="text-button" data-creator-back="1">Back</button><button class="button button--primary" data-creator-next="3">Continue</button></div></div></section>
 
-      <section class="screen museum-screen creator-wizard" data-screen="creator-difficulty" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 3 of 6</p><h2>Difficulty Preview</h2><p>Your selected detail determines the challenge automatically.</p></header><div class="difficulty-preview"><img id="creator-fragment-preview" alt="Selected fragment preview"><div class="difficulty-folio"><span id="creator-stars"></span><p id="creator-clue-requirement"></p></div></div><div class="wizard-actions"><button class="text-button" data-creator-back="2">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-creator-next="4">Continue</button></div></div></section>
+      <section class="screen museum-screen creator-wizard" data-screen="creator-difficulty" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 3 of 6</p><h2>Difficulty Preview</h2><p>Your selected detail determines the challenge automatically.</p></header><div class="difficulty-preview"><img id="creator-fragment-preview" alt="Selected fragment preview"><div class="difficulty-folio"><span id="creator-stars"></span><p id="creator-clue-requirement"></p></div></div><div class="wizard-actions"><button class="text-button" data-creator-back="2">Back</button><button class="button button--primary" data-creator-next="4">Continue</button></div></div></section>
 
-      <section class="screen museum-screen creator-wizard" data-screen="creator-perspective" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 4 of 6</p><h2>Your Perspective</h2><p>A personal reflection, kept separate from the formal clues.</p></header><form id="creator-details-form" class="creator-folio-form"><label class="form-field"><span>Artwork title</span><input name="title" required></label><label class="form-field"><span>Artist / Maker</span><input name="artist" required></label><label class="form-field"><span>Year, if known</span><input name="year"></label><label class="form-field"><span>What does this detail mean to you?</span><textarea name="comment" rows="4" required placeholder="Share a feeling, memory or personal association."></textarea><small>Your personal perspective is separate from the numbered Clues.</small></label></form><p class="game-feedback" data-creator-feedback="4"></p><div class="wizard-actions"><button class="text-button" data-creator-back="3">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-creator-next="5">Continue to Clues</button></div></div></section>
+      <section class="screen museum-screen creator-wizard" data-screen="creator-perspective" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 4 of 6</p><h2>Your Perspective</h2><p>A personal reflection, kept separate from the formal clues.</p></header><form id="creator-details-form" class="creator-folio-form"><label class="form-field"><span>Artwork title</span><input name="title" required></label><label class="form-field"><span>Artist / Maker</span><input name="artist" required></label><label class="form-field"><span>Year, if known</span><input name="year"></label><label class="form-field"><span>What does this detail mean to you?</span><textarea name="comment" rows="4" required placeholder="Share a feeling, memory or personal association."></textarea><small>Your personal perspective is separate from the numbered Clues.</small></label></form><p class="game-feedback" data-creator-feedback="4"></p><div class="wizard-actions"><button class="text-button" data-creator-back="3">Back</button><button class="button button--primary" data-creator-next="5">Continue to Clues</button></div></div></section>
 
-      <section class="screen museum-screen creator-wizard" data-screen="creator-review" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 5 of 6</p><h2>Clue Questions</h2><p>Answer each required question from abstract to specific.</p></header><div id="creator-clues" class="clue-question-card"></div><p class="game-feedback" data-creator-feedback="5"></p><div class="wizard-actions"><button class="text-button" data-action="creator-clue-back">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-action="creator-clue-next">Confirm &amp; Next</button></div></div></section>
+      <section class="screen museum-screen creator-wizard" data-screen="creator-review" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 5 of 6</p><h2>Clue Questions</h2><p>Answer each required question from abstract to specific.</p></header><div id="creator-clues" class="clue-question-card"></div><p class="game-feedback" data-creator-feedback="5"></p><div class="wizard-actions"><button class="text-button" data-action="creator-clue-back">Back</button><button class="button button--primary" data-action="creator-clue-next">Confirm &amp; Next</button></div></div></section>
 
-      <section class="screen museum-screen creator-wizard" data-screen="creator-submit-review" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 6 of 6</p><h2>Review &amp; Submit</h2><p>Check every part before sending it to local review.</p></header><div id="creator-summary" class="submission-preview"></div><div class="wizard-edit-links"><button data-creator-edit="1">Edit Artwork</button><button data-creator-edit="2">Edit Crop</button><button data-creator-edit="4">Edit Perspective</button><button data-creator-edit="5">Edit Clues</button></div><p id="creator-feedback" class="game-feedback"></p><div class="wizard-actions"><button class="text-button" data-creator-back="5">Back</button><button class="text-button" data-action="creator-save">Save Draft</button><button class="button button--primary" data-action="creator-submit">Confirm Submission</button></div></div></section>
+      <section class="screen museum-screen creator-wizard" data-screen="creator-submit-review" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · 6 of 6</p><h2>Review &amp; Submit</h2><p>Check every part before sending it to local review.</p></header><div id="creator-summary" class="submission-preview"></div><nav class="wizard-edit-menu" aria-label="Edit contribution"><p class="field-label">Review Your Contribution</p><button type="button" data-creator-edit="1"><span aria-hidden="true">I</span><strong>Full Artwork</strong><small>Edit</small></button><button type="button" data-creator-edit="2"><span aria-hidden="true">II</span><strong>Selected Detail</strong><small>Edit</small></button><button type="button" data-creator-edit="4"><span aria-hidden="true">III</span><strong>Personal Perspective</strong><small>Edit</small></button><button type="button" data-creator-edit="5"><span aria-hidden="true">IV</span><strong>Your Clues</strong><small>Edit</small></button></nav><p id="creator-feedback" class="game-feedback"></p><div class="wizard-actions"><button class="text-button" data-creator-back="5">Back</button><button class="button button--primary" data-action="creator-submit">Confirm Submission</button></div></div></section>
 
       <section class="screen museum-screen creator-wizard" data-screen="creator-status" hidden><div class="screen__content museum-content"><header class="wizard-header"><p class="eyebrow">Leave Your Eyes · Submission</p><h2>Submission Status</h2></header><div id="creator-status-card" class="status-folio"></div><button class="button button--secondary" data-route="leave">Return to Curator’s Desk</button></div></section>
 

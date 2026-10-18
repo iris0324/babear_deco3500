@@ -3,6 +3,7 @@ import { STORAGE_KEYS, readArray, readJson, readObject, removeJson, writeJson } 
 import { createScreenNavigation, DESTINATIONS, SCREENS } from "./core/navigation.js";
 import { CHALLENGE_DISPLAY_TITLES, normaliseAnswer } from "./features/borrow.js";
 import { TEAM_LIMIT, blindAttemptLimit, borrowAttemptLimit, canJoinTeam, canStartTeam, canSubmitTeam, uniqueTeamMembers } from "./features/team.js";
+import { advanceBlindWrongGuess, normaliseBlindClueProgress } from "./features/blind.js";
 import { CHAT_ROOMS, PUBLIC_PLAYERS, createGroupRecord, createDemoSocial, migrateSocial, requestFriend, resolveFriendRequest, stableDmId } from "./features/chat.js";
 import { creatorStarsForRatio, freshCreatorDraft, migrateCreatorDraft, validateCreatorDraft } from "./features/creator.js";
 import { escapeHtml, fileAsDataUrl, formatChatTime, loadImage, safeMetadata } from "./ui/shared.js";
@@ -38,6 +39,7 @@ let toastTimer;
 let authMode = "login";
 let creatorSubmitting = false;
 let lastSubmittedId = null;
+let creatorAutosaveTimer = null;
 const CREATOR_QUESTIONS = Object.freeze(["What feeling or memories does this detail make you think of?", "What kind of scene or story does it remind you of?", "What colours, shapes or textures can you see?", "How does this part connect with the surrounding elements?", "What specific visual or location features could help others find the artwork?"]);
 function requiredCreatorQuestionIndexes(stars) { return [0,1,2,3,4].slice(5 - Number(stars)); }
 
@@ -121,7 +123,8 @@ function readTeam() {
   const activeIds = new Set(members.map((member) => member.id));
   const proposal = saved.proposal ? { ...saved.proposal, approvals: [...new Set(saved.proposal.approvals || [])].filter((id) => activeIds.has(id)) } : null;
   const started = saved.started ?? Boolean((saved.attemptsUsed || 0) > 0 || Object.keys(normalizedComments).length || saved.completed);
-  return { ...fallback, ...saved, sessionId: saved.sessionId || `legacy-${saved.challengeId || "team"}`, members, comments: normalizedComments, cluesUnlocked: Number(saved.cluesUnlocked) || Object.keys(normalizedComments).length, proposal, started, membershipLocked: saved.membershipLocked ?? started, openToPlayers: saved.openToPlayers ?? false };
+  const chat = (saved.chat || []).map((item) => !item.authorId && item.name === "Museum guide" ? { ...item, authorId: "system" } : item);
+  return { ...fallback, ...saved, sessionId: saved.sessionId || `legacy-${saved.challengeId || "team"}`, members, comments: normalizedComments, chat, cluesUnlocked: Number(saved.cluesUnlocked) || Object.keys(normalizedComments).length, proposal, started, membershipLocked: saved.membershipLocked ?? started, openToPlayers: saved.openToPlayers ?? false };
 }
 
 function saveTeam() { writeJson(STORAGE_KEYS.team, state.team); }
@@ -150,7 +153,8 @@ function readOpenTeams() {
     });
     const comments = { ...(room.comments || {}) };
     const started = room.started ?? Boolean((room.attemptsUsed || 0) > 0 || Object.keys(comments).length || room.completed);
-    return { ...room, members, comments, cluesUnlocked: Number(room.cluesUnlocked) || Object.keys(comments).length, started, membershipLocked: room.membershipLocked ?? started, openToPlayers: room.openToPlayers ?? !started, closed: Boolean(room.closed) };
+    const chat = (room.chat || []).map((item) => !item.authorId && item.name === "Museum guide" ? { ...item, authorId: "system" } : item);
+    return { ...room, members, comments, chat, cluesUnlocked: Number(room.cluesUnlocked) || Object.keys(comments).length, started, membershipLocked: room.membershipLocked ?? started, openToPlayers: room.openToPlayers ?? !started, closed: Boolean(room.closed) };
   });
 }
 
@@ -171,14 +175,18 @@ function seedOpenTeams() {
 function readBlind() {
   const saved = readJson(STORAGE_KEYS.blind, null);
   if (!saved?.stars) return freshBlindState();
-  const { cluesUnlocked: _legacyClues, comments: _legacyComments, ...compatible } = saved;
+  const { comments: _legacyComments, ...compatible } = saved;
   const role = ["describer", "guesser"].includes(saved.role) ? saved.role : null;
-  return { ...freshBlindState(saved.stars), ...compatible, role, partnerRole: role ? (role === "describer" ? "guesser" : "describer") : null };
+  const partnerId = saved.partnerId || null;
+  const describerId = saved.describerId || (role === "describer" ? LOCAL_USER_ID : partnerId);
+  const guesserId = saved.guesserId || (role === "guesser" ? LOCAL_USER_ID : partnerId);
+  const chat = (saved.chat || []).map((item) => item.senderId === "system" && /simulated .* partner joined/i.test(item.message || "") ? { ...item, message: "Your anonymous partner joined the room." } : item);
+  return { ...freshBlindState(saved.stars), ...compatible, chat, partnerId, describerId, guesserId, cluesUnlocked: Math.max(0, Number(saved.cluesUnlocked) || 0), role, partnerRole: role ? (role === "describer" ? "guesser" : "describer") : null };
 }
 function saveBlind() { writeJson(STORAGE_KEYS.blind, state.blind); }
 
 function freshBlindState(stars = state.blind?.stars || { describer: 0, guesser: 0 }) {
-  return { sessionId: null, role: null, partnerRole: null, preferences: null, demoMode: false, challengeId: null, attemptsUsed: 0, chat: [], stars, rewardedChallenges: state.blind?.rewardedChallenges || { describer: [], guesser: [] }, result: null, continueInvite: null };
+  return { sessionId: null, role: null, partnerRole: null, preferences: null, partnerId: null, describerId: null, guesserId: null, pendingChallengeId: null, demoMode: false, challengeId: null, attemptsUsed: 0, cluesUnlocked: 0, chat: [], stars, rewardedChallenges: state.blind?.rewardedChallenges || { describer: [], guesser: [] }, result: null, continueInvite: null };
 }
 
 function readGalleryChat() {
@@ -466,7 +474,7 @@ function decideGameInvitation(inviteId, accepted) {
       if (uniqueTeamMembers(state.team.members).length >= TEAM_LIMIT) { invite.status = "Expired"; saveGalleryChat(); renderSocialHub(); showToast("This team already has five members."); return; }
       state.team.members.push({ id: invite.userId, name: user.name, stars: 0 });
     }
-    state.team.proposal = null; state.team.chat.push({ name: "Museum guide", message: `${user.name} accepted the local invitation.` }); state.mode = "team"; saveTeam();
+    state.team.proposal = null; state.team.chat.push({ authorId: "system", name: "Museum guide", message: `${user.name} accepted the invitation.`, createdAt: new Date().toISOString() }); state.mode = "team"; saveTeam();
   } else if (invite.sourceMode === "solo") {
     const user = socialUser(invite.userId);
     if (!user) { invite.status = "Expired"; saveGalleryChat(); renderSocialHub(); showToast("This invitation is no longer available."); return; }
@@ -477,10 +485,10 @@ function decideGameInvitation(inviteId, accepted) {
     if (recruitmentTeam) {
       if (state.team.started || state.team.membershipLocked || state.team.completed || state.team.closed || uniqueTeamMembers(state.team.members).length >= TEAM_LIMIT) { invite.status = "Expired"; saveGalleryChat(); renderSocialHub(); showToast("This team can no longer accept players."); return; }
       if (!state.team.members.some((member) => member.id === user.id)) state.team.members.push({ id: user.id, name: user.name, stars: 0 });
-      state.team.chat.push({ name: "Museum guide", message: `${user.name} accepted the local invitation.` });
+      state.team.chat.push({ authorId: "system", name: "Museum guide", message: `${user.name} accepted the invitation.`, createdAt: new Date().toISOString() });
     } else {
       const solo = state.soloSession;
-      state.team = { sessionId: `team-${Date.now()}`, sourceSoloSessionId: solo.sessionId, members: [{ id: LOCAL_USER_ID, name: state.profile.nickname, stars: 0 }, { id: user.id, name: user.name, stars: 0 }], challengeId: invite.challengeId, attemptsUsed: Number(solo.attemptsUsed) || 0, comments: solo.ownComment ? { [LOCAL_USER_ID]: solo.ownComment } : {}, cluesUnlocked: solo.clueUnlocked ? 1 : 0, proposal: null, chat: [{ name: "Museum guide", message: `${user.name} accepted the local invitation.` }], completed: null, openToPlayers: false, started: false, membershipLocked: false, closed: false };
+      state.team = { sessionId: `team-${Date.now()}`, sourceSoloSessionId: solo.sessionId, members: [{ id: LOCAL_USER_ID, name: state.profile.nickname, stars: 0 }, { id: user.id, name: user.name, stars: 0 }], challengeId: invite.challengeId, attemptsUsed: Number(solo.attemptsUsed) || 0, comments: solo.ownComment ? { [LOCAL_USER_ID]: solo.ownComment } : {}, cluesUnlocked: solo.clueUnlocked ? 1 : 0, proposal: null, chat: [{ authorId: "system", name: "Museum guide", message: `${user.name} accepted the invitation.`, createdAt: new Date().toISOString() }], completed: null, openToPlayers: false, started: false, membershipLocked: false, closed: false };
     }
     state.mode = "team"; saveTeam();
   } else { showToast("The referenced game is no longer active."); return; }
@@ -558,7 +566,7 @@ function advanceCreatorClue() {
   const value = captureCreatorClue();
   if (!value || !/[A-Za-z]/.test(value)) { feedback.textContent = "Write this Clue in English before continuing."; return; }
   feedback.textContent = "";
-  if (state.creator.clueIndex >= required.length - 1) { renderCreatorStep(6); return; }
+  if (state.creator.clueIndex >= required.length - 1) { state.creator.returnToReview = false; saveCreatorDraft(); renderCreatorStep(6); return; }
   state.creator.clueIndex += 1; saveCreatorDraft(); renderCreatorClues();
 }
 
@@ -674,7 +682,7 @@ function submitReview(event) {
   const next = state.submissions.map((entry) => entry.id === item.id ? reviewed : entry);
   if (!saveSubmissions(next)) { feedback.textContent = "Review could not be saved because browser storage is full."; return; }
   state.submissions = next;
-  syncApprovedSubmissions(); renderChallengeList(); renderBlindList(); showToast(`Submission ${decision.toLowerCase()}.`); renderSubmissionList(); renderSubmissionStatus(item.id); showScreen(SCREENS.CREATOR_STATUS);
+  syncApprovedSubmissions(); renderChallengeList(); showToast(`Submission ${decision.toLowerCase()}.`); renderSubmissionList(); renderSubmissionStatus(item.id); showScreen(SCREENS.CREATOR_STATUS);
 }
 
 function showScreen(name, remember = true, route = navigation.current.route) {
@@ -724,18 +732,20 @@ function orderedChallenges() {
   return ordered;
 }
 
-function renderBlindList() {
-  const list = document.querySelector("#blind-challenge-list");
-  list.innerHTML = state.database.challenges.map((challenge, index) => `<button type="button" class="mode-card blind-choice" data-blind-challenge="${challenge.id}"><strong>Mystery ${String(index + 1).padStart(2, "0")}</strong><span class="star-rating" aria-label="${challenge.stars} of 5 stars">${"★".repeat(challenge.stars)}${"☆".repeat(5 - challenge.stars)}</span><span>${blindAttemptLimit(challenge.stars)} shared formal attempts</span></button>`).join("");
+function renderBlindMatch() {
+  const card = document.querySelector("#blind-match-card");
+  const role = state.blind.partnerRole === "describer" ? "Describer" : "Guesser";
+  card.innerHTML = `<span class="match-seal" aria-hidden="true">BE</span><p class="eyebrow">Anonymous complementary partner found</p><h3>Match Found</h3><p><strong>${escapeHtml(role)}</strong> · simulated visitor</p><p>${escapeHtml(state.blind.preferences?.interest || "Surprise Me")} · ${Number(state.blind.preferences?.difficulty) || 1}★</p><small>This pairing is simulated locally for the prototype.</small>`;
 }
 
 function openBlindGame() {
   if (!state.database) { showToast("The artwork database is still loading."); return; }
   state.mode = "blind";
-  if (state.blind.challengeId && !state.blind.result) {
+  if (state.blind.challengeId) {
     state.challenge = state.database.challenges.find((item) => item.id === state.blind.challengeId);
-    if (state.challenge) { renderBlindPlay(); showScreen(SCREENS.BLIND_PLAY); return; }
+    if (state.challenge) { if (state.blind.result) { renderResult(state.blind.result.success); showScreen(SCREENS.RESULT); } else { renderBlindPlay(); showScreen(SCREENS.BLIND_PLAY); } return; }
   }
+  if (state.blind.pendingChallengeId && state.blind.role && state.blind.preferences) { renderBlindMatch(); showScreen(SCREENS.BLIND_LIST); return; }
   state.blind = freshBlindState(); saveBlind(); showScreen(SCREENS.BLIND_ROLE);
 }
 
@@ -759,15 +769,24 @@ function matchBlindPartner(event) {
   if (!matches.length) { showToast("No compatible challenge is available for that difficulty."); return; }
   const offset = interest === "Surprise Me" ? Math.floor(Math.random() * matches.length) : 0;
   state.blind.preferences = { difficulty, interest };
-  startBlindChallenge(matches[offset].id);
+  state.blind.pendingChallengeId = matches[offset].id;
+  state.blind.partnerId = PUBLIC_PLAYERS[state.database.challenges.indexOf(matches[offset]) % PUBLIC_PLAYERS.length].id;
+  saveBlind(); renderBlindMatch(); showScreen(SCREENS.BLIND_LIST);
+}
+
+function startBlindMatchedSession() {
+  if (state.blind.sessionId && state.blind.challengeId && !state.blind.result) { state.challenge = state.database.challenges.find((item) => item.id === state.blind.challengeId); renderBlindPlay(); showScreen(SCREENS.BLIND_PLAY); return; }
+  startBlindChallenge(state.blind.pendingChallengeId);
 }
 
 function startBlindChallenge(challengeId) {
   const challenge = state.database.challenges.find((item) => item.id === challengeId);
   if (!challenge) return;
   const { role, partnerRole, preferences, stars, rewardedChallenges } = state.blind;
-  const partnerId = PUBLIC_PLAYERS[state.database.challenges.indexOf(challenge) % PUBLIC_PLAYERS.length].id;
-  state.blind = { sessionId: `blind-${Date.now()}`, role, partnerRole, preferences, partnerId, demoMode: false, challengeId, attemptsUsed: 0, chat: [{ role: "Museum guide", message: `A simulated ${partnerRole} partner joined this anonymous local room.` }], stars: stars || { describer: 0, guesser: 0 }, rewardedChallenges: rewardedChallenges || { describer: [], guesser: [] }, result: null, continueInvite: null };
+  const partnerId = state.blind.partnerId || PUBLIC_PLAYERS[state.database.challenges.indexOf(challenge) % PUBLIC_PLAYERS.length].id;
+  const describerId = role === "describer" ? LOCAL_USER_ID : partnerId;
+  const guesserId = role === "guesser" ? LOCAL_USER_ID : partnerId;
+  state.blind = { sessionId: `blind-${Date.now()}`, role, partnerRole, preferences, partnerId, describerId, guesserId, pendingChallengeId: challengeId, demoMode: false, challengeId, attemptsUsed: 0, cluesUnlocked: 0, chat: [{ senderId: "system", role: "Museum guide", message: "Your anonymous partner joined the room.", createdAt: new Date().toISOString() }], stars: stars || { describer: 0, guesser: 0 }, rewardedChallenges: rewardedChallenges || { describer: [], guesser: [] }, result: null, continueInvite: null };
   state.challenge = challenge; saveBlind(); renderBlindPlay(); showScreen(SCREENS.BLIND_PLAY);
 }
 
@@ -776,19 +795,25 @@ function renderBlindPlay() {
   const artwork = state.database.artworkById.get(challenge.answerArtworkId);
   const isDescriber = state.blind.role === "describer";
   document.querySelector("[data-blind-role]").textContent = isDescriber ? "Describer" : "Guesser";
-  document.querySelector("[data-blind-partner]").textContent = `Simulated partner · ${state.blind.partnerRole === "describer" ? "Describer" : "Guesser"}`;
+  document.querySelector("[data-blind-partner]").textContent = `Anonymous partner · ${state.blind.partnerRole === "describer" ? "Describer" : "Guesser"}`;
   document.querySelector("[data-blind-stars]").textContent = `${"★".repeat(challenge.stars)} ${challenge.stars}-star challenge`;
   document.querySelector("[data-blind-attempts]").textContent = `${Math.max(0, blindAttemptLimit(challenge.stars) - state.blind.attemptsUsed)} shared attempts left`;
   document.querySelector("#blind-describer-view").hidden = !isDescriber;
   document.querySelector("#blind-guesser-view").hidden = isDescriber;
+  document.querySelector('[data-action="blind-open-guess"]').disabled = isDescriber || Boolean(state.blind.result);
   const image = document.querySelector("[data-blind-artwork]");
   if (isDescriber) image.src = artwork.fullImage || challenge.fullImage;
   else { image.removeAttribute("src"); image.alt = ""; }
   if (isDescriber) image.alt = "Complete mystery artwork without identity details";
+  document.querySelector("[data-blind-creator-perspective]").textContent = isDescriber ? (String(challenge.comment || "").trim() || "No visitor perspective was provided.") : "";
   document.querySelector('[data-action="switch-blind-role"]').hidden = !state.blind.demoMode;
   document.querySelector("#blind-demo-mode").checked = Boolean(state.blind.demoMode);
   document.querySelector("[data-blind-feedback]").textContent = "";
-  document.querySelector("#blind-chat-log").innerHTML = state.blind.chat.map((item) => `<p><strong>${escapeHtml(item.role)}</strong> ${escapeHtml(item.message)}</p>`).join("") || '<p class="small-note">No messages yet.</p>';
+  const chatLog = document.querySelector("#blind-chat-log"), previousTop = chatLog.scrollTop;
+  const viewerId = state.blind.role === "describer" ? state.blind.describerId : state.blind.guesserId;
+  chatLog.innerHTML = state.blind.chat.map((item) => { const senderId = item.senderId || (item.role === "Museum guide" ? "system" : item.role?.toLowerCase() === "describer" ? state.blind.describerId : state.blind.guesserId); if (senderId === "system") return `<article class="blind-message is-system"><p>${escapeHtml(item.message)}</p></article>`; const mine = senderId === viewerId, role = senderId === state.blind.describerId ? "Describer" : "Guesser", time = item.createdAt ? new Date(item.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""; const avatar = visitorAvatar({ id: senderId, name: `Anonymous ${role}`, initials: role[0] }); return `<article class="blind-message ${mine ? "is-mine" : "is-partner"}">${avatar}<div><header><strong>Anonymous ${role}</strong><time>${escapeHtml(time)}</time></header><p>${escapeHtml(item.message)}</p></div></article>`; }).join("") || '<p class="small-note">No messages yet.</p>';
+  chatLog.scrollTop = previousTop;
+  document.querySelector("#blind-clue-drawer").innerHTML = state.blind.cluesUnlocked ? `<p class="field-label">Unlocked clues</p>${challenge.clues.slice(0, state.blind.cluesUnlocked).map((clue, index) => `<article><strong>Clue ${index + 1}</strong><p>${escapeHtml(clue)}</p></article>`).join("")}` : "";
 }
 
 function renderTeamLobby() {
@@ -930,11 +955,13 @@ function renderTeamPlay() {
   document.querySelector("#team-clue-count").textContent = `${state.team.cluesUnlocked}/${state.challenge.stars}`;
   const banner = document.querySelector("#team-pending-banner");
   banner.hidden = !state.team.proposal;
-  document.querySelector('[data-team-panel="voting"]').disabled = !state.team.proposal;
+  if (state.team.proposal) banner.querySelector("span").textContent = `${state.team.proposal.approvals?.length || 0} of ${memberCount} agreed · answer approval pending`;
+  document.querySelector('[data-team-panel="agreement"]').disabled = !state.team.proposal;
   const feedback = document.querySelector("[data-team-feedback]");
   feedback.textContent = playable ? "" : state.team.completed ? "This team session is complete." : memberCount < 2 ? "Formal play is paused until the team has at least two active members." : limit <= 0 ? "This team size produces no formal attempts under the current rule." : "No formal attempts remain.";
   const log = document.querySelector("#team-chat-log"), previousTop = log.scrollTop;
-  log.innerHTML = state.team.chat.map((item) => { const member = state.team.members.find((entry) => entry.id === item.authorId || entry.name === item.name); const time = item.createdAt ? new Date(item.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""; return `<article class="team-message ${item.authorId === LOCAL_USER_ID ? "is-mine" : ""}">${member ? visitorAvatar(socialUser(member.id) || member) : ""}<div><header><strong>${escapeHtml(item.name)}</strong><time>${escapeHtml(time)}</time></header><p>${escapeHtml(item.message)}</p></div></article>`; }).join("") || '<p class="small-note">The room is ready. Begin by sharing what you notice.</p>';
+  const viewerId = selectedTeamActor()?.id || LOCAL_USER_ID;
+  log.innerHTML = state.team.chat.map((item) => { const member = state.team.members.find((entry) => entry.id === item.authorId || entry.name === item.name); const time = item.createdAt ? new Date(item.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""; const system = item.authorId === "system" || (!item.authorId && item.name === "Museum guide"); const mine = !system && (item.authorId || member?.id) === viewerId; if (system) return `<article class="team-message is-system"><p>${escapeHtml(item.message)}</p></article>`; if (item.kind === "clue") return `<article class="team-message team-clue-message ${mine ? "is-mine" : ""} ${item.open ? "is-open" : ""}" data-clue-message="${escapeHtml(item.id)}">${member ? visitorAvatar(socialUser(member.id) || member) : ""}<div><header><strong>${escapeHtml(item.name)}</strong><time>${escapeHtml(time)}</time></header><button type="button" class="team-clue-card" data-flip-team-clue="${escapeHtml(item.id)}" aria-expanded="${item.open ? "true" : "false"}"><span class="clue-card-front">Shared Clue ${item.clueIndex + 1}</span><span class="clue-card-back">${escapeHtml(item.clue)}</span></button></div></article>`; return `<article class="team-message ${mine ? "is-mine" : ""}">${member ? visitorAvatar(socialUser(member.id) || member) : ""}<div><header><strong>${escapeHtml(item.name)}</strong><time>${escapeHtml(time)}</time></header><p>${escapeHtml(item.message)}</p></div></article>`; }).join("") || '<p class="small-note">The room is ready. Begin by sharing what you notice.</p>';
   log.scrollTop = previousTop;
 }
 
@@ -959,19 +986,23 @@ function openTeamPanel(kind) {
     title.textContent = `Members · ${state.team.members.length}`;
     content.innerHTML = `<div class="team-member-sheet">${state.team.members.map((member) => `<article>${visitorAvatar(socialUser(member.id) || member)}<span><strong>${escapeHtml(member.name)}</strong><small>${member.id === LOCAL_USER_ID ? "You" : "Simulated participant"} · ${member.stars || 0} stars</small></span><b>${state.team.completed ? "Complete" : state.team.members.length < 2 ? "Paused" : "Active"}</b><button class="text-button" type="button" data-remove-member="${member.id}">${member.id === LOCAL_USER_ID ? "Leave team" : "Remove"}</button></article>`).join("")}</div>`;
   } else if (kind === "comment") {
-    title.textContent = "Comment / Observation";
+    title.textContent = "Comment";
     const used = actor && state.team.comments[actor.id];
-    content.innerHTML = used ? `<p class="sheet-note"><strong>${escapeHtml(actor.name)}</strong> has already contributed an observation for this challenge.</p>` : `<form id="team-comment-form"><p class="sheet-note">Posting as <strong>${escapeHtml(actor?.name || "member")}</strong>. One observation unlocks one Clue per eligible participant.</p><label class="form-field"><span>Personal observation</span><textarea name="comment" rows="3" required placeholder="What do you notice or feel?"></textarea></label><button class="button button--primary" type="submit" ${!playable || state.team.cluesUnlocked >= state.challenge.stars ? "disabled" : ""}>Post and unlock</button></form>`;
+    content.innerHTML = used ? `<p class="sheet-note"><strong>${escapeHtml(actor.name)}</strong> has already contributed a Comment for this challenge.</p>` : `<form id="team-comment-form"><div class="team-sheet-form-body"><p class="sheet-note">Posting as <strong>${escapeHtml(actor?.name || "member")}</strong>. Each eligible member may submit one personal reflection to unlock one Clue.</p><label class="form-field"><span>Personal Comment</span><textarea name="comment" rows="3" required placeholder="What does this detail make you notice or feel?"></textarea></label></div><footer class="team-sheet-footer"><button class="button button--primary" type="submit" ${!playable || state.team.cluesUnlocked >= state.challenge.stars ? "disabled" : ""}>Submit Comment</button></footer></form>`;
   } else if (kind === "clues") {
     title.textContent = `Clues · ${state.team.cluesUnlocked}/${state.challenge.stars}`;
-    content.innerHTML = `<div class="clue-list">${state.challenge.clues.map((clue, index) => index < state.team.cluesUnlocked ? `<article class="clue-card is-unlocked"><p class="field-label">Clue ${index + 1}</p><p>${escapeHtml(clue)}</p></article>` : `<article class="clue-card is-locked"><p>Clue ${index + 1} remains sealed</p></article>`).join("")}</div>`;
+    content.innerHTML = `<div class="clue-list">${state.challenge.clues.map((clue, index) => { const shared = state.team.chat.some((item) => item.kind === "clue" && item.clueIndex === index); return index < state.team.cluesUnlocked ? `<article class="clue-card is-unlocked"><p class="field-label">Clue ${index + 1}</p><p>${escapeHtml(clue)}</p>${shared ? "" : `<button class="text-button" type="button" data-share-team-clue="${index}">Share to Team Chat</button>`}</article>` : `<article class="clue-card is-locked"><p>Clue ${index + 1} remains sealed</p></article>`; }).join("")}</div>`;
   } else if (kind === "proposal") {
     title.textContent = "Propose an answer";
-    content.innerHTML = state.team.proposal ? '<p class="sheet-note">A proposal is already waiting for the whole team. Open Voting to respond.</p>' : `<form id="team-proposal-form"><p class="sheet-note">Proposing as <strong>${escapeHtml(actor?.name || "member")}</strong>. The answer uses an attempt only after unanimous approval.</p><label class="form-field"><span>Artwork title</span><input name="answer" required autocomplete="off" placeholder="Enter the gallery-label title"></label><button class="button button--primary" type="submit" ${!playable ? "disabled" : ""}>Send to team</button></form>`;
-  } else if (kind === "voting") {
-    title.textContent = "Pending proposal";
+    content.innerHTML = state.team.proposal ? '<p class="sheet-note">A proposal is waiting for team agreement. Open Answer Approval to respond.</p>' : `<form id="team-proposal-form"><p class="sheet-note">Proposing as <strong>${escapeHtml(actor?.name || "member")}</strong>. The answer uses an attempt only after unanimous agreement.</p><label class="form-field"><span>Artwork title</span><input name="answer" required autocomplete="off" placeholder="Enter the gallery-label title"></label><button class="button button--primary" type="submit" ${!playable ? "disabled" : ""}>Submit Proposal</button></form>`;
+  } else if (kind === "agreement") {
+    title.textContent = "Answer Approval";
     content.innerHTML = '<div id="team-proposal" class="proposal-card"></div>';
     renderProposal();
+  } else if (kind === "new-clue") {
+    const index = state.team.pendingClueShare?.index ?? Math.max(0, state.team.cluesUnlocked - 1), clue = state.challenge.clues[index];
+    title.textContent = `Clue ${index + 1} unlocked`;
+    content.innerHTML = `<article class="clue-card is-unlocked focused-clue"><p>${escapeHtml(clue)}</p></article><button class="button button--primary" type="button" data-share-team-clue="${index}">Share to Team Chat</button>`;
   } else return;
   sheet.hidden = false; document.body.classList.add("has-team-sheet");
 }
@@ -1040,9 +1071,26 @@ function submitTeamComment(event) {
   const comment = String(data.get("comment") || "").trim();
   if (!teamCanPlay() || !state.team.members.some((member) => member.id === memberId) || !comment || state.team.comments[memberId] || state.team.cluesUnlocked >= state.challenge.stars) return;
   state.team.comments[memberId] = comment;
-  state.team.cluesUnlocked += 1;
-  saveTeam(); form.reset(); closeTeamPanel(); renderTeamPlay();
-  showToast("Comment shared. One team clue unlocked.");
+  state.team.cluesUnlocked = Math.min(state.challenge.stars, state.team.cluesUnlocked + 1);
+  state.team.pendingClueShare = { index: state.team.cluesUnlocked - 1, memberId };
+  saveTeam(); syncTeamRoom(); form.reset(); renderTeamPlay(); openTeamPanel("new-clue");
+}
+
+function shareTeamClue(index) {
+  const actorId = state.team.pendingClueShare?.index === index ? state.team.pendingClueShare.memberId : selectedTeamActor()?.id;
+  const actor = state.team.members.find((member) => member.id === actorId);
+  const clue = state.challenge?.clues?.[index];
+  if (!actor || !clue || index < 0 || index >= state.team.cluesUnlocked) return;
+  const id = `clue-${state.challenge.id}-${index}`;
+  if (!state.team.chat.some((item) => item.id === id)) state.team.chat.push({ id, kind: "clue", clueIndex: index, clue, open: true, authorId: actor.id, name: actor.name, createdAt: new Date().toISOString() });
+  state.team.pendingClueShare = null; saveTeam(); syncTeamRoom(); closeTeamPanel(); renderTeamPlay();
+  const log = document.querySelector("#team-chat-log"); log.scrollTop = log.scrollHeight;
+}
+
+function flipTeamClue(id) {
+  const message = state.team.chat.find((item) => item.kind === "clue" && item.id === id);
+  if (!message) return;
+  message.open = !message.open; saveTeam(); syncTeamRoom(); renderTeamPlay();
 }
 
 function submitProposal(event) {
@@ -1051,8 +1099,8 @@ function submitProposal(event) {
   const memberId = selectedTeamActor()?.id || "";
   const answer = String(data.get("answer") || "").trim();
   if (!teamCanPlay() || !state.team.members.some((member) => member.id === memberId) || !answer || state.team.proposal) return;
-  state.team.proposal = { memberId, answer, answerArtworkId: resolveArtworkId(answer), approvals: [] };
-  saveTeam(); form.reset(); closeTeamPanel(); renderTeamPlay();
+  state.team.proposal = { memberId, answer, answerArtworkId: resolveArtworkId(answer), approvals: [memberId], resolved: false };
+  saveTeam(); syncTeamRoom(); form.reset(); renderTeamPlay(); openTeamPanel("agreement");
 }
 
 function renderProposal() {
@@ -1061,8 +1109,12 @@ function renderProposal() {
   if (!panel) return;
   panel.hidden = !proposal;
   if (!proposal) { panel.innerHTML = ""; return; }
+  proposal.approvals ||= [];
+  if (!proposal.approvals.includes(proposal.memberId)) proposal.approvals.unshift(proposal.memberId);
   const proposer = state.team.members.find((member) => member.id === proposal.memberId);
-  panel.innerHTML = `<p class="field-label">Proposal from ${escapeHtml(proposer?.name || "Team member")}</p><p class="proposal-answer">“${escapeHtml(proposal.answer)}”</p><p>${proposal.approvals.length} of ${state.team.members.length} approved</p><div class="approval-list">${state.team.members.map((member) => proposal.approvals.includes(member.id) ? `<span class="member-chip is-approved">${escapeHtml(member.name)} · Approved</span>` : `<div class="approval-row"><span>${escapeHtml(member.name)}</span><button type="button" class="button button--secondary" data-team-approve="${member.id}">Approve</button><button type="button" class="text-button" data-team-reject="${member.id}">Reject</button></div>`).join("")}</div>${proposal.memberId === LOCAL_USER_ID || proposer ? '<button type="button" class="text-button" data-team-cancel>Cancel Proposal</button>' : ""}`;
+  const actor = selectedTeamActor(), proposerViewing = actor?.id === proposal.memberId;
+  document.querySelector("#team-sheet-title").textContent = proposerViewing ? "Waiting for Teammates" : "Answer Approval";
+  panel.innerHTML = `<div class="proposal-author">${proposer ? visitorAvatar(socialUser(proposer.id) || proposer) : ""}<p><span class="field-label">Proposed by</span><strong>${escapeHtml(proposer?.name || "Team member")}</strong></p></div><p class="proposal-answer">“${escapeHtml(proposal.answer)}”</p><p><strong>${proposal.approvals.length} of ${state.team.members.length} agreed</strong></p><div class="approval-list">${state.team.members.map((member) => proposal.approvals.includes(member.id) ? `<span class="member-chip is-approved">${escapeHtml(member.name)} · ${member.id === proposal.memberId ? "Proposed / Agreed" : "Agreed"}</span>` : `<span class="member-chip">${escapeHtml(member.name)} · Waiting</span>`).join("")}</div>${actor && !proposal.approvals.includes(actor.id) ? `<div class="agreement-actions"><p>Responding as <strong>${escapeHtml(actor.name)}</strong></p><button type="button" class="button button--secondary" data-team-agree>Agree</button><button type="button" class="text-button" data-team-disagree>Disagree</button></div>` : ""}<div class="proposal-navigation">${actor?.id === proposal.memberId ? '<button type="button" class="text-button" data-team-cancel>Cancel Proposal</button>' : ""}<button type="button" class="button button--secondary" data-team-panel-close>Return to Chat</button></div>`;
 }
 
 function approveProposal(memberId) {
@@ -1098,18 +1150,18 @@ function approveProposal(memberId) {
     document.querySelector("[data-team-feedback]").textContent = "The unanimous answer was not the match. One shared attempt was used.";
     return;
   }
-  saveTeam(); renderProposal();
+  saveTeam(); syncTeamRoom(); renderProposal();
 }
 
 function rejectProposal() {
   state.team.proposal = null;
-  saveTeam(); closeTeamPanel(); renderTeamPlay();
+  saveTeam(); syncTeamRoom(); closeTeamPanel(); renderTeamPlay();
   document.querySelector("[data-team-feedback]").textContent = "Proposal rejected. No formal attempt was used.";
 }
 
 function cancelProposal() {
   state.team.proposal = null;
-  saveTeam(); closeTeamPanel(); renderTeamPlay();
+  saveTeam(); syncTeamRoom(); closeTeamPanel(); renderTeamPlay();
   document.querySelector("[data-team-feedback]").textContent = "Proposal cancelled by its proposer. No formal attempt was used.";
 }
 
@@ -1121,13 +1173,13 @@ function submitTeamChat(event) {
   if (!member || !message) return;
   state.team.chat.push({ authorId: member.id, name: member.name, message, createdAt: new Date().toISOString() });
   state.team.chat = state.team.chat.slice(-50);
-  saveTeam(); event.currentTarget.reset(); renderTeamPlay();
+  saveTeam(); syncTeamRoom(); event.currentTarget.reset(); renderTeamPlay();
   const log = document.querySelector("#team-chat-log"); log.scrollTop = log.scrollHeight;
 }
 
 function submitBlindAnswer(event) {
   event.preventDefault();
-  if (state.blind.role !== "guesser") return;
+  if (state.blind.role !== "guesser" || state.blind.result) return;
   const answer = String(new FormData(event.currentTarget).get("answer") || "").trim();
   if (!answer) return;
   state.blind.attemptsUsed += 1;
@@ -1146,17 +1198,26 @@ function submitBlindAnswer(event) {
   if (success || state.blind.attemptsUsed >= blindAttemptLimit(state.challenge.stars)) {
     state.blind.result = { success, attemptsUsed: state.blind.attemptsUsed, challengeId: state.challenge.id };
     saveProgress(state.challenge, success, "blind", state.blind.sessionId || state.blind.challengeId, state.blind.attemptsUsed);
-    saveBlind(); renderResult(success); showScreen(SCREENS.RESULT); return;
+    saveBlind(); document.querySelector("#blind-guess-dialog").close(); renderResult(success); showScreen(SCREENS.RESULT); return;
   }
-  saveBlind(); event.currentTarget.reset(); renderBlindPlay();
-  document.querySelector("[data-blind-feedback]").textContent = "That answer was not the match. One shared formal attempt was used; no Clue was unlocked.";
+  const clueProgress = advanceBlindWrongGuess(state.blind, state.challenge.clues.length);
+  state.blind.cluesUnlocked = clueProgress.cluesUnlocked;
+  saveBlind(); event.currentTarget.reset(); document.querySelector("#blind-guess-dialog").close(); renderBlindPlay();
+  const dialog = document.querySelector("#blind-feedback-dialog");
+  const remaining = blindAttemptLimit(state.challenge.stars) - state.blind.attemptsUsed;
+  document.querySelector("[data-blind-feedback-title]").textContent = "Not Quite!";
+  document.querySelector("[data-blind-feedback-copy]").textContent = `${remaining} formal ${remaining === 1 ? "attempt" : "attempts"} remaining. No stars were deducted.`;
+  document.querySelector("[data-blind-new-clue]").innerHTML = clueProgress.newlyUnlocked ? `<article class="clue-card is-unlocked"><p class="field-label">Clue ${clueProgress.cluesUnlocked}</p><p>${escapeHtml(state.challenge.clues[clueProgress.clueIndex])}</p></article>` : "";
+  dialog.showModal();
 }
 
 function submitBlindChat(event) {
   event.preventDefault();
   const message = String(new FormData(event.currentTarget).get("message") || "").trim();
   if (!message) return;
-  state.blind.chat.push({ role: state.blind.role === "describer" ? "Describer" : "Guesser", message, createdAt: new Date().toISOString() });
+  const role = state.blind.role === "describer" ? "Describer" : "Guesser";
+  const senderId = state.blind.role === "describer" ? state.blind.describerId : state.blind.guesserId;
+  state.blind.chat.push({ senderId, role, message, createdAt: new Date().toISOString() });
   saveBlind(); event.currentTarget.reset(); renderBlindPlay();
 }
 
@@ -1184,7 +1245,7 @@ function renderResult(success, reveal = false) {
   const revealAction = reveal ? "" : `<button class="button button--primary" type="button" data-action="result-reveal">${success ? "See Full Artwork" : "See the Correct Answer"}</button>`;
   const primaryReturn = `<button class="button button--secondary" type="button" data-action="back-to-browse">${success ? "Back to Browse" : "Try Another Detail"}</button>`;
   const extras = state.mode === "blind"
-    ? '<button class="text-button" type="button" data-action="blind-continue">Continue Together</button><button class="text-button" type="button" data-action="blind-add-friend">Add anonymous partner</button><button class="text-button" type="button" data-action="leave-result">Leave</button>'
+    ? '<section class="blind-next-actions"><p class="field-label">What’s Next?</p><div><button type="button" data-action="blind-return-chat">Continue Chat</button><button type="button" data-action="blind-continue">Continue Together</button><button type="button" data-action="blind-new-partner">Find a New Partner</button><button type="button" data-action="blind-change-tag">Choose Another Tag</button><button type="button" data-action="leave-result">Back to Home</button></div></section>'
     : state.mode === "team"
       ? `<button class="text-button" type="button" data-action="team-continue">Continue Together</button>${state.team.members.filter((member) => member.id !== LOCAL_USER_ID).map((member) => `<button class="text-button" type="button" data-player-id="${member.id}">View ${escapeHtml(member.name)}'s Profile</button>`).join("")}<button class="text-button" type="button" data-action="leave-result">Leave</button>`
       : '<button class="text-button" type="button" data-action="play-again">Play Again</button><button class="text-button" type="button" data-action="open-friends">Add Friend</button><button class="text-button" type="button" data-action="leave-result">Leave</button>';
@@ -1370,11 +1431,11 @@ function setupEvents() {
     const mapMarker = event.target.closest("[data-map-challenge]");
     if (mapMarker) { showMapRecord(mapMarker.dataset.mapChallenge); return; }
     const creatorNext = event.target.closest("[data-creator-next]");
-    if (creatorNext) { const step = Number(creatorNext.dataset.creatorNext), error = creatorStepAllowed(step); if (error) { const feedback = document.querySelector(`[data-creator-feedback="${Math.max(1, step - 1)}"]`) || document.querySelector("#creator-feedback") || document.querySelector("#crop-feedback"); if (feedback) feedback.textContent = error; return; } renderCreatorStep(step); return; }
+    if (creatorNext) { const step = Number(creatorNext.dataset.creatorNext), error = creatorStepAllowed(step); if (error) { const feedback = document.querySelector(`[data-creator-feedback="${Math.max(1, step - 1)}"]`) || document.querySelector("#creator-feedback") || document.querySelector("#crop-feedback"); if (feedback) feedback.textContent = error; return; } if (state.creator.returnToReview && state.currentScreen === SCREENS.CREATOR_ARTWORK) { const fullError = validateCreatorDraft(state.creator); if (!fullError) { state.creator.returnToReview = false; renderCreatorStep(6); return; } } if (state.creator.returnToReview && state.currentScreen === SCREENS.CREATOR_PERSPECTIVE) { const fullError = validateCreatorDraft(state.creator); if (!fullError) { state.creator.returnToReview = false; renderCreatorStep(6); return; } } renderCreatorStep(step); return; }
     const creatorBack = event.target.closest("[data-creator-back]");
     if (creatorBack) { if (state.currentScreen === SCREENS.CREATOR_PERSPECTIVE) captureCreatorDetails(); if (state.currentScreen === SCREENS.CREATOR_REVIEW) captureCreatorClue(); renderCreatorStep(Number(creatorBack.dataset.creatorBack)); return; }
     const creatorEdit = event.target.closest("[data-creator-edit]");
-    if (creatorEdit) { renderCreatorStep(Number(creatorEdit.dataset.creatorEdit)); return; }
+    if (creatorEdit) { const step = Number(creatorEdit.dataset.creatorEdit); state.creator.returnToReview = true; if (step === 5) state.creator.clueIndex = 0; saveCreatorDraft(); renderCreatorStep(step); return; }
     const editSavedSubmission = event.target.closest("[data-edit-submission]");
     if (editSavedSubmission) { editSubmission(editSavedSubmission.dataset.editSubmission); return; }
     const statusLink = event.target.closest("[data-status-id]");
@@ -1464,9 +1525,12 @@ function setupEvents() {
       if (state.currentScreen === SCREENS.TEAM_GAME) { closeTeamPanel(); renderTeamPlay(); } else renderTeamLobby();
       return;
     }
-    const approve = event.target.closest("[data-team-approve]");
-    if (approve) { approveProposal(approve.dataset.teamApprove); return; }
-    if (event.target.closest("[data-team-reject]")) { rejectProposal(); return; }
+    if (event.target.closest("[data-team-agree]")) { const actor = selectedTeamActor(); if (actor) approveProposal(actor.id); return; }
+    if (event.target.closest("[data-team-disagree]")) { const actor = selectedTeamActor(); if (actor && state.team.proposal && actor.id !== state.team.proposal.memberId) rejectProposal(); return; }
+    const shareClue = event.target.closest("[data-share-team-clue]");
+    if (shareClue) { shareTeamClue(Number(shareClue.dataset.shareTeamClue)); return; }
+    const flipClue = event.target.closest("[data-flip-team-clue]");
+    if (flipClue) { flipTeamClue(flipClue.dataset.flipTeamClue); return; }
     if (event.target.closest("[data-team-cancel]")) { cancelProposal(); return; }
     const nextMember = event.target.closest("[data-team-next-accept]");
     if (nextMember) { acceptTeamContinuation(nextMember.dataset.teamNextAccept); return; }
@@ -1531,6 +1595,20 @@ function setupEvents() {
     if (action === "play-again") { state.mode === "team" ? createTeam() : showChallengeList(); return; }
     if (action === "team-continue") { prepareTeamContinuation(); return; }
     if (action === "team-next-select") { beginContinuedTeam(); return; }
+    if (action === "blind-start-chat") { startBlindMatchedSession(); return; }
+    if (action === "blind-open-guess" && state.blind.role === "guesser" && !state.blind.result) { document.querySelector("#blind-guess-dialog").showModal(); setTimeout(() => document.querySelector('#blind-answer-form input[name="answer"]')?.focus()); return; }
+    if (action === "blind-close-guess") { document.querySelector("#blind-guess-dialog").close(); document.querySelector('[data-action="blind-open-guess"]')?.focus(); return; }
+    if (action === "blind-feedback-continue") { document.querySelector("#blind-feedback-dialog").close(); document.querySelector('#blind-chat-form input[name="message"]')?.focus(); return; }
+    if (action === "blind-expand-art" && state.blind.role === "describer") { const dialog = document.querySelector("#blind-art-dialog"), source = document.querySelector("[data-blind-artwork]"); document.querySelector("[data-blind-expanded-art]").src = source.src; dialog.showModal(); return; }
+    if (action === "blind-close-art") { document.querySelector("#blind-art-dialog").close(); document.querySelector('[data-action="blind-expand-art"]')?.focus(); return; }
+    if (action === "blind-return-chat") {
+      state.mode = "blind";
+      state.challenge = state.database.challenges.find((item) => item.id === state.blind.challengeId);
+      if (!state.challenge) { showToast("This Blind Eyes session is no longer available."); return; }
+      renderBlindPlay(); showScreen(SCREENS.BLIND_PLAY, true, "blind"); return;
+    }
+    if (action === "blind-new-partner") { const { role, stars } = state.blind; state.blind = freshBlindState(stars); state.blind.role = role; state.blind.partnerRole = role === "describer" ? "guesser" : "describer"; saveBlind(); showScreen(SCREENS.BLIND_PREFS); return; }
+    if (action === "blind-change-tag") { const { role, stars } = state.blind; state.blind = freshBlindState(stars); state.blind.role = role; state.blind.partnerRole = role === "describer" ? "guesser" : "describer"; saveBlind(); showScreen(SCREENS.BLIND_PREFS); return; }
     if (action === "blind-rematch") { rematchBlind(false); return; }
     if (action === "blind-continue") { rematchBlind(true); return; }
     if (action === "blind-continue-accept") { state.blind.continueInvite = { status: "Accepted" }; saveBlind(); showScreen(SCREENS.BLIND_PREFS); return; }
@@ -1575,6 +1653,7 @@ function setupEvents() {
     saveTeam(); syncTeamRoom(); event.currentTarget.reset(); renderTeamLobby();
   });
   document.querySelector("#team-open-toggle")?.addEventListener("change", (event) => setTeamRecruitment(event.currentTarget.checked));
+  document.querySelector("[data-team-actor]")?.addEventListener("change", () => { const pending = Boolean(state.team.proposal); renderTeamPlay(); if (pending) openTeamPanel("agreement"); });
   document.querySelector("#clue-comment-form")?.addEventListener("submit", submitClueComment);
   document.querySelector("#answer-form")?.addEventListener("submit", submitAnswer);
   document.querySelector("#team-chat-form")?.addEventListener("submit", submitTeamChat);
@@ -1594,6 +1673,8 @@ function setupEvents() {
   document.querySelector("#creator-full-first")?.addEventListener("change", async (event) => {
     const input = event.currentTarget, file = input.files[0]; if (file) await acceptCreatorImage(file, "full"); input.value = "";
   });
+  document.querySelector("#creator-details-form")?.addEventListener("input", () => { captureCreatorDetails(); clearTimeout(creatorAutosaveTimer); creatorAutosaveTimer = setTimeout(saveCreatorDraft, 450); });
+  document.querySelector("#creator-clues")?.addEventListener("input", () => { captureCreatorClue(); clearTimeout(creatorAutosaveTimer); creatorAutosaveTimer = setTimeout(saveCreatorDraft, 450); });
   document.querySelector("#auth-form")?.addEventListener("submit", submitAuth);
   const cropCanvas = document.querySelector("#crop-canvas"); let cropDrag = null;
   const cropPoint = (event) => { const rect = cropCanvas.getBoundingClientRect(); return { x: Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)), y: Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height)) }; };
@@ -1619,6 +1700,11 @@ function setupEvents() {
 }
 
 async function init() {
+  const developmentToolsEnabled = localStorage.getItem("borrowedEyesDevelopmentMode") === "true";
+  const demoTools = document.querySelector(".demo-tools");
+  if (demoTools) demoTools.hidden = !developmentToolsEnabled;
+  const teamActorTools = document.querySelector(".team-simulation-control");
+  if (teamActorTools) teamActorTools.hidden = !developmentToolsEnabled;
   document.querySelectorAll('.screen:not([data-screen="start"]) .screen__content').forEach((content) => {
     if (content.querySelector(":scope > .back-button")) return;
     const back = document.createElement("button");
@@ -1632,6 +1718,7 @@ async function init() {
   state.team = readTeam();
   state.openTeams = readOpenTeams();
   state.blind = readBlind();
+  if (!developmentToolsEnabled) state.blind.demoMode = false;
   state.galleryChat = readGalleryChat();
   state.profile = readProfile();
   state.submissions = readSubmissions();
@@ -1643,7 +1730,7 @@ async function init() {
   document.querySelector(".bottom-nav").hidden = !state.signedIn;
   try {
     state.database = await loadArtworkDatabase(); syncApprovedSubmissions(); seedOpenTeams(); restoreSolo();
-    if (state.blind.challengeId && !state.blind.partnerId) { const index = state.database.challenges.findIndex((item) => item.id === state.blind.challengeId); if (index >= 0) { state.blind.partnerId = PUBLIC_PLAYERS[index % PUBLIC_PLAYERS.length].id; saveBlind(); } }
+    if (state.blind.challengeId) { const index = state.database.challenges.findIndex((item) => item.id === state.blind.challengeId); if (index >= 0) { const challenge = state.database.challenges[index]; if (!state.blind.partnerId) state.blind.partnerId = PUBLIC_PLAYERS[index % PUBLIC_PLAYERS.length].id; state.blind.describerId ||= state.blind.role === "describer" ? LOCAL_USER_ID : state.blind.partnerId; state.blind.guesserId ||= state.blind.role === "guesser" ? LOCAL_USER_ID : state.blind.partnerId; if (!state.blind.result?.success) state.blind.cluesUnlocked = normaliseBlindClueProgress(state.blind, challenge.clues.length); saveBlind(); } }
     const teamChallenge = state.database.challenges.find((item) => item.id === state.team.challengeId);
     if (teamChallenge) state.team.cluesUnlocked = Math.min(Object.keys(state.team.comments || {}).length, teamChallenge.stars);
     saveTeam(); saveOpenTeams();

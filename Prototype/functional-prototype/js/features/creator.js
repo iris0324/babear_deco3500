@@ -8,7 +8,7 @@ export function creatorStarsForRatio(ratio) {
 }
 
 export function freshCreatorDraft() {
-  return { version: 3, step: 1, fragmentData: "", fullData: "", crop: null, stars: 0, ratio: 0, clueIndex: 0, details: { title: "", artist: "", year: "", comment: "", perspective: "", clues: [] }, editingSubmissionId: null, sourceSubmissionId: null, savedAt: null };
+  return { version: 3, step: 1, fragmentData: "", fullData: "", crop: null, stars: 0, ratio: 0, clueIndex: 0, details: { title: "", artist: "", year: "", comment: "", perspective: "", clues: [] }, editingSubmissionId: null, sourceSubmissionId: null, returnToReview: false, savedAt: null };
 }
 
 export function migrateCreatorDraft(saved) {
