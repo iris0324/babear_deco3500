@@ -1,0 +1,249 @@
+/* Classical wayfinder: fine rules and brass markers replace the solid pill. */
+.bottom-nav { position: fixed; z-index: 10; bottom: 0; left: 50%; transform: translateX(-50%); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; max-width: 540px; padding: 8px 14px calc(9px + env(safe-area-inset-bottom)); border: 0; border-top: 1px solid #c8b995; border-radius: 0; background: #faf6ecf5; backdrop-filter: blur(16px); box-shadow: 0 -5px 20px #463a2408; }
+.bottom-nav::before { content: ''; position: absolute; inset: 3px 14px auto; border-top: 1px solid #d9cfb8; pointer-events: none; }
+.bottom-nav button { position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; min-height: 52px; padding: 5px 3px; border: 0; border-radius: 3px; color: #696457; background: transparent; font-family: var(--font-display); font-size: 12px; font-weight: 400; line-height: 1.2; cursor: pointer; transition: color .18s, background .18s; }
+.bottom-nav .nav-label { display: block; white-space: nowrap; }
+.bottom-nav svg { flex-shrink: 0; width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.05; stroke-linecap: round; stroke-linejoin: round; }
+.bottom-nav .map-nav-icon { color: #9e3f36; stroke-width: 1.35; }
+.bottom-nav button[aria-current] { color: #304a39; background: transparent; box-shadow: none; }
+.bottom-nav button[aria-current]::after { content: ''; position: absolute; bottom: -3px; left: calc(50% - 2px); width: 4px; height: 4px; background: #a78a50; transform: rotate(45deg); }
+.bottom-nav button:focus-visible { outline: 2px solid #796537; outline-offset: -1px; }
+.bottom-nav button:hover:not([aria-current]) { color: #304a39; background: #eae7db; }
+.bottom-nav button:active { background: #e4e5d8; }
+
+/* The existing journey becomes a set of quiet journal pages. */
+.fragment-list { gap: 14px; }
+.fragment-card { padding: 10px; gap: 18px; background: var(--surface); border-color: #e1dccf; border-radius: 5px 16px 16px 5px; box-shadow: var(--shadow); }
+.fragment-card__image { border: 3px solid #ebe4d5; border-radius: 2px; outline: 1px solid #c5b595; outline-offset: -3px; }
+.fragment-card__title { font-family: var(--font-display); font-size: 20px; font-weight: 400; letter-spacing: -.02em; }
+.fragment-card__meta { font-size: 11px; }
+.fragment-card.is-selected { border-color: var(--forest); box-shadow: 0 0 0 1px var(--forest); background: #eff1e9; }
+.fragment-card:hover:not(.is-selected) { border-color: #a9b1a0; }
+.fragment-preview { border-radius: 8px 32px 8px 8px; height: 150px; box-shadow: var(--shadow); }
+.fragment-preview--small { height: 100px; }
+.clue-card, .perspective-card, .pass-choice-card, .completion-card, .artwork-info-card { padding: 24px; border: 1px solid #e4dfd3; background: var(--surface); border-radius: 4px 18px 18px 4px; box-shadow: var(--shadow); }
+.clue-card { background: #eeeee5; border: 0; border-left: 2px solid #9aa58e; }
+.clue-card p { font-family: var(--font-display); font-size: 21px; line-height: 1.5; }
+.clue-card--compact { padding-block: 16px; }
+.clue-card--compact p { font-size: 18px; }
+.perspective-card { position: relative; padding-top: 40px; margin-top: 12px; }
+.perspective-card::before { content: '“'; position: absolute; top: -17px; left: 18px; color: var(--gold); font-family: var(--font-display); font-size: 70px; line-height: 1; }
+.perspective-card blockquote { font-size: 25px; line-height: 1.45; }
+.artwork-preview { aspect-ratio: auto; height: 260px; padding: 10px; background: #e6e0d3; border: 1px solid #d3c9b6; border-radius: 3px; box-shadow: inset 0 0 0 4px #f9f5ec, var(--shadow); }
+.artwork-preview img { object-fit: contain; }
+.artwork-title { font-size: 24px; margin: 8px 0; line-height: 1.3; }
+.response-group legend { line-height: 1.55; font-size: 13px; }
+.reaction-button { min-height: 44px; border-color: #d8d6ca; transition: background .2s, border-color .2s, color .2s; }
+.reaction-button:hover { background: #e9ede2; border-color: #a6b09c; }
+.reaction-button.is-selected { background: var(--forest); border-color: var(--forest); color: #fffdf5; }
+.form-field > span { margin-bottom: 8px; color: #4f473e; font-size: .75rem; font-weight: 650; letter-spacing: .035em; line-height: 1.4; }
+textarea, input[type="text"] { background: #fffdf8; border-color: #d8d5c9; padding: 15px; line-height: 1.6; font-size: 16px; box-shadow: inset 0 1px 3px #302c2704; }
+textarea::placeholder, input::placeholder { color: #79766c; font-size: 14px; }
+.upload-box { border-color: #a9b19e; background: #f9f9f0; min-height: 136px; border-radius: 12px; }
+.upload-field:focus-within .upload-box { outline: 2px solid var(--terracotta); outline-offset: 4px; }
+.upload-field:hover .upload-box { background: #edf0e5; }
+.upload-placeholder strong { color: var(--forest); font-weight: 500; }
+.context-artwork-title { font-size: 26px; letter-spacing: -.02em; }
+.context-metadata div { padding-block: 12px; }
+.context-main { line-height: 1.85; }
+.interpretation-note { border-radius: 4px; background: #e9ece2; padding: 20px; }
+.interpretation-note strong { color: var(--forest); font-size: 20px; }
+/* Placeholder pages share the journal’s visual language. */
+.empty-state { position: relative; text-align: center; margin: 12px 0 28px; padding: 36px 24px; background: var(--surface); border: 1px solid #e1dbce; border-radius: 70px 8px 8px 8px; box-shadow: 4px 5px 0 #e9e5d9, var(--shadow); }
+.empty-state h3 { font-size: 28px; line-height: 1.15; letter-spacing: -.03em; margin-bottom: 15px; }
+.empty-state p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.stamp { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 22px; color: var(--gold); font-size: 40px; border: 1px solid #cdbf9f; border-radius: 50%; }
+.option-stack { display: grid; gap: 14px; margin: 10px 0 24px; }
+.option-stack .button { margin: 0; }
+.toast { position: fixed; z-index: 30; bottom: calc(90px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 40px); padding: 15px 20px; border-radius: 12px; background: var(--forest); color: var(--surface); font-size: 13px; box-shadow: var(--shadow); }
+.vintage-dialog { width: calc(100% - 40px); max-width: 420px; padding: 30px; border: 1px solid #d6cebd; border-radius: 22px 6px 22px 6px; color: var(--text); background: var(--surface); box-shadow: 0 20px 70px #201c1833; }
+.vintage-dialog::backdrop { background: #202b25a0; backdrop-filter: blur(3px); }
+.difficulty { color: var(--gold); letter-spacing: .15em; }
+.loading-state { padding: 24px; text-align: center; color: var(--muted); }
+.loading-state::before { content: ''; display: inline-block; width: 20px; height: 20px; margin-right: 10px; border: 2px solid var(--border); border-top-color: var(--forest); border-radius: 50%; animation: museum-spin 1s linear infinite; }
+@keyframes museum-spin { to { transform: rotate(360deg); } }
+@media (min-width: 600px) {
+  .screen__content { padding-top: 40px; }
+}
+@media (max-width: 359px) {
+  .home-content { padding-inline: 16px; }
+  .masthead { padding: 19px 0 17px; }
+  .brand h1 { font-size: 25px; }
+  .edition-label { display: none; }
+  .gallery-feature { height: 160px; }
+  .hero-caption h2 { font-size: 32px; }
+  .hero-caption p { font-size: 9px; }
+  .section-heading h2 { font-size: 22px; }
+  .section-heading > span { display: none; }
+  .entry-grid { gap: 11px; }
+  .entry-art { height: 76px; }
+  .entry-body { padding: 10px; }
+  .entry-title { font-size: 18px; }
+  .entry-description { font-size: 10px; }
+  .entry-description br { display: none; }
+  .entry-link { font-size: 8.5px; }
+}
+@media (min-width: 400px) and (max-width: 599px) {
+  .home-content { padding-inline: 24px; }
+  .gallery-feature { height: 194px; }
+  .hero-caption h2 { font-size: 37px; }
+  .entry-art { height: 94px; }
+  .entry-description { font-size: 11px; }
+}
+@media (min-width: 600px) {
+  .home-content { padding: 0 36px 120px; }
+  .masthead { padding: 30px 0 24px; }
+  .brand h1 { font-size: 32px; }
+  .brand p, .edition-label { font-size: 9px; }
+  .gallery-feature { height: 270px; }
+  .gallery-feature > img { object-position: center; }
+  .hero-caption { left: 32px; bottom: 31px; }
+  .hero-caption h2 { font-size: 53px; }
+  .hero-caption p { font-size: 13px; }
+  .hero-kicker { font-size: 9px; }
+  .hero-index { font-size: 8px; right: 20px; top: 20px; }
+  .section-heading { margin-top: 29px; margin-bottom: 18px; }
+  .section-heading h2 { font-size: 31px; }
+  .section-heading > span { font-size: 9px; }
+  .entry-grid { gap: 20px; }
+  .entry-art { height: 134px; }
+  .entry-body { padding: 18px; }
+  .entry-title { font-size: 27px; }
+  .entry-description { font-size: 13px; }
+  .entry-link { font-size: 11px; }
+  .home-footer p { font-size: 16px; }
+  .home-footer small { font-size: 10px; }
+  .bottom-nav { bottom: 14px; width: calc(100% - 40px); padding-bottom: 10px; border: 1px solid #c8b995; border-radius: 4px; box-shadow: 0 8px 24px #463a2410; }
+}
+@media (min-width: 900px) {
+  .gallery-feature { height: 300px; }
+  .hero-caption { left: 38px; bottom: 36px; }
+  .hero-caption h2 { font-size: 60px; }
+  .entry-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+  .entry-art { height: 116px; }
+  .entry-body { padding: 15px; }
+  .entry-title { min-height: 48px; font-size: 23px; }
+  .entry-description { font-size: 12px; }
+  .entry-description br { display: none; }
+  .entry-link { font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .screen:not([hidden]) .screen__content { animation: journal-reveal .3s ease both; }
+  @keyframes journal-reveal { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .entry-card:hover, .entry-card:active, .button:active:not(:disabled), .bottom-nav button:active, .entry-card:hover img, .entry-card:hover .entry-link > span { transform: none; }
+}
+
+/* Headings receive programmatic focus when a page opens. */
+h1[tabindex="-1"]:focus, h2[tabindex="-1"]:focus { outline: none; }
+
+/* Shared catalogue finish for internal feature pages. */
+.screen:not(.home-screen) .screen__content {
+  position: relative;
+  padding-bottom: calc(164px + env(safe-area-inset-bottom));
+  scroll-padding-bottom: calc(112px + env(safe-area-inset-bottom));
+}
+.screen:not(.home-screen) .screen__content::before { content: ""; position: absolute; top: 8px; right: 18px; width: 34px; border-top: 1px solid #a98a50; opacity: .7; }
+.screen:not(.home-screen) h2 { text-wrap: balance; }
+.screen:not(.home-screen) .back-button { min-height: 42px; padding-inline: 2px 12px; }
+@media (max-width: 430px) { .screen:not(.home-screen) input, .screen:not(.home-screen) textarea, .screen:not(.home-screen) select { font-size: 16px; } }
+/* Phase 4.5C — museum correspondence, curator desk and visitor record */
+.museum-screen { background: radial-gradient(circle at 82% 2%, #f8f1df 0 10%, transparent 31%), linear-gradient(180deg, #eee7d8 0, var(--parchment) 240px); }
+.museum-content { padding-top: 22px; }
+.museum-editorial-header { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(76px, auto); gap: clamp(16px, 5vw, 30px); align-items: start; margin-bottom: 18px; padding: 16px 16px 20px; border: 1px solid rgba(185,166,121,.72); border-inline: 0; background: linear-gradient(90deg, rgba(250,245,233,.96) 0 72%, rgba(250,245,233,.7) 88%, rgba(250,245,233,.18)); box-shadow: inset 0 1px rgba(255,255,255,.75); }
+.museum-editorial-header::after { content: ""; position: absolute; bottom: -4px; left: 0; width: 54px; height: 7px; background: var(--forest); }
+.museum-editorial-header h2 { max-width: 15ch; margin: 2px 0 8px; font-size: var(--type-display); line-height: 1; letter-spacing: -.025em; }
+.museum-editorial-header p:last-child { max-width: 34em; margin: 0; color: #5f574d; font-size: 13px; line-height: 1.58; }
+.editorial-folio { align-self: start; min-width: 76px; max-width: 104px; padding: 9px 10px 8px; color: #6f604a; border: 1px solid #a98f59; border-top-width: 3px; font-size: 8px; line-height: 1.35; letter-spacing: .12em; text-align: right; text-transform: uppercase; }
+.editorial-folio b { display: block; margin-top: 4px; color: var(--forest); font: 25px/1 var(--font-display); letter-spacing: 0; }
+.museum-list-heading { display: flex; justify-content: space-between; align-items: baseline; margin: 21px 2px 8px; color: var(--forest); border-bottom: 1px solid #d4c8ad; }
+.museum-list-heading span { padding-bottom: 6px; font: 19px/1.2 var(--font-display); }
+.museum-list-heading small { color: var(--muted); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+
+/* Phase 6.5 — layered museum rooms. Feature illustrations remain atmospheric and non-spoiling. */
+.screen:not(.home-screen) { position: relative; isolation: isolate; overflow-x: clip; --museum-scene: url("../assets/ui/museum-hero.jpg"); }
+.borrow-screen { --museum-scene: url("../assets/ui/borrow-illustration.jpg"); }
+[data-screen^="blind-"] { --museum-scene: url("../assets/ui/blind-illustration.jpg"); }
+.messages-screen, .conversation-screen, [data-screen="find-players"], [data-screen="player-profile"], [data-screen="groups"], [data-screen="group-create"], [data-screen="group-members"] { --museum-scene: url("../assets/ui/chat-illustration.jpg"); }
+.leave-screen, .creator-wizard, [data-screen="submission-review"] { --museum-scene: url("../assets/ui/leave-illustration.jpg"); }
+.screen:not(.home-screen)::after {
+  content: ""; position: absolute; z-index: -1; inset: 0 0 auto; height: min(47vh, 390px); pointer-events: none;
+  background-image: linear-gradient(180deg, rgba(33, 41, 35, .14), rgba(242, 234, 218, .17) 48%, var(--parchment) 96%), var(--museum-scene);
+  background-size: cover; background-position: center 38%; filter: sepia(.12) saturate(.82); opacity: .52;
+  -webkit-mask-image: linear-gradient(#000 0 68%, transparent 100%); mask-image: linear-gradient(#000 0 68%, transparent 100%);
+}
+.screen:not(.home-screen) .screen__content { z-index: 0; }
+
+/* Six related card families share paper, ink and gilt without sharing one shape. */
+:is(.mode-card, .challenge-card, .open-team-card, .continue-card, .correspondence-entry, .room-entry, .player-card, .profile-stat-grid article, .creator-step) {
+  color: var(--text);
+  border-color: var(--card-rule);
+}
+:is(.mode-card, .challenge-card, .open-team-card, .continue-card, .correspondence-entry, .room-entry, .player-card, .creator-step):focus-visible {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 3px;
+}
+.clue-card, .perspective-card, .completion-card, .artwork-info-card {
+  position: relative;
+  border-color: #c9b991;
+  border-radius: 2px 17px 3px 3px;
+  background: linear-gradient(140deg, var(--card-paper), rgba(235,228,211,.94));
+  box-shadow: var(--card-depth);
+}
+.clue-card { border: 0; border-left: 4px solid #82917d; background: linear-gradient(100deg, #e4e9df, #f7f1e4); }
+.screen:not(.home-screen) .screen__content::after {
+  content: ""; position: absolute; z-index: -1; inset: 8px 7px auto; height: 205px; pointer-events: none;
+  border-top: 1px solid rgba(154,120,64,.38); border-bottom: 1px solid rgba(154,120,64,.22);
+  background: linear-gradient(100deg, rgba(250,245,233,.92) 0 67%, rgba(250,245,233,.58) 84%, transparent 100%);
+}
+.screen:not(.home-screen) .screen__content > :is(h2, .museum-editorial-header, .wizard-header, .challenge-heading):first-of-type { text-shadow: 0 1px rgba(255,255,255,.72); }
+.museum-screen { background-color: var(--parchment); }
+.museum-editorial-header { padding-top: 16px; }
+.editorial-folio { background: rgba(247, 239, 221, .72); box-shadow: inset 0 0 0 3px rgba(255,255,255,.25); }
+
+/* Three catalogue patterns shared across feature modules. */
+.illustrated-exhibition-panel,
+.mode-card,
+.challenge-card {
+  border: 1px solid #bda77b;
+  box-shadow: inset 0 0 0 5px rgba(255,252,242,.2), 0 16px 34px rgba(65,49,30,.13), 4px 5px 0 rgba(113,88,48,.1);
+}
+.archival-folio-panel,
+.game-section,
+.explore-section,
+.public-profile,
+.status-folio {
+  position: relative; background-color: rgba(248,241,226,.9); border: 1px solid #bda77b;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.7), inset 0 0 0 6px rgba(166,133,72,.055), 0 15px 36px rgba(65,49,30,.12);
+}
+.archival-folio-panel::after,
+.game-section::after,
+.explore-section::after {
+  content: ""; position: absolute; inset: 8px 8px auto auto; width: 25px; height: 25px; pointer-events: none;
+  border-top: 1px solid var(--brass); border-right: 1px solid var(--brass); opacity: .65;
+}
+.antique-correspondence-panel,
+.correspondence-entry,
+.message-bubble,
+.social-row {
+  background-color: rgba(252,247,235,.92); border-color: #c4b28c;
+  box-shadow: 2px 3px 0 rgba(92,70,42,.08), 0 10px 24px rgba(70,52,31,.07);
+}
+.folio-section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 11px; padding-bottom: 7px; border-bottom: 1px solid #c7b58f; }
+.folio-section-heading span { color: var(--forest); font: var(--type-card)/1.15 var(--font-display); }
+.folio-section-heading small { color: #806c49; font-size: 8px; letter-spacing: .12em; text-align: right; text-transform: uppercase; }
+@media (max-width: 430px) {
+  .museum-editorial-header { grid-template-columns: minmax(0, 1fr); gap: 11px; align-items: start; }
+  .museum-editorial-header h2 { max-width: 100%; font-size: clamp(2rem, 10vw, 2.65rem); line-height: 1.02; overflow-wrap: break-word; }
+  .editorial-folio { justify-self: start; max-width: 116px; text-align: left; }
+  .screen:not(.home-screen) .screen__content::after { height: 230px; background: linear-gradient(105deg, rgba(250,245,233,.94) 0 76%, rgba(250,245,233,.48) 94%, transparent); }
+  .folio-section-heading { align-items: flex-start; flex-direction: column; gap: 3px; }
+  .folio-section-heading small { text-align: left; }
+}
+
+/* Text sitting directly over a painted scene receives a quiet paper ground. */
+.screen:not(.home-screen) .screen__content > :is(h2, .screen-intro, .screen-hint, .eyebrow, .small-note) { position: relative; background: rgba(250,245,233,.94); box-shadow: 7px 0 rgba(250,245,233,.94), -7px 0 rgba(250,245,233,.94); }
+.screen:not(.home-screen) .screen__content > h2 { font-size: clamp(1.85rem, 7.8vw, 2.65rem); line-height: 1.12; }

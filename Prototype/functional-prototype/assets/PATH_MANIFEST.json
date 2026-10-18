@@ -1,0 +1,80 @@
+{
+  "version": "2.0.0",
+  "assetRoot": "assets/",
+  "pathBase": "project_root",
+  "assetRootPlacement": "Copy assets/ into the VS Code project root, alongside index.html. Do not alter js or css yet.",
+  "allPathsRelativeTo": "project root (not to assets/data)",
+  "dataFiles": [
+    "assets/data/artworks.json",
+    "assets/data/challenges.json",
+    "assets/data/source_photos.json",
+    "assets/PATH_MANIFEST.json"
+  ],
+  "imagePattern": {
+    "fullArtwork": "assets/images/artworks/<artworkId>.jpg",
+    "challengeFragment": "assets/images/fragments/challenge-XXX.jpg",
+    "originalMuseumPhoto": "assets/images/source_photos/photo-XX.jpg"
+  },
+  "legacyPathsPreserved": [
+    {
+      "oldArtworkId": "artwork-001",
+      "fullImage": "assets/images/artworks/card1ans.jpg",
+      "fragmentImage": "assets/images/fragments/card1.jpg",
+      "originalZipPath": "borrowed_eyes/assets/images/artworks/card1ans.jpg"
+    },
+    {
+      "oldArtworkId": "artwork-002",
+      "fullImage": "assets/images/artworks/card2ans.jpg",
+      "fragmentImage": "assets/images/fragments/card2.jpg",
+      "originalZipPath": "borrowed_eyes/assets/images/artworks/card2ans.jpg"
+    },
+    {
+      "oldArtworkId": "artwork-003",
+      "fullImage": "assets/images/artworks/card3ans.jpg",
+      "fragmentImage": "assets/images/fragments/card3.jpg",
+      "originalZipPath": "borrowed_eyes/assets/images/artworks/card3ans.jpg"
+    },
+    {
+      "oldArtworkId": "artwork-004",
+      "fullImage": "assets/images/artworks/card4ans.jpg",
+      "fragmentImage": "assets/images/fragments/card4.jpg",
+      "originalZipPath": "borrowed_eyes/assets/images/artworks/card4ans.jpg"
+    },
+    {
+      "oldArtworkId": "artwork-005",
+      "fullImage": "assets/images/artworks/card5ans.png",
+      "fragmentImage": "assets/images/fragments/card5.jpg",
+      "originalZipPath": "borrowed_eyes/assets/images/artworks/card5ans.png"
+    },
+    {
+      "oldArtworkId": "artwork-006",
+      "fullImage": "assets/images/artworks/card6ans.jpg",
+      "fragmentImage": "assets/images/fragments/card6.jpg",
+      "originalZipPath": "borrowed_eyes/assets/images/artworks/card6ans.jpg"
+    }
+  ],
+  "legacyDataMismatch": {
+    "path": "assets/images/artworks/card6ans.jpg",
+    "oldTitle": "Four-fold lacquer screen",
+    "actualPhoto": "Horse, person, sheep, and dog; author/title need verification",
+    "actionLater": "Update references in Codex; DO NOT migrate old title to this photo."
+  },
+  "expectedChallenges": 20,
+  "expectedStarCounts": {
+    "1": 4,
+    "2": 4,
+    "3": 4,
+    "4": 4,
+    "5": 4
+  },
+  "artworkCount": 18,
+  "sourcePhotoCount": 15,
+  "notes": [
+    "No JS/CSS/HTML files included or modified.",
+    "Old card1-card6 paths remain for compatibility until Codex integration.",
+    "Some photographs show multiple works; all 15 unmodified originals included.",
+    "Some crops have photographic perspective. Area ratio is estimated using the visible artwork rectangle; verify if exact geometric area is essential.",
+    "Artist Perspective contains reviewed contextual paraphrases, not direct quotations.",
+    "Descriptions marked pending verification must not be displayed as confirmed artist statements."
+  ]
+}

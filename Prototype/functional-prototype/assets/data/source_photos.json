@@ -1,0 +1,122 @@
+[
+  {
+    "id": "photo-01",
+    "path": "assets/images/source_photos/photo-01.jpg",
+    "sourceOriginalFilename": "105d1bf0f281ab6805af5be6e5ff8f68.jpg",
+    "sha256": "5e48a187f15b9840b360402e0a393db2f63cafaf20da7e0696be66d14f77cbab",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-02",
+    "path": "assets/images/source_photos/photo-02.jpg",
+    "sourceOriginalFilename": "863d56da9ae6dc738f436f0f3cbb7b76.jpg",
+    "sha256": "f6152646675577ab77905e1857b1dcc91a775a4d1e8bdc17fe457bf254d971dd",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-03",
+    "path": "assets/images/source_photos/photo-03.jpg",
+    "sourceOriginalFilename": "0ee846f484ddc381905cedaa3508a8c9.jpg",
+    "sha256": "e0576b77dcb31d6372c7808644333d6f29cf5e4040c90e9d8d8a78eaaa8aed0d",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-04",
+    "path": "assets/images/source_photos/photo-04.jpg",
+    "sourceOriginalFilename": "860aa5634508b735d8e5cd7a364d8bd2.jpg",
+    "sha256": "d7f91c4c1ddb56e2476f77ae03c74f3d8b94bcb5c077ae494d049eaa12045cb3",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-05",
+    "path": "assets/images/source_photos/photo-05.jpg",
+    "sourceOriginalFilename": "57bb595b19bd02f4b677c01705d2ed07.jpg",
+    "sha256": "8eaa5284bc5f53ab13fab26c1a7e0fe2bcc7712776159a8fcc261d87d06ed20e",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-06",
+    "path": "assets/images/source_photos/photo-06.jpg",
+    "sourceOriginalFilename": "83fdca4f99dd0cb6539c8e20c5509bc0.jpg",
+    "sha256": "4057622cfd50303bdd465b217b776f88653ab22cbd35fcaa2047ef8830592231",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-07",
+    "path": "assets/images/source_photos/photo-07.jpg",
+    "sourceOriginalFilename": "6ce076e19ec0ba087bba652e73880447.jpg",
+    "sha256": "dc40a9965ac8a4a600c08d3330273ea666f5eed4ae8d55e33cbcd69932cec47a",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-08",
+    "path": "assets/images/source_photos/photo-08.jpg",
+    "sourceOriginalFilename": "aafb6c7ee173b68a151e069dfd962847.jpg",
+    "sha256": "fd9950c9abb275764c334f5264644044b16a29f8964176d00a73b75887ad9c3d",
+    "status": "original_photo_preserved",
+    "reviewStatus": "source_only_not_yet_assigned"
+  },
+  {
+    "id": "photo-09",
+    "path": "assets/images/source_photos/photo-09.jpg",
+    "sourceOriginalFilename": "1031ef4d64c3c853dd6f59e5c8cd644c.jpg",
+    "sha256": "6f4be374a580603634a2f94b72493e83384ef23c1fcade3855151202287172ad",
+    "status": "original_photo_preserved",
+    "reviewStatus": "source_only_not_yet_assigned"
+  },
+  {
+    "id": "photo-10",
+    "path": "assets/images/source_photos/photo-10.jpg",
+    "sourceOriginalFilename": "811640567efd66ef35dc5e7708224aaa.jpg",
+    "sha256": "2be8b1ebfa65c63b3aed142f538d3c018ec617aa393e992fd27f463ea7657e99",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-11",
+    "path": "assets/images/source_photos/photo-11.jpg",
+    "sourceOriginalFilename": "2aba068d4e7aaef45426c45d39f0438f.jpg",
+    "sha256": "5fc8e823b6d49b8a9bf6e7765c05a372d0a7efb1397c8a39667b7aff82654ccd",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-12",
+    "path": "assets/images/source_photos/photo-12.jpg",
+    "sourceOriginalFilename": "7014a8499c16a5b391fe9911b4063664.jpg",
+    "sha256": "030a196d836c7794d1535cbbe3cb05b71964f747bf6fb6cd3344188a50657c83",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-13",
+    "path": "assets/images/source_photos/photo-13.jpg",
+    "sourceOriginalFilename": "e01e69aa1dee098731c053d16418ecd1.jpg",
+    "sha256": "5900d2534b216e61745b4431d1a85d23c26bb9acf8ac24f9c22985ad9604f7c5",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-14",
+    "path": "assets/images/source_photos/photo-14.jpg",
+    "sourceOriginalFilename": "cbb771c1b3708950a6df57023faf2f5f.jpg",
+    "sha256": "f0b5e1a8c09caccf5654d8788ea6ce8c0a89ff21cce4b24b150a460136a39043",
+    "status": "original_photo_preserved",
+    "reviewStatus": "has_challenge"
+  },
+  {
+    "id": "photo-15",
+    "path": "assets/images/source_photos/photo-15.jpg",
+    "sourceOriginalFilename": "16dcf0c507832637cf32b6947a0c780f.jpg",
+    "sha256": "d0459acc82f5a62e085514ffc9a4b2dd15a36226384cd22b0cbb4736dcecf4a8",
+    "status": "original_photo_preserved",
+    "reviewStatus": "source_only_not_yet_assigned"
+  }
+]
