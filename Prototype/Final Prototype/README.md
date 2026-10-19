@@ -2,7 +2,7 @@
 
 ## How to Open
 
-Open `index.html` directly, or use the separately provided `BorrowedEyes_12幅60细节预览.html` preview file. All artwork and interface images are stored locally and do not require an internet connection to load. Internet access is required to open collection source links.
+Open `index.html` directly. All artwork and interface images are stored locally and do not require an internet connection to load. Internet access is required to open collection source links.
 
 ## Changes in This Version
 
