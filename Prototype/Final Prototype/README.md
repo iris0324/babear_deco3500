@@ -51,6 +51,4 @@ Checks passed for the completeness of the 12-artwork / 60-detail dataset, crop b
 
 A local web server could not be run in the validation environment. Therefore, **browser-based visual testing and end-to-end testing on a real mobile device are not claimed to have been completed**.
 
-Sources and the mappings between original artworks and challenges are recorded in `artworks.json`, `challenges.json`, and `细节索引.csv`. Collection information is based on the `source` field for each original artwork. Personal responses and clues are original, fictional demonstration content and are **not quotations from the artists**.
-
-No changes to `main` are required. If this version is to be added to `Binyan_Zhang`, this directory can be stored separately as `Prototype/reference-v3` for comparison. This delivery has not modified the repository or the live website.
+Sources and the mappings between original artworks and challenges are recorded in `artworks.json`, `challenges.json`, and `Detail_Index.csv`. Collection information is based on the `source` field for each original artwork. Personal responses and clues are original, fictional demonstration content and are **not quotations from the artists**.
