@@ -1,0 +1,15 @@
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {Store} from './store.mjs';
+import {LegacyService as Service} from './legacy-service.mjs';
+import {createServer} from './http.mjs';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const port=Number(process.env.PORT||8787),host=process.env.HOST||'127.0.0.1';
+if(!Number.isInteger(port)||port<1||port>65535)throw Error('Invalid PORT');
+const store=new Store(process.env.DATA_FILE||path.join(root,'data','database.json'));
+const service=new Service(store,path.join(root,'private'),{galleryCode:process.env.GALLERY_CODE||'CLASSROOM-DEMO',allowClassroomLocation:process.env.ALLOW_CLASSROOM_LOCATION!=='0',uploadRoot:process.env.UPLOAD_DIR||path.join(path.dirname(store.file),'uploads')});
+const allowedHosts=(process.env.ALLOWED_HOSTS||`127.0.0.1:${port},localhost:${port}`).split(',').map(x=>x.trim());
+const server=createServer(service,path.join(root,'frontend'),{secureCookie:process.env.SECURE_COOKIE==='1',adminToken:process.env.ADMIN_TOKEN||'',allowedHosts});
+server.on('error',e=>{store.close();console.error(e.message);process.exitCode=1});
+server.listen(port,host,()=>console.log(`Borrowed Eyes backend: http://${host}:${port}\nGallery check-in code: ${process.env.GALLERY_CODE||'CLASSROOM-DEMO'}\nLocal classroom prototype; no GitHub deployment.`));
+for(const signal of ['SIGINT','SIGTERM'])process.on(signal,()=>{server.closeAllConnections();server.close(()=>{store.close();process.exit(0)})});
