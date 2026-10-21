@@ -3,7 +3,18 @@
 'use strict';
 const KEY='borrowedEyes.frontend.v3';
 const read=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'null')||{}}catch{return{}}};
+// A fresh URL/QR visit begins at Welcome. A true browser reload may resume
+// the current tab's guest and game; other long-lived local work stays intact.
+const SESSION_KEY='borrowedEyes.tab.v1';
+const isReload=performance.getEntriesByType('navigation')[0]?.type==='reload';
+let tabSaved=null;
+if(isReload){try{tabSaved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||'null')}catch{}}
 const saved=read();
+// Do not silently inherit an earlier visitor's identity or game on a new visit.
+if(!tabSaved){saved.user=null;saved.game=null;try{sessionStorage.removeItem(SESSION_KEY)}catch{}}
+else {saved.user=tabSaved.user||null;saved.game=tabSaved.game||null;}
+function saveTab(){try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({user:S.user,game:S.game,route}))}catch{}}
+
 const S={user:saved.user||null,location:'unknown',locationMode:null,area:1,game:saved.game||null,history:saved.history||[],published:saved.published||[],messages:saved.messages||[],blocked:saved.blocked||[],friends:saved.friends||[],draft:saved.draft||null,lastCheckin:saved.lastCheckin||null,reports:saved.reports||[],moderation:saved.moderation||[],muted:saved.muted||[],helpDraft:null,helpReturn:false,language:saved.language||'en'};
 let route='welcome',selectedId=null,filter='All',difficultyFilter=0,detailPage=0,teamTab='join',teamSize=3,teamNames=['You','Maya','Leo'],actor=0,role='guesser',blindTag=null,creatorStep=1,creatorClue=0,selectedVisitor=null,chatTarget='public',mapArea=null,locationIntent='home',locationWatch=null,reportTarget=null,reportReturn='chat';
 const view=document.querySelector('#view');
@@ -28,13 +39,13 @@ const fullImage=(a,cls='art-hero')=>`<figure class="${cls}" style="margin:0"><im
 let clipSequence=0;
 function fragment(a){if(a.fragment)return `<div class="art-hero"><img src="${esc(a.fragment)}" alt="Mystery detail"></div>`;const c=a.crop;if(!c)return '<p class="empty">Choose a detail challenge to start.</p>';const b=a.imageBounds||{x:0,y:0,w:1,h:1},iw=a.imageWidth||1200,ih=a.imageHeight||900;const x=(b.x+c.x*b.w)*iw,y=(b.y+c.y*b.h)*ih,w=c.w*b.w*iw,h=c.h*b.h*ih;const image=window.ART_ASSETS?.[a.image]||a.image,clip='detail-clip-'+(++clipSequence),displayScale=Math.min(1/1.5,480/w,420/h),displayWidth=Math.floor(w*displayScale);return `<div class="fragment-stage"><div class="fragment-art" style="--detail-width:${displayWidth}px;--detail-ratio:${w/h};aspect-ratio:${w}/${h}"><svg viewBox="${x} ${y} ${w} ${h}" role="img" aria-label="A cropped mystery artwork detail" preserveAspectRatio="xMidYMid meet"><defs><clipPath id="${clip}"><rect x="${x}" y="${y}" width="${w}" height="${h}"/></clipPath></defs><image href="${esc(image)}" width="${iw}" height="${ih}" clip-path="url(#${clip})" preserveAspectRatio="none"/></svg></div></div>`;}
 const suffixClues=a=>a.clues.slice(5-a.stars).map((text,i)=>({q:6-a.stars+i,text}));
-function persist(){try{localStorage.setItem(KEY,JSON.stringify({user:S.user,game:S.game,history:S.history,published:S.published,messages:S.messages,blocked:S.blocked,friends:S.friends,draft:S.draft,lastCheckin:S.lastCheckin,reports:S.reports,moderation:S.moderation,muted:S.muted,language:S.language}));return true}catch{toast('Browser storage is full. Keep this page open, or use smaller uploaded images.');return false}}
+function persist(){saveTab();try{localStorage.setItem(KEY,JSON.stringify({user:S.user,game:S.game,history:S.history,published:S.published,messages:S.messages,blocked:S.blocked,friends:S.friends,draft:S.draft,lastCheckin:S.lastCheckin,reports:S.reports,moderation:S.moderation,muted:S.muted,language:S.language}));return true}catch{toast('Browser storage is full. Keep this page open, or use smaller uploaded images.');return false}}
 let toastTimer;function toast(text){const el=document.querySelector('#toast');el.textContent=text;translateUI();el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.hidden=true,4200)}
 function notice(name,copy){document.querySelector('#notice-title').textContent=name;document.querySelector('#notice-copy').textContent=copy;translateUI();document.querySelector('#notice').showModal()}
 function active(){return S.game&&!S.game.finished}
 function limit(g=S.game,a=art()){return g.mode==='blind'?a.stars+1:(g.attemptLimit??(a.stars+1-g.players.length))}
 function left(){return Math.max(0,limit()-S.game.attempts)}
 function gameRoute(){return S.game?.mode==='blind'?'blind-chat':'play'}
-function go(next){route=next;if(!S.user&&!['welcome','login','signup','reset','reset-sent','terms'].includes(route))route='welcome';render();window.scrollTo({top:0,behavior:'auto'});view.focus({preventScroll:true});}
+function go(next){route=next;saveTab();if(!S.user&&!['welcome','login','signup','reset','reset-sent','terms'].includes(route))route='welcome';render();window.scrollTo({top:0,behavior:'auto'});view.focus({preventScroll:true});}
 function shell(){const showNav=!['welcome','login','signup','reset','reset-sent','terms'].includes(route);document.querySelector('#masthead').innerHTML=`<button class="wordmark" data-go="${S.user?'home':'welcome'}">Borrowed Eyes<small>Museum</small></button><div class="header-right"><div class="language-switch" role="group" aria-label="Language / 语言"><button type="button" data-do="set-language" data-value="zh" lang="zh-CN" aria-pressed="${S.language==='zh'}">中文</button><span aria-hidden="true">/</span><button type="button" data-do="set-language" data-value="en" lang="en" aria-pressed="${S.language==='en'}">English</button></div><span class="header-note">ART · PEOPLE · PLACES<br>NEW PERSPECTIVES</span>${S.user?`<span class="stars">★ ${S.history.reduce((n,g)=>n+g.reward,0)}</span><button class="round-icon" aria-label="Your profile" data-go="profile"><span data-user-content>${esc(S.user.name[0].toUpperCase())}</span></button>`:''}<button class="round-icon" aria-label="Open menu" data-go="menu">${icon('menu')}</button></div>`;const nav=document.querySelector('#navigation');nav.hidden=!showNav;const tab=['map','area','catalogue'].includes(route)?'map':['chat','visitor','conversation','chat-team'].includes(route)?'chat':route==='profile'?'profile':'home';nav.innerHTML=['home','map','chat','profile'].map(n=>`<button data-go="${n}" class="${tab===n?'active':''}" ${tab===n?'aria-current="page"':''}>${icon(n)}<span>${n[0].toUpperCase()+n.slice(1)}</span></button>`).join('');}
 const footer=()=>`<footer class="footer-note">Different perspectives. A richer world.<small>Art · People · Places · Borrowed Eyes Museum</small></footer>`;

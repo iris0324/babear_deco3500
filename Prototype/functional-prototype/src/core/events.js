@@ -5,7 +5,7 @@ document.addEventListener('click',event=>{const nav=event.target.closest('[data-
  if(action==='about')notice('A front-end museum prototype','Accounts, matching, visitors and chat partners are demonstrations on this device. Game rules, crop creation, comments, clues and browser saves work locally. The twelve source artworks and interface images are included in this local version.');
  if(action==='terms')notice('Prototype terms & privacy','This is an educational local prototype. Use sample sign-in details. Passwords are never saved or transmitted. Uploaded images, messages and progress remain in this browser. No public account, identity service or messaging backend is connected.');
  if(action==='show-password'){const input=el.parentElement.querySelector('input');input.type=input.type==='password'?'text':'password';el.textContent=tr(input.type==='password'?'Show':'Hide')}
- if(action==='logout'){S.user=null;S.location='unknown';persist();go('welcome')}
+ if(action==='logout'){S.user=null;S.game=null;S.location='unknown';persist();go('welcome')}
  if(action==='filter'){filter=v;detailPage=0;go('browse')}
  if(action==='difficulty-filter'){difficultyFilter=Number(v);detailPage=0;go('browse')}
  if(action==='detail-page'){detailPage=Number(v);go('browse')}
@@ -28,7 +28,7 @@ document.addEventListener('click',event=>{const nav=event.target.closest('[data-
  if(action==='start-blind'){if(!mayReplaceGame())return;startGame('blind',find(blindTag),['You','Anonymous Partner'],role)}
  if(action==='blind-add-friend'){const g=S.game;if(!g||g.mode!=='blind'||!g.finished)return;if(g.friendRequested){toast('Friend request is already pending in this prototype.');return}if(!confirm('Save a sample friend request for this partner? No real request will be sent.'))return;g.friendRequested=true;persist();render();toast('Friend request saved locally.');}
  if(action==='blind-new-partner'){if(!S.game||S.game.mode!=='blind'||!S.game.finished)return;if(!confirm('Find a new partner? Your completed round will remain in local history where available.'))return;go('blind-tags')}
- if(action==='blind-leave-game'){if(!S.game||S.game.mode!=='blind')return;if(!confirm('Leave this game and return to the main menu?'))return;go('home')}
+ if(action==='blind-leave-game'){if(!S.game||S.game.mode!=='blind')return;if(!confirm('Leave this game and return to the main menu?'))return;S.game=null;persist();go('home')}
  if(action==='switch-role'){S.game.role=S.game.role==='guesser'?'describer':'guesser';persist();go('blind-chat')}
  if(action==='request-location')requestLocation();
  if(action==='location-choice')setLocation(v);
