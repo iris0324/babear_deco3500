@@ -1,9 +1,0 @@
-{
-  "name": "borrowed-eyes-backend-integration",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "engines": {"node": ">=22"},
-  "scripts": {"start": "node server/main.mjs", "test": "node --test test/*.test.mjs"},
-  "description": "Local Team, Blind Eyes and gallery chat backend; Node standard library only."
-}
