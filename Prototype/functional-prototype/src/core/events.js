@@ -1,11 +1,11 @@
 /* Borrowed Eyes | src/core/events.js | extracted from original app.js; classic scripts share global scope. */
-document.addEventListener('click',event=>{const nav=event.target.closest('[data-go]');if(nav){if(nav.dataset.go==='creator'&&S.draft)creatorStep=S.draft.step||1;go(nav.dataset.go);return;}const el=event.target.closest('[data-do]');if(!el)return;const action=el.dataset.do,v=el.dataset.value;
- if(action==='navigate'){if(v==='creator'&&S.draft)creatorStep=S.draft.step||1;go(v)}
- if(action==='guest')signIn();
- if(action==='about')notice('A front-end museum prototype','Accounts, matching, visitors and chat partners are demonstrations on this device. Game rules, crop creation, comments, clues and browser saves work locally. The twelve source artworks and interface images are included in this local version.');
- if(action==='terms')notice('Prototype terms & privacy','This is an educational local prototype. Use sample sign-in details. Passwords are never saved or transmitted. Uploaded images, messages and progress remain in this browser. No public account, identity service or messaging backend is connected.');
+document.addEventListener('click',async event=>{const nav=event.target.closest('[data-go]');if(nav){if(BlindOnline.matching&&nav.dataset.go!=='blind-match'){await BlindOnline.exit(nav.dataset.go);return;}if(nav.dataset.go==='blind-tags'&&(BlindOnline.matching||S.game?.online)){await BlindOnline.exit('blind-tags');return;}if(nav.dataset.go==='creator'&&S.draft)creatorStep=S.draft.step||1;go(nav.dataset.go);return;}const el=event.target.closest('[data-do]');if(!el)return;const action=el.dataset.do,v=el.dataset.value;
+ if(action==='navigate'){if(BlindOnline.matching&&v!=='blind-match'){await BlindOnline.exit(v);return;}if(v==='blind-tags'&&(BlindOnline.matching||S.game?.online)){await BlindOnline.exit('blind-tags');return;}if(v==='creator'&&S.draft)creatorStep=S.draft.step||1;go(v)}
+ if(action==='guest')await BlindOnline.guest();
+ if(action==='about')notice('A front-end museum prototype','Blind Eyes uses Supabase anonymous sign-in, real partner matching and room chat. Other accounts, visitors and chats are demonstrations on this device. Game rules, crop creation, comments, clues and browser saves work locally. The twelve source artworks and interface images are included in this local version.');
+ if(action==='terms')notice('Prototype terms & privacy','This is an educational local prototype. Use sample sign-in details. Passwords are never saved or transmitted. Outside Blind Eyes, uploaded images, messages and progress remain in this browser. Blind Eyes sends anonymous identity, game actions and room messages to Supabase. Other prototype features remain local.');
  if(action==='show-password'){const input=el.parentElement.querySelector('input');input.type=input.type==='password'?'text':'password';el.textContent=tr(input.type==='password'?'Show':'Hide')}
- if(action==='logout'){S.user=null;S.game=null;S.location='unknown';persist();go('welcome')}
+ if(action==='logout'){if(S.game?.online||BlindOnline.matching){try{await BlindOnline.leave();}catch(e){toast(e.message);return;}}S.user=null;S.game=null;S.location='unknown';persist();go('welcome')}
  if(action==='filter'){filter=v;detailPage=0;go('browse')}
  if(action==='difficulty-filter'){difficultyFilter=Number(v);detailPage=0;go('browse')}
  if(action==='detail-page'){detailPage=Number(v);go('browse')}
@@ -23,12 +23,15 @@ document.addEventListener('click',event=>{const nav=event.target.closest('[data-
  if(action==='back-to-game'){S.helpDraft=null;S.helpReturn=false;go('play');}
  if(action==='begin-team'){if(S.location!=='inside'){locationIntent='lobby';go('location');return}if(!mayReplaceGame())return;startGame('borrow',find(v),teamNames.slice(0,teamSize))}
  if(action==='share-clue'){const i=Number(v),g=S.game;if(!g.comments[i]||g.shared.includes(i))return;g.shared.push(i);const c=suffixClues(art())[i];g.messages.push({name:g.players[i],text:`My clue (Q${c.q}): ${c.text}`,clue:{q:c.q,text:c.text},challengeId:g.challengeId,mine:i===0});persist();go('game-chat')}
- if(action==='choose-role'){role=v;go('blind-tags')}
- if(action==='blind-tag'){blindTag=v;go('blind-match')}
- if(action==='start-blind'){if(!mayReplaceGame())return;startGame('blind',find(blindTag),['You','Anonymous Partner'],role)}
+ if(action==='choose-role')await BlindOnline.chooseRole(v);
+ if(action==='blind-tag')await BlindOnline.match(v);
+ if(action==='start-blind'){if(S.game?.online)go('blind-chat');}
  if(action==='blind-add-friend'){const g=S.game;if(!g||g.mode!=='blind'||!g.finished)return;if(g.friendRequested){toast('Friend request is already pending in this prototype.');return}if(!confirm('Save a sample friend request for this partner? No real request will be sent.'))return;g.friendRequested=true;persist();render();toast('Friend request saved locally.');}
+ if(action==='blind-new-partner'&&S.game?.online){await BlindOnline.exit('blind-tags');return;}
  if(action==='blind-new-partner'){if(!S.game||S.game.mode!=='blind'||!S.game.finished)return;if(!confirm('Find a new partner? Your completed round will remain in local history where available.'))return;go('blind-tags')}
+ if(action==='blind-leave-game'&&S.game?.online){await BlindOnline.exit('home');return;}
  if(action==='blind-leave-game'){if(!S.game||S.game.mode!=='blind')return;if(!confirm('Leave this game and return to the main menu?'))return;S.game=null;persist();go('home')}
+ if(action==='switch-role'&&S.game?.online)return;
  if(action==='switch-role'){S.game.role=S.game.role==='guesser'?'describer':'guesser';persist();go('blind-chat')}
  if(action==='request-location')requestLocation();
  if(action==='location-choice')setLocation(v);
@@ -47,6 +50,7 @@ document.addEventListener('click',event=>{const nav=event.target.closest('[data-
  if(action==='unmute'){S.muted=S.muted.filter(x=>x!==v);persist();render()}
  if(action==='unblock'){S.blocked=S.blocked.filter(x=>x!==v);persist();render()}
  if(action==='remove-member'){const g=S.game,i=Number(v);if(actor!==0||!g||g.mode!=='borrow'||i===0||!g.players[i]||g.removed?.includes(i))return;if(!confirm(tr('Remove this member from team chat? Attempts and clue ownership stay unchanged.')))return;(g.removed??=[]).push(i);S.moderation.push({name:g.players[i],action:'Removed from team chat',date:new Date().toISOString()});persist();render()}
+ if(action==='leave-team'&&S.game?.online){await BlindOnline.exit('home');return;}
  if(action==='leave-team'){if(!S.game||!confirm(tr('Leave this conversation and end this local round without a reward?')))return;S.game.finished=true;S.game.success=false;S.game.left=true;persist();go('home')}
  if(action==='block'){if(!window.confirm(tr('Hide this sample visitor in this browser?')))return;if(!S.blocked.includes(v))S.blocked.push(v);persist();go('chat')}
  if(action==='leave-gallery'){S.location='outside';go('conversation')}
@@ -62,14 +66,14 @@ document.addEventListener('click',event=>{const nav=event.target.closest('[data-
  if(action==='publish')publishDraft();
  if(action==='new-draft'){S.draft=null;creatorStep=1;creatorClue=0;persist();go('creator')}
 });
-document.addEventListener('submit',event=>{const form=event.target;if(!form.dataset.form)return;event.preventDefault();const data=new FormData(form),type=form.dataset.form;
+document.addEventListener('submit',async event=>{const form=event.target;if(!form.dataset.form)return;event.preventDefault();const data=new FormData(form),type=form.dataset.form;
  if(type==='report'){if(!reportTarget||!data.get('reason'))return;S.reports.push({...reportTarget,reason:String(data.get('reason')),details:String(data.get('details')||'').trim(),date:new Date().toISOString()});if(data.has('block')&&!S.blocked.includes(reportTarget.id))S.blocked.push(reportTarget.id);if(!persist()){S.reports.pop();return}reportTarget=null;go('safety');return}
  if(type==='auth'){const signup=form.dataset.signup==='true',password=String(data.get('password')||'');if(password.length<8){form.querySelector('.form-error').textContent=tr('Use at least eight characters for this sample password.');return}if(signup&&password!==data.get('confirm')){form.querySelector('.form-error').textContent=tr('The passwords do not match.');return}signIn(signup?String(data.get('name')):String(data.get('email')).split('@')[0]);form.reset();}
  if(type==='reset')go('reset-sent');
  if(type==='team-create'){teamSize=Number(data.get('size'));if(teamSize<2||teamSize>find(selectedId).stars)return;teamNames=['You','Maya','Leo','Willow','Kai'];S.teamName=String(data.get('name')).trim();go('lobby')}
  if(type==='comment'){const g=S.game;if(g.finished||g.comments[actor])return;g.comments[actor]=String(data.get('comment')).trim();if(!g.comments[actor])return;persist();go('clues')}
- if(type==='guess'){const g=S.game;if(g.mode!=='blind'&&g.players.some((_,i)=>!g.comments[i])){form.querySelector('.form-error').textContent=tr('Each player must write one personal comment before a formal answer.');return}if(g.mode!=='blind'&&g.players.length>1&&S.location!=='inside'){form.querySelector('.form-error').textContent=tr('Recheck gallery access before a team submission.');return}submitGuess(String(data.get('answer')).trim())}
- if(type==='game-message'){const g=S.game;if(g.left||g.removed?.includes(actor)){toast('This member cannot post to this conversation.');return}if(g.mode!=='blind'&&g.players.length>1&&S.location!=='inside'){toast('Recheck gallery access before posting to the on-site team.');return;}const text=String(data.get('message')).trim();if(!text)return;g.messages.push({name:g.mode==='blind'?(g.role==='describer'?'You · Describer':'You · Guesser'):g.players[actor],text,mine:true});persist();render()}
+ if(type==='guess'){const g=S.game;if(g?.online){await BlindOnline.guessAnswer(String(data.get('answer')).trim(),form);return;}if(g.mode!=='blind'&&g.players.some((_,i)=>!g.comments[i])){form.querySelector('.form-error').textContent=tr('Each player must write one personal comment before a formal answer.');return}if(g.mode!=='blind'&&g.players.length>1&&S.location!=='inside'){form.querySelector('.form-error').textContent=tr('Recheck gallery access before a team submission.');return}submitGuess(String(data.get('answer')).trim())}
+ if(type==='game-message'){const g=S.game;if(g?.online){await BlindOnline.send(String(data.get('message')),form);return;}if(g.left||g.removed?.includes(actor)){toast('This member cannot post to this conversation.');return}if(g.mode!=='blind'&&g.players.length>1&&S.location!=='inside'){toast('Recheck gallery access before posting to the on-site team.');return;}const text=String(data.get('message')).trim();if(!text)return;g.messages.push({name:g.mode==='blind'?(g.role==='describer'?'You · Describer':'You · Guesser'):g.players[actor],text,mine:true});persist();render()}
  if(type==='gallery-message'){if(S.blocked.includes(chatTarget)){toast('Unblock this visitor before messaging.');return}if(S.location!=='inside'){toast('Gallery access has expired. This conversation is read-only.');return}const text=String(data.get('message')).trim();if(!text)return;S.messages.push({room:chatTarget,name:S.user.name,text,mine:true});persist();render()}
  if(type==='chat-team'){if(S.location!=='inside'||S.blocked.includes(String(data.get('visitor')))||!visitors.some(v=>v.id===data.get('visitor')))return;selectedId=String(data.get('art'));const a=find(selectedId),who=visitors.find(v=>v.id===data.get('visitor'));teamSize=2;teamNames=['You',who?.name||'Willow'];S.teamName='Shared Perspectives';S.messages.push({room:chatTarget,name:S.user.name,text:`Local team invite: “${a.comment}”. Meet in Area ${data.get('area')}.`,invite:{challengeId:a.id,comment:a.comment,area:String(data.get('area'))},mine:true});persist();go('lobby')}
  if(type==='checkin'){const input=norm(data.get('code')),a=works().find(a=>norm(a.id)===input);if(!a){toast('Use a label from BE-001 to BE-012, or an ID from a locally published work.');return}S.lastCheckin=a.id;persist();toast(`Checked in at ${a.id}. No attempt used.`);render()}

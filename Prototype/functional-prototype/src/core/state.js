@@ -25,7 +25,7 @@ const norm=s=>String(s).normalize('NFKD').toLowerCase().replace(/[^\p{L}\p{N}]/g
 const works=()=>{const map=new Map(window.ARTWORKS.map(w=>[w.id,w]));for(const c of S.published){const id=c.artworkId||c.id;if(!map.has(id))map.set(id,{...c,id});}return [...map.values()]};
 const all=()=>[...window.CHALLENGES.map(c=>({...window.ARTWORKS.find(w=>w.id===c.artworkId),...c})),...S.published];
 const find=id=>all().find(a=>a.id===id)||works().find(a=>a.id===id);
-const art=()=>find(S.game?.challengeId||selectedId)||all()[0];
+const art=()=>S.game?.online?S.game.art:(find(S.game?.challengeId||selectedId)||all()[0]);
 const stars=n=>`<span class="stars" aria-label="${n} stars">${'★'.repeat(n)}</span>`;
 const areas=['Upper left','Upper right','Lower left','Lower right'];
 const icons={home:'M3 11 12 3l9 8M5 10v11h5v-7h4v7h5V10',map:'M12 22S4 15 4 9a8 8 0 0 1 16 0c0 6-8 13-8 13Z M15 9a3 3 0 1 1-6 0 3 3 0 0 1 6 0',chat:'M20 16a9 9 0 0 1-10 3l-6 3 1-6A9 9 0 1 1 20 16Z',profile:'M16 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0 M4 22v-3a8 8 0 0 1 16 0v3Z',back:'m15 5-7 7 7 7M8 12h13',eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0',upload:'M12 16V3m-5 5 5-5 5 5M3 15v6h18v-6',menu:'M4 6h16M4 12h16M4 18h16'};
@@ -43,7 +43,7 @@ function persist(){saveTab();try{localStorage.setItem(KEY,JSON.stringify({user:S
 let toastTimer;function toast(text){const el=document.querySelector('#toast');el.textContent=text;translateUI();el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.hidden=true,4200)}
 function notice(name,copy){document.querySelector('#notice-title').textContent=name;document.querySelector('#notice-copy').textContent=copy;translateUI();document.querySelector('#notice').showModal()}
 function active(){return S.game&&!S.game.finished}
-function limit(g=S.game,a=art()){return g.mode==='blind'?a.stars+1:(g.attemptLimit??(a.stars+1-g.players.length))}
+function limit(g=S.game,a=art()){return g.mode==='blind'?(g.attemptLimit??a.stars+1):(g.attemptLimit??(a.stars+1-g.players.length))}
 function left(){return Math.max(0,limit()-S.game.attempts)}
 function gameRoute(){return S.game?.mode==='blind'?'blind-chat':'play'}
 function go(next){route=next;saveTab();if(!S.user&&!['welcome','login','signup','reset','reset-sent','terms'].includes(route))route='welcome';render();window.scrollTo({top:0,behavior:'auto'});view.focus({preventScroll:true});}
