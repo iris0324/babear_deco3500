@@ -1,57 +1,54 @@
-# Borrowed Eyes — Phase 1.5
+# Borrowed Eyes — VS Code friendly frontend
 
-A mobile-first, vanilla HTML/CSS/JavaScript museum prototype. No build step or dependencies.
+This is a **structure-only refactor** of the uploaded frontend. It keeps the original HTML rendering, CSS rules, artwork assets, bilingual content, and browser-local interactions. **No React, Node.js build, database, or backend is required.**
 
-## Preview in VS Code
+## Quick start / 如何运行
 
-Open this folder in VS Code. Use **Live Server → Open with Live Server** on `index.html`, or run:
+1. Unzip the folder and open the **whole folder** in VS Code (File → Open Folder).
+2. Install the VS Code **Live Server** extension (Ritwick Dey).
+3. Right-click `index.html` → **Open with Live Server**, or click **Go Live**.
+4. Edit files and save. Refresh the browser if necessary.
 
-```sh
-python3 -m http.server 8000
-```
+Alternative if you have Python: `python3 -m http.server 5500`, then visit `http://localhost:5500/`.
 
-Then visit http://localhost:8000. Serve over HTTP because the JavaScript uses ES modules.
+## Where to edit / 文件位置
 
-## Phase 1 changes
+| Want to change | File |
+| --- | --- |
+| HTML shell, script loading | `index.html` |
+| Overall appearance, colors, mobile layout | `src/styles/main.css` |
+| Welcome, login, home, menus | `src/pages/entry.js` |
+| Browse, artwork details, Borrow game | `src/pages/borrow.js` |
+| Blind Eyes game | `src/pages/blind.js` |
+| Chats, visitors, location access | `src/pages/community.js` |
+| Gallery map, catalogue | `src/pages/gallery.js` |
+| Leave Your Eyes / task creator | `src/pages/creator.js` |
+| Profile and credits | `src/pages/account.js` |
+| State, helpers, UI shell | `src/core/state.js` |
+| Route-to-page mapping and rendering | `src/core/router.js` |
+| Action handlers and form validation | `src/core/events.js` |
+| Game/save helper actions | `src/core/actions.js` |
+| Artwork and challenge data | `src/data/artworks.js` |
+| English / Chinese translation data | `src/data/translations.js` |
+| Photos and UI illustrations | `assets/` |
 
-- Four-entry homepage, framed existing artwork, parchment palette, serif headings, walnut buttons, forest accents, and ornamental details.
-- Persistent Home / Chat / Games / Profile navigation, contextual Back buttons, keyboard focus, selected navigation states, and safe-area spacing.
-- Consistent future-feature pages for Blind Eyes, Live Gallery Chat, and Leave Your Eyes.
-- Games connects to the preserved solo journey. Profile shows locally saved view and contribution counts.
-- Shared card, form, empty-state, loading-state, difficulty, dialog, confirmation, and toast styles. Difficulty remains unrated; no game rules were added. Loading styles are available for later asynchronous features.
-- Reusable native confirmation dialog demonstrated in Profile → About this notebook; save failures now show feedback.
+## Important technical notes
 
-## Preserved
+- Scripts are intentionally **classic JavaScript scripts**, not ES modules. This preserves shared top-level `const`/`let` and original behavior. **Keep their order in `index.html`.**
+- The refactor separates functionality into named files without rewriting game logic. Some functions are still long and can be incrementally cleaned up later.
+- Artwork and illustration paths remain `assets/...`; do not move `assets/` without updating references.
+- Existing localStorage key `borrowedEyes.frontend.v3` remains unchanged, so browser-local state should remain accessible when using the same origin.
+- Accounts, chat, matchmaking, reports and uploaded challenges remain **local demonstrations**. Deploying these static files does not make them multi-user.
+- For deployment, upload `index.html`, `src/`, and `assets/` together to any static host. No build step is required.
 
-All six seed artworks and fragments; fragment selection and pagination; both clues; artwork confirmation; My View forms and local saves; comparison reactions; re-observation; artist context; optional contribution with photo previews; completion and restart. Existing `js/data.js` and `js/storage.js` remain unchanged.
+## Suggested test checklist
 
-## Manual review
+- Welcome → guest/login → location → home
+- Browse artworks, detail cards, gallery map and credits
+- Borrow Eyes game, hints, guesses, results
+- Blind Eyes flow and chat
+- Visitor chats and profile
+- Create task, preview, publish locally
+- 中文 / English switch, responsive/mobile layout
 
-Check at 320, 390, 768, and 1280 pixels wide. Open each homepage entry, use Back and bottom navigation, switch between destination pages, and verify the selected navigation item. Complete the solo journey with and without a contribution. Check pagination, second-clue retention, keyboard focus, the notebook dialog, and saved counts after refresh. Photos preview only during the current session.
-
-JavaScript syntax and static route/asset checks were completed. Browser rendering and touch interactions could not be verified automatically in the available environment.
-
-## Prototype limits
-
-New multiplayer, chat, and standalone challenge creation experiences are placeholders. No backend, accounts, real-time communication, recognition API, or invented difficulty/reward rules. Existing contributions save text and image filenames locally; uploaded image content is not persisted. Current journey position and unsaved form content are not restored after refresh. Native dialog support requires a modern browser.
-
-## Phase 2 proposal — pending review
-
-Agree on solo/team challenge rules and screen flows, then extend Borrow the Eyes. Define mock partner behavior for Blind Eyes, chat/room navigation, and standalone challenge authoring. Connect shared states and accessibility checks as each feature is implemented. Do not begin Phase 2 until Phase 1 is approved.
-
-
-## Phase 1.5 — premium vintage redesign
-
-Changed `index.html` and `css/style.css`; updated this README. Game JavaScript, data, storage, and all existing action/route bindings are unchanged. No dependencies or external images were added.
-
-The homepage now features a custom eye wordmark, an artwork-led exhibition hero, four illustrated exhibit entries, editorial serif typography, ivory paper, espresso text, forest-green controls, and muted brass/terracotta details. The floating bottom navigation uses consistent inline SVG icons. The solo journey, forms, clues, artwork frames, reactions, and placeholder pages share the same styling. Hover, pressed, focus, and disabled states are defined; reduced-motion preferences disable animation and transforms.
-
-### Verification
-
-- Reviewed the desktop layout and mobile layout at 375 × 812 in Chrome responsive mode. All four entries remain visible above the bottom navigation, with no overlapping primary controls.
-- Opened Blind Eyes and Live Gallery Chat and verified Back returns to Home.
-- Static checks confirmed every original HTML action, route, and ID remains present and unchanged; all referenced local assets exist. `js/app.js` is byte-for-byte unchanged from Phase 1, and its syntax check passes.
-- The 430px layout has dedicated responsive sizing, but its browser review was interrupted when the browser switched away from the preview. An attempt to use a separate review browser timed out. Full end-to-end solo-journey, upload, hover/pressed/focus, and reduced-motion behavior were not re-tested in the browser during this visual-only pass.
-- Remaining review: check 430 × 932 and a physical phone; walk through the solo journey and the remaining navigation entries. Confirm appearance in browsers without the local Iowan/Baskerville/Avenir fonts (built-in fallbacks are supplied).
-
-Phase 1.5 stops here. Phase 2 has not begun.
+The original functionality has not been intentionally altered; test in a browser before deploying publicly.
