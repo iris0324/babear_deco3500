@@ -1,3 +1,5 @@
+> **Historical design snapshot.** Status statements below describe this concept at the time of writing. Completed testing is documented in [Round 2 findings](../../Evaluation/Round_2/Borrowed_Eyes_Round_2_Testing_Findings.md); current implementation is described in the [prototype guide](../../../Prototype/README.md).
+
 # Design Iteration 2: Borrowed Eyes
 
 *Current concept and paper prototype development*
@@ -35,7 +37,7 @@ The content is not completely produced in advance. Each participant adds new mat
 
 ## Core Interaction
 
-![Borrowed Eyes interaction flow](../images/borrowed-eyes-flow.png)
+![Borrowed Eyes interaction flow](images/borrowed-eyes-flow.png)
 
 *Figure 1. The Borrowed Eyes interaction changes from a linear activity into a cumulative social loop.*
 
@@ -52,7 +54,7 @@ The order is important. The participant records an initial response before seein
 
 ### Scenario
 
-![Borrowed Eyes scenario](../images/borrowed-eyes-scenario.png)
+![Borrowed Eyes scenario](images/borrowed-eyes-scenario.png)
 
 *Figure 2. A participant follows a previous visitor's clue, records an independent response, compares perspectives, and creates a card for the next visitor.*
 
@@ -106,3 +108,4 @@ The concept is social because visitors leave observations for people they may ne
 - Does searching lead to closer observation of the physical artworks?
 - Does the previous visitor's comment change or extend the participant's interpretation?
 - Are participants willing to create content for the next visitor?
+
