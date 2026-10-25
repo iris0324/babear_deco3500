@@ -1,58 +1,54 @@
 # Babear — Borrowed Eyes
 
 **DECO3500 Social & Mobile Computing · Semester 2, 2026**  
-**Domain:** Enhancing the Art Gallery Experience through Social and Mobile Computing
+**Team 6 — The University of Queensland**
+
+## Open the project
+
+- [Online prototype](https://iris0324.github.io/babear_deco3500/)
+- [Tradeshow poster](https://github.com/iris0324/babear_deco3500/blob/main/docs/Poster/poster.png)
+- [Two-phone usage instructions](https://github.com/iris0324/babear_deco3500/blob/main/Prototype/README.md)
 
 ## Project Overview
 
-Our project explores how social and contextual technologies can support casual and less-experienced gallery visitors in actively interpreting physical artworks and becoming aware of other visitors' perspectives.
+**Borrowed Eyes** is a social and contextual gallery experience exploring how artworks can become shared starting points for observation, interpretation and communication.
 
-The current concept, **Borrowed Eyes**, is a cumulative visitor-generated gallery experience. One visitor leaves a visual detail, clue and personal interpretation; a later visitor follows that trace, forms an independent interpretation, compares perspectives and then contributes a new trace for someone else.
+Our project began by investigating how casual and less-experienced gallery visitors form interpretations of artworks and how other visitors' perspectives might support reflection without distracting attention from the physical gallery experience.
 
-The core social loop is:
+Across multiple design iterations, the project evolved from individual interpretation prompts into a system supporting different levels of social participation.
 
-> **Borrow → Interpret → Compare → Look Again → Leave**
+The current design explores:
 
-The project aims to keep the **physical artwork** at the centre of the experience while enabling low-pressure, anonymous and asynchronous social connection.
+- **Borrowed Eyes** — visitors explore details and perspectives left by others, either independently or collaboratively.
+- **Blind Eyes** — two visitors exchange information and interpretations to identify an artwork.
+- **Collaborative / Face-to-Face interaction** — small groups share different clues, negotiate possibilities and make joint decisions.
+- **Leave Your Eyes** — visitors contribute a visual detail and personal perspective for future participants.
+
+The overall design goal is to support **perspective exchange and meaningful gallery engagement while allowing visitors to choose how socially involved they want to be**.
+
+## Design Evolution
+
+> **Art Persona → Borrowed Eyes → Perspective Exchange → Flexible Social Participation**
+
+Our design changed through literature research, gallery visitor interviews, an exploratory survey, paper prototyping and formative user testing.
 
 ## Wiki Navigation
 
+- [[Academic Literature and Related Work]]
 - [[Design Process Overview]]
 - [[Ethical Considerations]]
-- [[Internal Meeting Records]] *(to be populated from actual meeting records)*
+- [[Internal Meeting Records]]
 
 ## Repository Documentation
 
 - [Research](https://github.com/iris0324/babear_deco3500/tree/main/docs/Research)
-- [Experience Requirements](https://github.com/iris0324/babear_deco3500/tree/main/docs/Requirements)
-- [Design Iterations](https://github.com/iris0324/babear_deco3500/tree/main/docs/Design)
+- [Design](https://github.com/iris0324/babear_deco3500/tree/main/docs/Design)
 - [Evaluation](https://github.com/iris0324/babear_deco3500/tree/main/docs/Evaluation)
 - [Prototype](https://github.com/iris0324/babear_deco3500/tree/main/Prototype)
 - [Poster and Promotional Materials](https://github.com/iris0324/babear_deco3500/tree/main/docs/Poster)
 
-## Current Project Status
+## Current Status
 
-Completed/documented so far:
+The project has completed three stages of concept development and multiple rounds of formative research and evaluation.
 
-- domain and literature research;
-- first-round gallery visitor interviews and thematic analysis;
-- experience requirements;
-- Design Iteration 1 — **Art Persona**;
-- Design Iteration 2 — **Borrowed Eyes**;
-- Borrowed Eyes low-fidelity paper prototype;
-- Round 2 formative testing and findings.
-
-Still to be added as development continues:
-
-- explicit design-framework application;
-- functional digital proof-of-concept and run instructions;
-- further prototype evaluation;
-- final ethics-framework mapping;
-- final poster/tradeshow materials;
-- final team contribution summary.
-
-> **Draft status:** This Wiki page reflects the repository evidence currently available and will be updated as the functional prototype and later evaluation are completed.
-
-## AI Use
-
-> **TBD — adapt to the required UQ/course referencing format:** This Wiki draft was organised and edited with generative AI assistance using the team's existing repository materials. Project research, testing data, design decisions and artefacts remain the work of the team and participants.
+The final backend was completed and refined by Yunlin Wang (Iris). The team confirmed on-site online testing with two phones, including QR-code access, matching and partner visibility. The tradeshow and pitch were completed. The current documentation distinguishes real online Blind Eyes from local team/gallery demonstrations and records ethical limitations.
