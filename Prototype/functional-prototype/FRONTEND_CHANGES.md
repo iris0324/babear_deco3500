@@ -1,3 +1,5 @@
+> **Historical frontend preparation notes.** The disconnected-backend status below applies to the earlier frontend-only snapshot. Blind Eyes is now connected to Supabase, and the team confirmed two-phone matching. Use the [current README](README.md) for implementation scope.
+
 # Exhibition frontend preparation (backend not yet connected)
 
 ## Changes in this ZIP
@@ -15,3 +17,4 @@
 ## Next backend integration
 - Atomic topic-specific pairing, two-person rooms, role coordination, room-specific real-time messages, synchronized guesses/results, and room exit/disconnect handling.
 - Remove prototype text about simulated matching and replace sample partner acceptance with real waiting/matching.
+
