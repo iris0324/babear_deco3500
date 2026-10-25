@@ -49,7 +49,7 @@ See [prototype instructions](Prototype/README.md), [implementation map](Prototyp
 | Round 3 formative evaluation, 14 October 2026 | [Testing results](docs/Evaluation/Round_3/Testing_Results.md): four people across four paired rounds, with three also joining one group session |
 | Poster | [Poster and materials](docs/Poster/README.md) |
 
-The interview documents contain five complete written records and a separate summary reporting six interviews. The overview uses the five fully documented records; the total should be reconciled against the original evidence. The later survey is separate from the initial interview study.
+The team confirmed **five participants** in the initial interview study, matching the five complete written records. The later 30-response survey is a separate activity.
 
 ## Run or deploy
 
