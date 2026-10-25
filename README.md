@@ -63,8 +63,8 @@ Responsibilities overlapped; all members participated in testing and design disc
 
 | Member | Main contributions |
 |---|---|
-| Yunlin Wang (Iris) | Initial website architecture, frontend/UI foundation, the completed and refined final backend, and code integration. |
-| Yining Zhu (Ning) | Research documentation, survey design, interview synthesis, evidence and repository organisation, and prototype refinement. |
+| Yunlin Wang (Iris) | Initial website architecture, frontend and UI/UX foundation; completed the backend used in the final prototype; code integration and repository organisation. |
+| Yining Zhu (Ning) | Research documentation, survey design and interview synthesis; GitHub, Wiki and submission organisation and review; developed an earlier backend version not adopted in the final prototype.|
 | Binyan Zhang (Zoe) | Interviews, testing and analysis; user flows for both rounds; later website and prototype refinement. |
 | Muchu Wang (Muchu) | Wiki/process documentation, interviews, testing, evaluation synthesis and collaborative concept development. |
 | Xinyue Chang (Ivy) | Team coordination, concept/interaction design, prototype development, visual refinement and poster design. |
