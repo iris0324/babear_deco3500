@@ -1,3 +1,5 @@
+> **Scope and evidence clarification.** The team confirmed five interview participants, matching [the five complete interview records](interview-round-1.md). Earlier references to six participants were a documentation error and have been corrected. The statements below about no survey concern this initial study; the later [30-response survey](../../Evaluation/Round_3/Survey_Findings.md) is documented separately.
+
 # DECO3500 User Research
 
 ## Research status
@@ -8,12 +10,12 @@ This document separates confirmed research activities from reconstructed notes a
 |---|---|---|
 | Literature and domain research | Completed | Used to define the problem space and initial target audience. |
 | Interview plan and questions | Completed | Presented as the proposed method and interview guide. |
-| Six participant interviews | Conducted | Real interview responses were analysed. Audio recordings also exist. |
+| Five participant interviews | Conducted | Real interview responses were analysed. Audio recordings also exist. |
 | Survey | Not conducted | No survey data or results are included. |
 | Observation round one | Conducted | Completed at the university art museum; surviving notes are incomplete. |
 | Observation round two | Conducted | Completed at an art museum near Brisbane's Cultural Centre; surviving notes are incomplete. |
 
-> **Evidence note:** The six interviews and two observation visits were real research activities. However, the source material currently available for this document does not include the audio files or complete observation notes. Details added from memory are identified as reconstructed notes. No missing quotation, participant action, number, date, or time has been invented.
+> **Evidence note:** The five interviews and two observation visits were real research activities. However, the source material currently available for this document does not include the audio files or complete observation notes. Details added from memory are identified as reconstructed notes. No missing quotation, participant action, number, date, or time has been invented.
 
 ## Project Context
 
@@ -62,7 +64,7 @@ My main responsibility was the user research and interview component. My work in
 - organising interview responses into themes, user needs, insights, and design implications; and
 - connecting the research analysis to possible design opportunities.
 
-The interview guide, six participant interviews, audio recording, and thematic analysis were completed. I also took part in two rounds of observation. The evidence was not preserved equally well across every activity, so this report distinguishes direct interview evidence from reconstructed observation notes.
+The interview guide, five participant interviews, audio recording, and thematic analysis were completed. I also took part in two rounds of observation. The evidence was not preserved equally well across every activity, so this report distinguishes direct interview evidence from reconstructed observation notes.
 
 ## Research Objectives
 
@@ -92,7 +94,7 @@ The plan was to include people with different levels of gallery experience rathe
 
 ### Actual recruitment
 
-Six people took part in the interviews. The participant descriptions and responses used in the analysis refer to these real interviews, and audio recordings were retained. The participants included people with different ages and levels of gallery experience. The available written record does not fully preserve recruitment dates, exact locations, or consent procedures, so these details should be added only after they are checked against the recordings or project files.
+Five people took part in the interviews. The participant descriptions and responses used in the analysis refer to these real interviews, and audio recordings were retained. The participants included people with different ages and levels of gallery experience. The available written record does not fully preserve recruitment dates, exact locations, or consent procedures, so these details should be added only after they are checked against the recordings or project files.
 
 ## Interview Method
 
@@ -137,7 +139,7 @@ These prompts were intended to collect examples and stories rather than short ye
 
 ## Summary of Participant Responses
 
-Six real participant interviews were completed and recorded. The response set showed patterns such as:
+Five real participant interviews were completed and recorded. The response set showed patterns such as:
 
 - uncertainty when interpreting unfamiliar or contemporary art;
 - difficulty understanding long or academic gallery labels;
@@ -185,7 +187,7 @@ This approach allows the observation work to be included honestly without replac
 
 ## Thematic Analysis
 
-The table below records the thematic analysis developed from the six real interviews. The evidence is paraphrased from the existing response summaries. Direct quotations should be checked against the audio recordings before publication.
+The table below records the thematic analysis developed from the five real interviews. The evidence is paraphrased from the existing response summaries. Direct quotations should be checked against the audio recordings before publication.
 
 | Theme | Evidence status and preliminary pattern | User Need | Insight | Design Implication |
 |---|---|---|---|---|
@@ -197,7 +199,7 @@ The table below records the thematic analysis developed from the six real interv
 
 ## Key Findings
 
-The following findings were developed from the six interviews. They represent this small participant group and should not be generalised to all gallery visitors:
+The following findings were developed from the five interviews. They represent this small participant group and should not be generalised to all gallery visitors:
 
 1. Some casual visitors may be interested in art but lack confidence in interpreting unfamiliar artworks.
 2. Visitors may value other people's interpretations because different viewpoints can support reflection.
@@ -232,7 +234,7 @@ Possible concepts included short anonymous interpretations, reactions or questio
 
 This research record has important limitations:
 
-- The study involved only six interview participants.
+- The study involved only five interview participants.
 - Audio recordings exist, but they were not available while this report was being prepared.
 - Full transcripts, consent records, recruitment notes, dates, and locations were not available in the current document set.
 - The intended audience was based mainly on early literature and team assumptions.
@@ -255,3 +257,4 @@ If I continued this research, I would ask more follow-up questions about specifi
 ## Evidence Note
 
 This document was prepared from the DECO3500 project conversation, available proposal-related material, and the researcher's clarification about completed fieldwork. A future version should add anonymised transcript references and recovered observation evidence while keeping participant recordings private unless public sharing was explicitly approved.
+

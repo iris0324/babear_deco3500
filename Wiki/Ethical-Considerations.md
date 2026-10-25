@@ -1,200 +1,289 @@
 # Ethical Considerations
 
-> **Working draft.** The issues below are grounded in the project's current research, design and evaluation records. The assessment brief also requires the team to use an ethics framework. The repository does not yet document which framework has been selected, so the final version must explicitly map these issues to the chosen framework rather than presenting this page as a completed framework analysis.
+## Ethics Framework
 
-## Ethics Framework Status
+We used the **Ethical Disclaimer** from the *Ethics for Designers* toolkit to structure our ethical reflection.
 
-**TBD:** Select and apply the team's chosen ethics framework (for example, the framework specified/approved in the course materials). Record:
+The framework asks designers to consider:
 
-- the framework name and citation;
-- the relevant dimensions/questions;
-- how each dimension changed or challenged the design;
-- unresolved risks.
+1. the current design context;
+2. relevant stakeholders;
+3. design intentions;
+4. potentially unethical situations created by the design;
+5. which consequences and risks the design team should take responsibility for.
 
-## 1. Privacy, Anonymity and Personal Data
+Rather than treating ethics as a final checklist, we used these questions to identify risks that became more visible as Borrowed Eyes evolved from anonymous visitor traces into paired, group and live social interaction.
+
+Reference:  
+[Ethics for Designers — Ethical Disclaimer](https://www.ethicsfordesigners.com/ethical-disclaimer)
+
+---
+
+## 1. Current Design Context
+
+Borrowed Eyes is designed for use in a physical art gallery.
+
+The design explores different levels of social participation:
+
+- independent exploration of visitor-created perspectives;
+- **Blind Eyes**, where two visitors exchange information and interpretations;
+- small-group collaborative artwork finding;
+- **Live Gallery Chat**;
+- **Leave Your Eyes**, where visitors create content for future participants.
+
+The final prototype combines real online Blind Eyes matching and chat with local demonstrations of Borrowed Eyes teams, wider gallery chat and creator publication. These differences matter when assessing which safeguards actually operate. The analysis below separates current measures, their limits and proposed improvements.
+
+---
+
+## 2. Stakeholders
+
+Relevant stakeholders include:
+
+- participating gallery visitors;
+- visitors who prefer not to participate;
+- quieter or socially anxious visitors;
+- children and families;
+- visitors with mobility, sensory or cognitive accessibility needs;
+- gallery staff and facilitators;
+- artists and artwork rights holders;
+- the project/design team;
+- future visitors who may encounter previously created content.
+
+Ethical decisions therefore need to consider people beyond the immediate user completing the activity.
+
+---
+
+## 3. Design Intentions
+
+Our design intentions are to:
+
+- support personal interpretation without implying that there is one correct meaning;
+- help visitors encounter different perspectives;
+- encourage closer observation of physical artworks;
+- offer different levels of social participation;
+- avoid forcing direct interaction with strangers;
+- keep digital interaction secondary to the physical gallery experience;
+- allow visitors to contribute perspectives for future participants.
+
+These intentions are positive, but they do not guarantee positive outcomes. The following sections identify situations in which the design could create harm, pressure or exclusion.
+
+---
+
+## 4. Social Pressure and Participation
+
+**Risk.** Visitors may feel obliged to share personal experiences, reply to a stranger or continue an uncomfortable activity. Our survey identified low sharing confidence and concerns about communication pressure.
+
+**Current response.** Borrowed Eyes offers Play Alone and Play Together. In Blind Eyes, visitors choose a topic, receive a match, then use Accept Match and Start Chat. Leave Conversation and Leave Game provide an exit. Kindness reminders encourage respectful disagreement. Matching creates an opportunity for contact, not consent to meet physically or disclose personal information.
+
+**Trade-off and further action.** Solo is an alternative to direct conversation, but it also requires a comment to unlock a clue. Team play requires each member's comment before a formal answer. Thus mode choice does not make all contribution optional. Prompts allow a small observation rather than intimate disclosure; we should test a private or skip alternative and explain contribution requirements before starting. Leaving a local team round currently ends it without a reward, so the earlier aspiration of leaving without penalty is not fully achieved. No visitor should be pressured to remain for a game reward.
+
+---
+
+## 5. Unequal Participation and Dominant Voices
+
+**Risk.** A quieter participant in Round 3 Face-to-Face testing reported difficulty speaking up. A dominant member may control decisions even when everybody contributes.
+
+**Current response.** In team-based Borrowed Eyes, each member writes a personal interpretation to unlock one private clue, then chooses to share it with the team. Formal answers require all members' comments and an agreement checkbox. Text-based comments offer a route besides speaking aloud. These mechanisms structure contributions in the local team prototype; they do not prove equal influence or verify every person's consent.
+
+**Remaining concern.** Mandatory comments can create pressure, and the person submitting the answer can tick agreement without genuinely consulting others. We should observe whose clues affect decisions, invite quieter members without requiring equal speaking time, and test accessible alternatives. Host removal from team chat is a local demonstration and could itself exclude minority voices; removal should address harmful behaviour, not interpretive disagreement.
+
+---
+
+## 6. Matching, Partner Dependency and Non-Response
+
+**Risk.** Blind Eyes depends on a partner. Non-response, connection loss or an unwanted match can interrupt the gallery visit and create pressure to wait.
+
+**Current response.** The online backend matches two visitors selecting the same topic and assigns complementary Describer/Guesser roles. The interface displays Anonymous Partner and asks the visitor to accept the match before entering chat. Visitors can leave the conversation; after a round, Find a New Partner returns them to topic selection. Backend heartbeat expiry also handles inactive sessions. The team confirmed on-site testing with two phones: QR-code access, successful matching and visibility of the matched partner.
+
+**Remaining concern.** This test establishes the tested connection flow, not the safety or comfort of every match. Accept Match is an interface step, not a comprehensive server-enforced consent protocol. Leaving may take time to appear on the other device, and locking a phone can expire a session. We should explain waiting and disconnection states, permit an independent alternative, and avoid blaming someone who leaves. Automatic fallback clues after partner non-response are a proposal, not a confirmed feature.
+
+---
+
+## 7. Privacy, Anonymous Speech and Personal Data
+
+**Risk.** Interpretations and chat may reveal identity, beliefs or personal experiences even without a real name. Children and families need particular care: guest access is not age verification or permission to collect children's information.
+
+**Current response.** Blind Eyes uses guest access through Supabase anonymous sign-in, so email registration is not required for this flow. Chat presents the participants as You and Anonymous Partner. Authentication state is held in the tab's sessionStorage. Room messages are stored in the backend, with access restricted to room members through database policies. The interface retrieves the latest 500 messages; older messages remain stored. The backend used in the final prototype was completed and refined by Iris.
+
+**Remaining concern.** This is anonymity towards another visitor, not complete anonymity from the service operator. Technical user identifiers, room membership and messages still exist. Session expiry or leaving a room does not establish deletion of stored messages. Before wider deployment, the team and host must define retention, deletion/withdrawal, authorised administrator access and a plain-language privacy notice. We should minimise identifying details and avoid publicly exposing children's names, images or contact information. These are design responsibilities, not a claim of completed production privacy assurance.
+
+---
+
+## 8. Unwanted Contact, Reporting, Muting and Blocking
+
+**Risk.** Matched chat and future public chat can enable harassment, offensive messages, unwanted contact or pressure to meet. Anonymous display may reduce social pressure while also weakening perceived accountability.
+
+**Current response.** Blind Eyes provides Report Partner and Leave Conversation. Incoming messages expose Report and Mute options. The report form offers reasons including harassment, discrimination, threats, sexual content, privacy violations and spam, with optional details. Sample visitor profiles also provide Block. Community guidelines prohibit harassment and sharing another person's private information.
+
+**Actual scope.** Reports are saved locally in the browser, with a warning that they are not sent to a moderator. Report details can themselves contain sensitive information and may remain on a shared device. Mute hides messages locally; it does not stop a sender transmitting them. Local blocking of sample profiles does not establish server-side blocking or prevent future online rematching. The partner-level report uses the Anonymous Partner label, while message-level reports can capture a sender ID; a reliable moderator workflow still needs implementation.
+
+**Further action.** Before public deployment, connect reports to a restricted moderation queue, define response responsibilities and escalation, and implement enforceable room/user controls. Explain what each safety control actually does. A report is an allegation, not proof of misconduct; moderation needs review and a way to address mistakes. For the current prototype, leaving a live conversation is an available immediate exit, but it is not a substitute for operational moderation.
+
+---
+
+## 9. Sharing Personal Views and Visitor-Generated Content
+
+**Risk.** Leave Your Eyes contributions, clues and chat may contain identifying, harmful, irrelevant or misleading material. Personal interpretation should not be ranked as objectively correct, and unpopular viewpoints should not be removed merely for disagreeing.
+
+**Current response.** Round 2 paper contribution sheets requested permission for anonymous reuse. The digital creator structures contributions around artwork details, short personal responses and clues. Current creator publication stays in browser-local storage; it does not automatically publish a new challenge to the online matching dataset. Existing demonstration perspectives should be distinguished from genuine participant contributions. Reporting controls demonstrate a safety route, with the local-only limits described above.
+
+**Further action.** Paper-study consent does not authorise indefinite public reuse or cover online chat. Wider publication needs clear opt-in sharing, audience information, withdrawal/deletion and a content-review process. Private reflection should be distinguished from publishing. Preserve legitimate disagreement, provide artwork attribution and review sensitive content before public display. No operational server-side moderation or universal content-deletion feature is claimed here.
+
+---
+
+## 10. Interpretive Influence and Anchoring
+
+**Risk.** A prominent earlier comment can anchor a visitor's interpretation or imply that one reading is authoritative.
+
+**Current response and limitation.** Iteration 2 deliberately placed independent interpretation before the social reveal. Current team Borrowed Eyes requires a personal comment before unlocking a clue, but browsing and detail pages already display the creator's perspective. These are different sequences: comment-before-clue does not fully preserve interpretation-before-any-social-view.
+
+**Further action.** Explain this trade-off and test whether delaying or optionally revealing the creator's view better protects interpretive agency. Continue inviting different readings and separating artwork-identification accuracy from the value of a personal interpretation. Difficulty stars describe challenge difficulty, not the quality of a visitor's opinion.
+
+---
+
+## 11. Accessibility and Physical Gallery Space
 
 ### Risk
 
-Borrowed Eyes depends on visitor-generated interpretations. Public contribution can create privacy concerns if names, profiles, photographs or other identifying information are attached unnecessarily.
+The interaction asks visitors to move through the gallery, inspect artworks, communicate with others and sometimes use a mobile device.
 
-User research already suggests that some visitors prefer anonymous participation and may be discouraged by account creation, personal-data entry or direct connection with strangers. A parent participant also raised concerns about displaying a child's name, image or personal information.
+This may disadvantage people with:
 
-### Current design response
+- mobility limitations;
+- visual impairments;
+- hearing impairments;
+- cognitive or sensory access needs;
+- limited confidence using mobile technology.
 
-- contributions are intended to be anonymous;
-- the paper prototype does not require an account or public profile;
-- the experience focuses on the artwork/detail and interpretation rather than the identity of the contributor;
-- the contribution sheet includes permission for the anonymous card/comment to be shown in a later testing round.
+Group activity could also contribute to crowding or obstruct non-participating visitors.
 
-### Remaining questions
+### Design response
 
-- What data will the digital prototype actually store?
-- How long will contributions be retained?
-- Can a participant withdraw/delete a contribution?
-- Will any device, account, location or analytics data make an "anonymous" contribution re-identifiable?
+The experience should:
 
-## 2. Consent to Share Visitor Contributions
+- avoid requiring one fixed physical route;
+- support alternative clue formats;
+- allow sufficient time;
+- avoid requiring rapid movement;
+- consider screen, text and interaction accessibility;
+- respect shared gallery space.
 
-### Risk
+### Remaining concern
 
-Writing an interpretation for a prototype does not automatically mean a participant expects it to be shown publicly or reused indefinitely.
+The current formative testing has not included a sufficiently diverse accessibility sample, so accessibility cannot yet be claimed as validated.
 
-### Current design response
+---
 
-The paper-prototype contribution sheet explicitly asks for permission before an anonymous card/comment is shown to a later testing round.
-
-### Remaining questions
-
-- How will consent work in the final interface?
-- Is sharing opt-in by default?
-- Can visitors contribute privately without publishing?
-- How will consent be explained without creating excessive friction?
-
-## 3. Interpretive Influence and Anchoring
+## 12. Mobile Attention and Physical Artwork
 
 ### Risk
 
-Showing another visitor's interpretation too early may anchor the current visitor's response, reduce independent meaning-making or create the impression that one interpretation is more legitimate.
+A central project goal is to support engagement with physical artworks.
 
-### Current design response
+However, features such as chat, profiles, clues and team interaction could increase screen time and shift attention away from the gallery.
 
-Borrowed Eyes deliberately requires the current visitor to **respond independently before** the previous visitor's interpretation is revealed. This supports interpretive agency and makes disagreement acceptable.
+### Design response
 
-Round 2 also suggested that the design should aim for **perspective expansion**, not consensus.
+Digital interactions should remain brief and should repeatedly return attention to the artwork through:
 
-### Remaining questions
+- searching;
+- observation;
+- comparison;
+- re-observation;
+- physical movement.
 
-- Does the digital interface visually privilege earlier comments?
-- Could popularity metrics create a "majority interpretation" effect?
-- Should comments be random, contrasting, similar or curator-selected?
+### Remaining concern
 
-## 4. Moderation, Harmful Content and Trust
+The latest digital interface has not yet been fully evaluated for actual screen time or attention competition.
 
-### Risk
+---
 
-A visitor-generated system can contain irrelevant, offensive, misleading or personally identifying content. Anonymous contribution reduces social pressure but can also reduce accountability.
+## 13. Location Data and Gallery Safety
 
-User research explicitly raised the need for moderation.
+**Risk.** Permission requests can suggest precise presence verification, while retaining coordinates or movement histories would create additional privacy risks. A visitor may also feel forced to grant location access to participate socially.
 
-### Current design response
+**Current implementation.** The interface offers Allow Location and Not Now, with browsing and solo play available through limited access. The current requestLocation function invokes browser geolocation with high accuracy disabled. Its success callback sets an inside state but does not inspect coordinates or check a gallery boundary. Therefore successful permission is not reliable proof of physical gallery presence. In this function, coordinates are not added to app state or sent to the matching backend; a complete service-level data audit has not been performed.
 
-The prototype keeps contributions short and artwork-specific, reducing the scope for unrelated content.
+**Design response and remaining work.** Do not describe this gate as secure geofencing or as protection from off-site users. Explain the prototype behaviour, avoid unnecessary coordinate collection, and consider manual room selection or an appropriately designed venue check. A QR-code link alone is also not proof of physical presence because it can be shared. Future presence verification should retain only what is needed, avoid continuous movement tracking and clearly explain which activities need it.
 
-### Remaining questions
+---
 
-- Who moderates contributions: gallery staff, automated filtering, users, or a combination?
-- What can visitors report?
-- How quickly should harmful content be removed?
-- How should moderation avoid erasing legitimate disagreement or unusual interpretations?
-
-## 5. Children and Family Contexts
+## 14. Artwork Photography and Rights
 
 ### Risk
 
-The system may be encountered by families, including children. A parent participant raised privacy concerns around children's names, images and personal information.
+Borrowed Eyes uses visual fragments of artworks.
 
-### Current design response
+Photography and image use may be restricted by gallery rules, copyright conditions or artist rights.
 
-The concept does not require a public identity or personal profile.
+### Design response
 
-### Remaining questions
+A public implementation should:
 
-- If future research directly recruits minors, what consent/assent process is required?
-- Should child-created contributions be treated differently?
-- How should content visibility/moderation work for family audiences?
+- follow gallery photography policies;
+- use authorised images where necessary;
+- provide attribution where required;
+- avoid assuming that every artwork can legally be photographed or redistributed.
 
-## 6. Physical Accessibility and Non-Participating Visitors
+---
 
-### Risk
+## 15. Responsibilities We Accept as Designers
 
-Borrowed Eyes asks participants to move through a shared gallery, search for details and potentially spend longer around selected artworks. This could affect circulation, crowding or access for people who are not participating. The search mechanic may also disadvantage visitors with mobility, vision, cognitive or sensory access needs.
+Using the Ethical Disclaimer framework, we consider the following to fall within our design responsibility:
 
-The stakeholder analysis already identifies non-participating visitors and accessibility/movement as design considerations rather than confirmed problems.
+- avoiding unnecessary collection of personal data;
+- keeping participation voluntary;
+- providing alternatives when social interaction fails or becomes uncomfortable;
+- reducing opportunities for harassment and harmful content;
+- supporting quieter participants;
+- avoiding interface choices that imply one interpretation is correct;
+- keeping attention on the physical artwork;
+- considering accessibility and non-participating gallery visitors;
+- clearly communicating activity expectations;
+- documenting known limitations rather than overstating what testing demonstrates.
 
-### Current design response
+Some risks, such as institutional gallery policy and final production-level data security, would require collaboration with gallery staff and technical stakeholders. However, identifying these dependencies remains part of our responsibility as designers.
 
-The paper prototype has so far been used as a small-scale formative activity rather than a full public deployment.
+---
 
-### Remaining questions
+## 16. Ethical Principles to Preserve
 
-- Can the experience be completed without rushing or blocking viewing space?
-- Are clues available in accessible formats?
-- Can visitors choose alternative interaction modes?
-- Does the route assume physical abilities that not all visitors have?
+The following principles should remain visible in future iterations:
 
-## 7. Mobile Attention and Cognitive Load
+1. **Participation is optional.**
+2. **Different levels of social engagement should remain available.**
+3. **Independent interpretation should be protected where appropriate.**
+4. **Disagreement is valid and should not be treated as failure.**
+5. **Visitors should control what they share.**
+6. **Personal data collection should be minimised.**
+7. **Visitor-generated content requires moderation and reporting mechanisms.**
+8. **Quieter participants should have meaningful opportunities to contribute.**
+9. **Technology should redirect attention to the artwork rather than dominate it.**
+10. **Accessibility and the experience of non-participants must be considered.**
 
-### Risk
+---
 
-The project is specifically trying to avoid turning a gallery visit into a screen-centred experience. A digital version could undermine the design opportunity if visitors spend more time reading, typing or navigating the interface than observing artworks.
+## Limitations and Ongoing Ethical Review
 
-### Current design response
+This ethics analysis reflects the current design and formative evaluation.
 
-- research requirements specify brief interaction;
-- the paper prototype uses searching and re-observation as physical tasks;
-- Round 2 strengthened the explicit **look again** step.
+The team-confirmed two-phone matching test establishes functional evidence for that flow, not validation of anonymity, reporting effectiveness, equal participation or safety at scale. Remaining work includes an operational reporting process, retention and withdrawal policies, honest location-access messaging, accessibility testing and observation in a busy gallery. The project team owns accurate prototype disclosures and further evaluation; a deployment partner would need to agree moderation duties, data stewardship and incident response before wider use.
 
-### Remaining questions
+The Ethical Disclaimer is therefore treated as a **living document** that should be revisited as the prototype and deployment context change.
 
-- How much screen time does the digital prototype introduce?
-- Can clues and social content be glanceable?
-- What is the minimum amount of typing needed to contribute meaningfully?
-
-## 8. Location and Context Data
-
-### Risk
-
-A later context-aware version may use the visitor's gallery location or area to deliver relevant clues. Fine-grained location tracking can create privacy and surveillance concerns if it is unnecessary or retained.
-
-### Current design response
-
-No location-aware digital implementation is currently documented; therefore this risk has not yet been technically tested.
-
-### Remaining questions
-
-- Is exact tracking necessary, or is a manually selected gallery/room enough?
-- Can location processing happen locally without storing movement histories?
-- What location data, if any, is retained?
-
-## 9. Artwork Photography and Gallery Policy
-
-### Risk
-
-The prototype uses cropped visual details and asks contributors to photograph or identify a detail. Photography rules, artwork copyright, artist rights and gallery policy may differ between exhibitions.
-
-### Current design response
-
-The paper prototype uses selected artwork details for formative testing.
-
-### Remaining questions
-
-- Does the host gallery permit photography for the selected works?
-- Can the system use gallery-provided images instead of user photographs?
-- What attribution/licensing is required for public deployment or tradeshow documentation?
-
-## 10. Ethical Design Decisions to Preserve
-
-Based on the current project evidence, the following principles should remain visible in later iterations:
-
-1. **Independent interpretation first** — do not expose social influence before the visitor has space to form a response.
-2. **Sharing is voluntary** — contribution should not automatically equal publication.
-3. **Anonymous by default where possible** — collect only information needed for the experience.
-4. **Disagreement is valid** — do not rank interpretations as correct/incorrect or force consensus.
-5. **Artwork-centred interaction** — technology should return attention to the physical artwork.
-6. **Moderation without over-control** — protect participants from harmful content while preserving plural interpretations.
-7. **Accessible participation** — do not assume one route, device ability or mode of interaction suits every visitor.
-
-## Open Ethics Actions
-
-- [ ] Select and cite the required ethics framework.
-- [ ] Map each risk above to the framework.
-- [ ] Confirm data collected/stored by the digital prototype.
-- [ ] Define consent and deletion/withdrawal behaviour.
-- [ ] Define moderation/reporting behaviour.
-- [ ] Check gallery photography/image-use rules.
-- [ ] Evaluate accessibility and shared-space effects in later testing.
-- [ ] Add ethics changes made after the next prototype evaluation.
+---
 
 ## AI Use
 
-> **TBD — adapt to the required UQ/course referencing format:** This ethics page draft was organised and edited with generative AI assistance using the team's existing research, stakeholder analysis, experience requirements and prototype documentation. The final team should review each risk, apply the selected course ethics framework and take responsibility for the final assessment.
+Generative AI assisted documentation organisation and language editing, including this revision. This analysis uses team research, implementation evidence and the team-confirmed matching test. The team remains responsible for reviewing the final ethical assessment.
+
+## Implementation Evidence
+
+- [Blind Eyes matching and anonymous chat](https://github.com/iris0324/babear_deco3500/blob/main/Prototype/functional-prototype/src/core/blind-online.js)
+- [Partner options and match confirmation](https://github.com/iris0324/babear_deco3500/blob/main/Prototype/functional-prototype/src/pages/blind.js)
+- [Report form, local safety controls and team interaction](https://github.com/iris0324/babear_deco3500/blob/main/Prototype/functional-prototype/src/pages/borrow.js)
+- [Report storage and comment checks](https://github.com/iris0324/babear_deco3500/blob/main/Prototype/functional-prototype/src/core/events.js)
+- [Location permission and sample profiles](https://github.com/iris0324/babear_deco3500/blob/main/Prototype/functional-prototype/src/pages/community.js)
+- [Backend scope and data-access documentation](https://github.com/iris0324/babear_deco3500/blob/main/supabase/BLIND_EYES_SETUP.md)
+- [Design Process Overview](https://github.com/iris0324/babear_deco3500/wiki/Design-Process-Overview)
+

@@ -73,7 +73,7 @@ These contributions are prepared as **four initial visitor-created cards**.
 
 The initial cards allow the prototype to begin with real visitor-generated perspectives rather than content created only by the design team.
 
-See the [`initial_cards`](initial_cards/) folder for the four starting cards.
+See the [`initial_cards`](Borrowed_Eyes_Paper_Prototype_Testing_Pack.pdf) folder for the four starting cards.
 
 ---
 
