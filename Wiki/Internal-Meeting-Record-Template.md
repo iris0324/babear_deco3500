@@ -1,4 +1,3 @@
-[Internal-Meeting-Records-Before-Week9.md](https://github.com/user-attachments/files/33917907/Internal-Meeting-Records-Before-Week9.md)
 # Internal Meeting Records
 
 This page documents key internal team discussions, decisions and coordination activities throughout the project.
@@ -39,7 +38,7 @@ The team recognised that the project needed to balance social interaction with a
 ## 21 August 2026 — Refining the Art Persona Concept
 
 ### Participants
-Team 6 members participating in the group discussion.
+Team Babear members participating in the group discussion.
 
 ### Current Progress
 The team was developing **Art Persona** as an early concept for supporting artwork interpretation.
@@ -64,7 +63,7 @@ The team identified a risk of designing a feature because it sounded engaging ra
 ## 24–25 August 2026 — Presentation and Team Charter Coordination
 
 ### Participants
-Team 6 members coordinating through the group chat.
+Team Babear members coordinating through the group chat.
 
 ### Current Progress
 The team was preparing presentation material and finalising the Team Charter.
@@ -95,7 +94,7 @@ The team noted that AI-generated presentation content alone did not sufficiently
 ## 1 September 2026 — Tutor Feedback and Project Reframing
 
 ### Participants
-Team 6 members following the studio/tutor discussion.
+Team Babear members following the studio/tutor discussion.
 
 ### Current Progress
 The team had presented an early project direction and was beginning to organise the repository and next design phase.
@@ -145,7 +144,7 @@ The team recognised that the concept needed stronger innovation and clearer evid
 ## 8 September 2026 — Weekly Task and Shared Documentation Coordination
 
 ### Participants
-Team 6 members participating in the group chat.
+Team Babear members participating in the group chat.
 
 ### Current Progress
 The team was continuing weekly studio tasks and collaborative project documentation.
@@ -170,7 +169,7 @@ The discussion highlighted the need to keep shared working materials accessible 
 ## 14 October 2026 — Round 3 User Testing
 
 ### Participants
-Team members involved in Iteration 3 testing and evaluation, together with recruited test participants.
+Team Babear members involved in Iteration 3 testing and evaluation, together with recruited test participants.
 
 ### Current Progress
 By this stage, the project had moved beyond the asynchronous visitor-trace structure of Iteration 2 and was testing more direct and collaborative forms of social interaction.
@@ -228,7 +227,7 @@ Instead, the design should focus on:
 ## 15–18 October 2026 — Analysis, Survey Synthesis and Iteration 3 Refinement
 
 ### Participants
-Team 6 members working across research analysis, UX, documentation and prototype refinement.
+Team Babear members working across research analysis, UX, documentation and prototype refinement.
 
 ### Current Progress
 Following Round 3 testing, the team consolidated user-testing observations with the exploratory survey conducted with **30 respondents**.
