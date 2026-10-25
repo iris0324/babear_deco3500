@@ -1,6 +1,6 @@
-# Borrowed Eyes — VS Code friendly frontend
+# Borrowed Eyes: active prototype
 
-This is a **structure-only refactor** of the uploaded frontend. It keeps the original HTML rendering, CSS rules, artwork assets, bilingual content, and browser-local interactions. **No React, Node.js build, database, or backend is required.**
+This is the active modular build deployed by GitHub Actions. Static HTML/CSS/JavaScript supports the interface and local interactions; **Blind Eyes additionally uses the configured Supabase backend** for anonymous sign-in, real matching, room chat and game state. No React or npm build is required. See [backend setup](../../supabase/BLIND_EYES_SETUP.md) and the [two-phone demo guide](../README.md).
 
 ## Quick start / 如何运行
 
@@ -20,6 +20,7 @@ Alternative if you have Python: `python3 -m http.server 5500`, then visit `http:
 | Welcome, login, home, menus | `src/pages/entry.js` |
 | Browse, artwork details, Borrow game | `src/pages/borrow.js` |
 | Blind Eyes game | `src/pages/blind.js` |
+| Online authentication, matching and room sync | `src/core/blind-online.js` |
 | Chats, visitors, location access | `src/pages/community.js` |
 | Gallery map, catalogue | `src/pages/gallery.js` |
 | Leave Your Eyes / task creator | `src/pages/creator.js` |
@@ -38,7 +39,7 @@ Alternative if you have Python: `python3 -m http.server 5500`, then visit `http:
 - The refactor separates functionality into named files without rewriting game logic. Some functions are still long and can be incrementally cleaned up later.
 - Artwork and illustration paths remain `assets/...`; do not move `assets/` without updating references.
 - Existing localStorage key `borrowedEyes.frontend.v3` remains unchanged, so browser-local state should remain accessible when using the same origin.
-- Accounts, chat, matchmaking, reports and uploaded challenges remain **local demonstrations**. Deploying these static files does not make them multi-user.
+- Blind Eyes uses real anonymous authentication, matching, room chat and server-side game state. Borrowed Eyes teams, wider gallery chat/sample profiles, friend requests and creator publication remain local demonstrations. Reports are saved locally, not sent to a moderator. Location permission does not verify a real gallery boundary.
 - For deployment, upload `index.html`, `src/`, and `assets/` together to any static host. No build step is required.
 
 ## Suggested test checklist
@@ -51,4 +52,5 @@ Alternative if you have Python: `python3 -m http.server 5500`, then visit `http:
 - Create task, preview, publish locally
 - 中文 / English switch, responsive/mobile layout
 
-The original functionality has not been intentionally altered; test in a browser before deploying publicly.
+The team confirmed QR-code access, matching and partner visibility with two phones on site. This does not establish complete device coverage or validate every safety/gameplay feature. Backend contribution: Yunlin Wang (Iris).
+
