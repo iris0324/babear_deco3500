@@ -1,3 +1,5 @@
+> **Archived planning audit.** This document records an earlier repository state and is not a current submission checklist. The prototype, poster and published Wiki now exist. Start with the [main README](../README.md) and [published Wiki](https://github.com/iris0324/babear_deco3500/wiki).
+
 # Babear DECO3500 — Repository Audit and Wiki Content Map
 
 > Audit based on the repository ZIP supplied on 17 September 2026. This is a working project-management document, not a final assessment page.
@@ -40,7 +42,7 @@ Two repository documents conflict:
 - `interview-round-1.md` documents **5 QAGOMA participants** with P1–P5 evidence.
 - `User reaserch` states that **6 participant interviews** were conducted.
 
-**Action:** Confirm whether a sixth interview exists. Until it is verified, use the five fully documented interviews as the primary evidence base. Do not report six as a final fact without recovering the sixth record.
+**Resolved in the final documentation review:** The team confirmed five interview participants. Earlier six-person wording was an error; use the five complete written records.
 
 ### B. Borrowed Eyes prototype status is outdated
 
@@ -182,3 +184,4 @@ No meeting records were found in the ZIP even though the Team Charter says the t
 ## 8. AI-use documentation
 
 The assessment brief permits AI for the artefacts/documentation component but requires each use to be referenced. Keep a record of which Wiki/repository sections were AI-assisted and adapt the disclosure to the course/UQ required format before final submission.
+
