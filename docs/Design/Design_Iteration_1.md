@@ -14,13 +14,13 @@ The result was intended to reassure visitors that personal reactions are valid a
 
 ### Scenario
 
-![Art Persona scenario](images/art-persona-scenario.png)
+![Art Persona scenario](Design_Iteration_2/images/art-persona-scenario.png)
 
 *Figure 1. A visitor observes artworks, selects one, answers playful prompts, and receives an Art Persona.*
 
 ### Initial Interaction Flow
 
-![Art Persona interaction flow](images/art-persona-flow.png)
+![Art Persona interaction flow](Design_Iteration_2/images/art-persona-flow.png)
 
 *Figure 2. The initial Art Persona interaction flow.*
 
@@ -56,10 +56,11 @@ Displaying other visitors' comments added social information, but it still posit
 
 We retained three useful elements from this iteration: playful prompts, personal interpretation without a correct answer, and anonymous access to other visitors' perspectives. We then changed the main interaction. Instead of asking the system to classify the visitor, the next iteration allows one visitor's observation to shape another visitor's route and attention inside the gallery. This decision led to Borrowed Eyes.
 
-![Art Persona interaction flow](images/art-persona-flow.png)
+![Art Persona interaction flow](Design_Iteration_2/images/art-persona-flow.png)
 
 *Figure 3. Art Persona is a system-led and mainly individual experience.*
 
-![Borrowed Eyes interaction flow](images/borrowed-eyes-flow.png)
+![Borrowed Eyes interaction flow](Design_Iteration_2/images/borrowed-eyes-flow.png)
 
 *Figure 4. Borrowed Eyes turns the experience into a visitor-led cumulative social loop.*
+
