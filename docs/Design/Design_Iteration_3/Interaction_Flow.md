@@ -1,222 +1,195 @@
-# Borrowed Eyes Museum — Interaction Flow (Latest Design)
+# Borrowed Eyes — Interaction Flow (Iteration 3)
 
-## 1. Overview
+## 1. Project Structure
 
-Borrowed Eyes Museum is designed around a shared artwork: visitors can explore another person's detail and interpretation, communicate with other visitors, and contribute their own perspective for future challenges. The latest interface contains four main experiences:
+Borrowed Eyes uses artworks as **shared conversation anchors**. Finding an artwork is a starting point for exchanging perspectives and, potentially, learning about other visitors' experiences.
 
-- **Borrow the Eyes:** Find the original artwork behind another visitor's cropped detail, either alone or with a team.
-- **Blind Eyes:** Two visitors communicate with asymmetric visual access. One sees the artwork (Describer); the other does not (Guesser).
-- **Live Gallery Chat:** Visitors verified as being inside the gallery can meet, message, and form teams.
-- **Leave Your Eyes:** A visitor creates a new challenge using an artwork, a cropped detail, a Personal Comment, and ordered clues.
+There are **two core games**:
 
-The **Gallery Map** supports browsing and location-based clues, while **account and location flows** control access to relevant features.
+| Core game           | Participation route                                       | Interaction                                                  |
+| ------------------- | --------------------------------------------------------- | ------------------------------------------------------------ |
+| **Borrow the Eyes** | **Play Alone** or **Play Together (Face-to-Face / Team)** | Explore a cropped artwork and another visitor's Personal Comment; use clues to identify the original artwork. Team members share different clues. |
+| **Blind Eyes**      | **Two matched visitors**                                  | An anonymous private chat between a Describer (sees the artwork) and a Guesser (does not). |
 
-### High-level navigation
-
-```text
-Welcome → Sign Up / Log In → Location Request → Home
-                                            ├── Borrow the Eyes → Solo or Team Challenge
-                                            ├── Blind Eyes → Role → Tag → Match → Chat / Guess
-                                            ├── Live Gallery Chat → Visitor / Team Chat → Challenge
-                                            ├── Leave Your Eyes → Create and Publish Task
-                                            └── Gallery Map → Browse Areas and Artwork Catalogue
-```
-
-## 2. Account, Login and Location Verification (Board 1)
-
-1. **Welcome:** The visitor chooses **Log In** or **Sign Up**.
-2. **Sign Up:** Enter display name, email, password and confirmation; agree to Terms of Service and Privacy Policy; create an account.
-3. **Log In:** Enter email and password, with a **Remember me** option. **Forgot password?** opens a separate reset flow.
-4. **Password reset (branch):** Enter email → request reset link → receive a generic confirmation message → return to Log In.
-5. **Enable Location:** The site explains that location is used to verify gallery access for on-site social features. Visitors can choose **Allow Location** or **Not Now**.
-6. **Browser permission:** The browser may show a location permission prompt.
-
-**Location outcomes**
-
-| Outcome | Screen / action | Access consequence |
-|---|---|---|
-| Permission granted and user is inside the gallery | **Inside Gallery (Verified)** → Enter Gallery | On-site features available |
-| Permission denied or location unavailable | **Location Unavailable** → Retry / Open Settings / Continue with Limited Access | Verification-dependent features remain limited |
-| Permission granted but user is outside the gallery | **Outside Gallery** → Retry Location / Continue Browsing | Visitor can browse online; on-site team play and live chat are unavailable |
-
-The Home screen presents **Borrow the Eyes**, **Blind Eyes**, **Live Gallery Chat**, and **Leave Your Eyes**. Location verification is an *intended product gate*, not a guarantee of reliable real-world indoor positioning.
-
-## 3. Borrow the Eyes — Solo and Team Challenge (Board 2)
-
-### 3.1 Browse and choose
-
-1. **Browse Artwork Fragments:** Explore cropped details left by visitors. The browse screen offers categories such as landscapes, people, and still life.
-2. **Task Detail:** View the enlarged fragment, its difficulty rating and the creator's **Personal Comment**. Choose **Play Alone** or **Play Together**.
-
-### 3.2 Solo route
+**Live Gallery Chat** and **Leave Your Eyes** are supporting features. The **Gallery Map** and account/location flows support navigation and participation. **Face-to-Face is not a third core game.**
 
 ```text
-Browse → Task Detail → Play Alone → Use available clue(s)
-→ Explore physical artworks / map → Submit answer
-→ Success or Retry / No attempts left
+Welcome → Login / Sign Up → Location Request → Home
+    ├── Borrow the Eyes → Play Alone / Play Together
+    ├── Blind Eyes → Role → Interest Tag → Match → Private Chat → Formal Guess
+    ├── Live Gallery Chat → Meet Visitors → Organise Team
+    ├── Leave Your Eyes → Create Artwork Challenge
+    └── Gallery Map → Browse Catalogue / Areas
 ```
 
-The five-star example shows **one player, five attempts, and Q1 unlocked**. This is a continuation of the earlier tested solo/asynchronous Borrowed Eyes approach; the *current screens and exact game rules* are the updated design and should not be confused with what was tested in Iteration 2.
+## 2. Entry, Account and Location (Board 1)
 
-### 3.3 Team route
+1. Choose Login or Sign Up. The proposed sign-up flow includes a display name, email, password, and agreement to terms.
+2. Review the location-permission explanation. Visitors may allow access or continue with limited functionality.
+3. The proposed flow distinguishes visitors inside the gallery, outside it, and those whose location is unavailable.
+4. The Home screen provides the two core games and supporting features.
 
-3. **Find / Create Team:** The visitor must be verified as inside the gallery to join an existing team or create a new one.
-4. **Team Lobby:** Review members, challenge difficulty, team size and the shared attempts count. Team membership is locked when the challenge starts; the team may not exceed the challenge's star difficulty.
-5. **Personal Comment:** Each player writes one original comment about the fragment; a submitted comment unlocks that player's assigned clue. Repeated comments do not unlock extra clues.
-6. **Your Clue and Team Clues:** For a five-star task, clues **Q1–Q5** go from abstract to concrete. Members initially see their own assigned clue; other members' clues remain private until shared. Any remaining clues are not automatically revealed to the team.
-7. **Team Chat:** Members exchange interpretations and their unlocked clues. The illustrated three-person team has three collective attempts.
-8. **Gallery Map:** The team can inspect the gallery's four areas. The artwork's correct area is not highlighted until **Q5** is unlocked.
-9. **Submit Your Answer:** Enter the artwork title or catalogue ID; submissions use the team's shared attempts.
-10. **Wrong Answer:** Reduce the number of remaining attempts; **no additional clue is awarded for an incorrect answer** in Borrow the Eyes. Return to the task or team chat and reconsider.
-11. **Correct Answer:** Reveal the complete artwork. The board specifies **five stars for each player** on successful completion of a five-star challenge (rewards are not split).
-12. **Failed (No Attempts Left):** Reveal the correct artwork with no reward, then offer another task or return Home.
+**Implementation boundary:** Browser location permission does not reliably verify physical presence inside the gallery. Account, location and access-control screens should not be presented as a production-ready security system.
 
-### 3.4 Borrow the Eyes rules shown on the board
+## 3. Borrow the Eyes — Play Alone / Play Together (Board 2)
 
-For a **five-star challenge** with a team of size \(N\):
+### 3.1 Choose a challenge
 
-- **Team attempts = 6 − N**.
-- **Initially unlocked clues = N**, one per member after their own Personal Comment.
-- Team size must not exceed difficulty (in stars).
-- One Personal Comment per account is sufficient to unlock one clue.
-- **Q5** is the gallery-area clue and becomes available only when unlocked under the relevant mode's rules.
+1. Browse cropped artwork fragments and categories.
+2. Open a task to see its fragment, difficulty, and creator's **Personal Comment**.
+3. Choose **Play Alone** or **Play Together**.
 
-| Players | Team attempts (5-star) | Initially available clues |
-|---:|---:|---:|
-| 1 | 5 | 1 (Q1) |
-| 2 | 4 | 2 (Q1–Q2) |
-| 3 | 3 | 3 (Q1–Q3) |
-| 4 | 2 | 4 (Q1–Q4) |
-| 5 | 1 | 5 (Q1–Q5) |
+A **Personal Comment** is a feeling, association, or interpretation. A **Clue** helps identify the artwork. These serve different purposes.
 
-**Note:** A player can still inspect the public catalogue map, but the **active challenge** must not reveal the target's exact artwork, name, image, or location before the proper reveal. This distinction is part of the proposed design.
-
-## 4. Blind Eyes — Two-Person Asymmetric Challenge (Board 3)
-
-1. **Choose Role:** One player is the **Describer**, who can see the target artwork. The other is the **Guesser**, who cannot see the artwork.
-2. **Choose a Matching Tag:** Select a tag derived from creators' Personal Comments in *Leave Your Eyes* (e.g., “Reminds me of my hometown”).
-3. **Find a Matching Partner:** Pair players who selected the same tag; both must accept the match.
-4. **Match Summary:** Confirm the shared tag, difficulty, number of clues, and attempts before beginning.
-5. **Simultaneous Chat:** The Describer sees the artwork without its title or location and can describe it. The Guesser sees only the conversation and asks questions; the Guesser has no artwork image. Discussion is not subject to a fixed question-count limit in this updated design.
-6. **Submit a Formal Guess:** The Guesser submits an artwork title or ID. This is a counted attempt, separate from ordinary chat messages.
-7. **Incorrect Guess:** One attempt is consumed and the next clue unlocks, starting with **Q1**.
-8. **Clue History:** Clues accumulate after wrong formal submissions in order: **Q1 Abstract → Q2 Subject / Story → Q3 Visual / Colour → Q4 Relation / Composition → Q5 Gallery Area**.
-9. **Final Attempt:** After the fifth incorrect guess, Q5 becomes visible and there is one final submission.
-10. **Success:** Reveal the original artwork; the five-star example awards five stars **to both players**. They may continue chatting or play again.
-11. **Failure:** After the sixth incorrect guess, reveal the correct artwork without a reward. Continue Chat or Find New Partner.
-
-### Blind Eyes five-star example
+### 3.2 Play Alone
 
 ```text
-Match and chat → Guess 1
-  ├── Correct → Reveal + reward to both
-  └── Wrong → Q1 → Guess 2
-                    └── Wrong → Q2 → Guess 3
-                                      └── Wrong → Q3 → Guess 4
-                                                        └── Wrong → Q4 → Guess 5
-                                                                          └── Wrong → Q5 (area) → Final Guess 6
-                                                                                                      ├── Correct → Reveal + reward
-                                                                                                      └── Wrong → Reveal, no reward
+Browse → Task Detail → Play Alone → Available Clue
+→ Explore Gallery / Map → Submit Artwork Title or ID
+→ Correct: Reveal / Reward
+  or Wrong: Retry if Attempts Remain
+  or No Attempts: Reveal Without Reward
 ```
 
-**Rules:** Five-star Blind Eyes has **six formal submissions** (five clues revealed after failures plus one final guess). Unlike Borrow the Eyes team mode, its attempts do **not** decrease with group size because it is always a two-person mode. This differs from the **three-factual-question limit used in the October 14 paper prototype testing**; the new mechanism is a subsequent design revision, not an observed testing result.
+The five-star example gives one visitor five attempts and starts with Q1. The latest screen shows the creator's comment at the task-detail stage; this differs from the independent-interpretation-first sequence in the earlier Iteration 2 paper prototype.
 
-## 5. Live Gallery Chat — Location-Gated Social Interaction (Board 4)
+**Social intention:** An asynchronous encounter with another visitor's way of seeing the artwork, without requiring direct conversation.
 
-1. **Enter Gallery Chat:** Open from Home or a gallery QR entry point.
-2. **Allow Location:** Request location access and explain why in-gallery verification is needed.
-3. **Inside Gallery Verified:** Verified visitors may enter Live Gallery Chat.
-4. **Outside / Permission Off:** Show that entry is blocked; offer retry, location settings, or return Home.
-5. **Gallery Room Visitor List:** Browse visitors, identify who is looking for a team, and view the public gallery room.
-6. **Visitor Profile:** View a visitor's public profile and optionally send a message, invite them to a team, report or block.
-7. **Create Team:** Select a challenge, set a meeting area and invite participants.
-8. **Group Conversation:** Team members discuss, coordinate a meeting, and choose when to enter the challenge.
-9. **Borrow the Eyes Lobby:** Transfer into the challenge. Each member must submit a Personal Comment to unlock their own clue.
-10. **Location Access Expired:** Once the visitor leaves the gallery, the live conversation becomes **read-only** until their location is verified again.
+### 3.3 Play Together (Face-to-Face / Team)
 
-**Design status:** Live presence, location permissions, private messages, invitations, reporting and blocking are detailed in the interface flow, but should not be described as implemented or validated without corresponding code and test evidence.
+```text
+Select Task → Create / Join Team → Lobby
+→ Each Member Writes One Personal Comment
+→ Each Member Unlocks One Assigned Clue
+→ Share Clues / Discuss / Coordinate Search
+→ Submit Shared Answer
+   ├── Correct → Reveal + Reward for Each Member
+   ├── Wrong, Attempts Remain → Discuss and Retry (No New Clue)
+   └── No Attempts → Reveal Without Reward
+```
 
-## 6. Leave Your Eyes — Creating and Publishing a Challenge (Board 5)
+Members initially see their own clue, and the team must exchange information. Team size cannot exceed the star difficulty. Wrong answers consume shared attempts but **do not unlock additional clues**.
 
-1. **Create Task:** Upload an image of the complete artwork (PNG/JPG, up to 10 MB in the mock-up).
-2. **Artwork Information:** Enter the artwork title and a unique catalogue ID, which are hidden from players during active challenges.
-3. **Select Crop Area:** Choose the detail to share; the selected area determines difficulty.
-4. **Difficulty Preview:** Review the crop percentage, star difficulty, clue count and answer-attempt rules.
-5. **Personal Comment:** Write an original association or interpretation. This becomes the **task name** and a matching tag used in Blind Eyes.
-6. **Q1 Abstract:** Describe a feeling, atmosphere or memory.
-7. **Q2 Story:** Describe a scene or story it evokes.
-8. **Q3 Visual:** Describe colours, shapes or textures.
-9. **Q4 Relation:** Explain how the detail relates to surrounding elements.
-10. **Q5 Gallery Area:** Select one of four gallery areas on the floor plan. This is the required most concrete location clue.
-11. **Preview Task:** Check the artwork, crop, title/tag, questions and location area.
-12. **Publish Success:** Make the challenge available for others to explore.
+For the documented **five-star** example, team attempts = `6 − N` and initial clues = `N`, where `N` is the number of team members:
 
-### Crop-to-difficulty rules
+| Members | Shared attempts | Initially available clues |
+| ------: | --------------: | ------------------------- |
+|       1 |               5 | Q1                        |
+|       2 |               4 | Q1–Q2                     |
+|       3 |               3 | Q1–Q3                     |
+|       4 |               2 | Q1–Q4                     |
+|       5 |               1 | Q1–Q5                     |
 
-| Crop proportion of full artwork | Difficulty | Questions available |
-|---|---|---|
-| 0% | Invalid | Crop must be greater than zero |
-| Greater than 0% and less than 20% | 5 stars | Q1–Q5 |
-| 20% to less than 40% | 4 stars | Q2–Q5 |
-| 40% to less than 60% | 3 stars | Q3–Q5 |
-| 60% to less than 80% | 2 stars | Q4–Q5 |
-| 80% to 100% | 1 star | Q5 only |
+The fifth clue, Q5, gives the gallery area rather than the exact artwork position. Lower-difficulty boundary cases should be checked against the actual implementation.
 
-Exactly **20%** counts as **4 stars**. Smaller cropped details reveal more clues in the current rules. In the one-star alternate flow, the experience skips Q1–Q4 and proceeds from Personal Comment directly to the required gallery-area clue (Q5).
+**Social intention:** Communication (sharing interpretations and clues), coordination (planning a search), and cooperation (making a shared decision). The current Team route is a **local interactive demonstration**, not the online multiplayer system used by Blind Eyes.
 
-### Attempt formulas described by the designs
+## 4. Blind Eyes — Anonymous Matched Conversation (Board 3)
 
-- **Blind Eyes:** difficulty \(D\) stars → **\(D+1\) formal guesses** (e.g., five stars → six submissions).
-- **Borrow the Eyes:** number of players and difficulty jointly determine attempts. The five-star design explicitly shows **6 − team size**, and its published example uses **difficulty + 1 − players**. Apply a valid lower bound and team-size restrictions in implementation; the boards should be treated as the authority for each stated example until edge cases are specified.
+1. Choose **Describer** or **Guesser**.
+2. Choose an interest tag, based in the design on Personal Comments.
+3. Match with a visitor who chose the same tag and the complementary role; both accept.
+4. Enter an anonymous **one-to-one private chat**.
+5. The Describer sees the artwork but not its title or location. The Guesser sees no target image and asks questions.
+6. Ordinary messages are **unlimited** in the latest design. Only a **formal artwork submission** consumes an attempt.
+7. Each incorrect formal submission unlocks the next clue; participants can continue chatting.
+8. Correct answers reveal the artwork and award the designated reward to both players. Exhausted attempts reveal it without a reward.
 
-## 7. Gallery Map — Catalogue and Location Clue (Board 6)
+Clue sequence:
 
-The map has **three distinct purposes**, which must not be conflated:
+| Clue | Information                   |
+| ---- | ----------------------------- |
+| Q1   | Abstract atmosphere / feeling |
+| Q2   | Subject / story               |
+| Q3   | Visual features / colour      |
+| Q4   | Relation / composition        |
+| Q5   | Gallery area                  |
 
-### A. Public gallery catalogue
+For a **five-star challenge**, the design specifies **six formal submissions**: an initial guess, five clues released after successive incorrect guesses, and one final guess after Q5. The broader intended formula is `difficulty + 1` formal submissions.
 
-1. Open the full gallery map divided into **four areas**.
-2. Select an area to browse artwork listings.
-3. Open an artwork detail page with its catalogue information.
-4. Return to the map.
+**Version distinction:** The **14 October paper testing** used a **three-factual-question limit**, with unlimited perspective questions. The current unrestricted-chat and formal-guess system is a later design revision, **not a tested finding**.
 
-This is a **browsing** experience, not an automatic answer reveal within an active game.
+**Social intention:** A shared interest and an information gap encourage explanation and discussion. Whether this leads to personal understanding requires further evaluation.
 
-### B. Publisher assigns Q5
+**Implementation boundary:** Blind Eyes uses Supabase for anonymous sign-in, online matching, room chat, and server-side game state. Successful two-phone matching does not validate all usability, privacy, or social outcomes.
 
-During *Leave Your Eyes*, the creator selects and saves the area containing the artwork. The saved area becomes **Q5**, the final location clue for Borrow the Eyes or Blind Eyes challenges.
+## 5. Live Gallery Chat — Supporting Feature (Board 4)
 
-### C. Active challenge uses Q5
+```text
+Home / Gallery QR → Request Location
+→ Proposed Gallery Verification → Visitor List / Gallery Room
+→ Message / Invite → Form Team → Borrow the Eyes Lobby
+```
 
-1. **Before Q5:** The active game map shows the four areas but does not highlight the target or reveal its name/image.
-2. **When Q5 unlocks:** Highlight the correct **quarter/area**, not the exact hanging position.
-3. **Final submission:** Player enters the name or catalogue ID. The gallery area narrows the search but does not give the solution.
+The design includes visitor profiles, team invitations, meeting areas, and proposed report/block and access-expiry behaviour.
 
-## 8. Relation to the Design Opportunity
+**Purpose:** Help visitors find partners and organise a face-to-face activity. It is **not** a separate core game.
 
-The interface is intended to use artworks as **shared conversation anchors**, with three complementary paths:
+**Implementation boundary:** Wider visitor chat, profiles, team invitations, and related safety controls are local demonstrations. Reliable gallery-boundary verification and operational moderation are not established.
 
-| Experience | Intended social mechanism | What should be evaluated |
-|---|---|---|
-| Solo Borrow the Eyes | Explore a past visitor's detail and Personal Comment asynchronously | Close looking, reflection and comparison |
-| Team Borrow the Eyes | Different members contribute comments and share separate clues | Information sharing, coordination and balanced contributions |
-| Blind Eyes | Describer and Guesser resolve an information gap through dialogue | Explanation, clarification, perspective exchange and post-reveal reflection |
-| Live Gallery Chat | Meet others and form teams while on site | Social comfort, consent, coordination and participation |
-| Leave Your Eyes | Turn an interpretation into a challenge for later visitors | Quality and diversity of personal contributions |
+## 6. Leave Your Eyes — Supporting Feature (Board 5)
+
+```text
+Select / Upload Artwork → Enter Title and Catalogue ID
+→ Choose Crop → Review Difficulty
+→ Write Personal Comment / Matching Tag
+→ Write Relevant Clues → Select Q5 Gallery Area
+→ Preview → Publish Locally
+```
+
+Clues move from abstract associations towards more concrete visual and location information.
+
+| Crop proportion            | Difficulty | Clues                       |
+| -------------------------- | ---------- | --------------------------- |
+| 0%                         | Invalid    | Must select a non-zero crop |
+| Greater than 0%, below 20% | 5 stars    | Q1–Q5                       |
+| 20%, below 40%             | 4 stars    | Q2–Q5                       |
+| 40%, below 60%             | 3 stars    | Q3–Q5                       |
+| 60%, below 80%             | 2 stars    | Q4–Q5                       |
+| 80%–100%                   | 1 star     | Q5                          |
+
+Exactly 20% belongs to the four-star band. Smaller crops are assigned higher difficulty in the current design.
+
+**Implementation boundary:** User-created tasks are saved **locally in the browser**, not automatically published to a shared online challenge dataset.
+
+## 7. Gallery Map — Supporting Tool (Board 6)
+
+The map has three roles:
+
+1. **Public catalogue:** Browse four gallery areas and artwork listings.
+2. **Creator workflow:** Assign the target's area as Q5.
+3. **Active challenge:** Keep the target area hidden until Q5 unlocks; then show the area, not the exact artwork position or answer.
+
+The public catalogue and active challenge's answer-reveal rules must be distinguished.
+
+## 8. Social Design Rationale
+
+| Experience             | Intended social mechanism                                 | Evaluation question                                          |
+| ---------------------- | --------------------------------------------------------- | ------------------------------------------------------------ |
+| Borrow the Eyes — Solo | Asynchronous encounter with another visitor's perspective | Does it encourage reflection and re-observation?             |
+| Borrow the Eyes — Team | Shared clues, self-coordination, collective decisions     | Whose contributions influence the outcome?                   |
+| Blind Eyes             | Anonymous interest matching and conversation              | Do players respond to interpretations, or use them only to solve the task? |
+| Live Gallery Chat      | Finding partners and organising participation             | Can visitors join, decline, and leave comfortably?           |
+| Leave Your Eyes        | Personal contributions for future visitors                | Do comments express meaningful associations and provide useful clues? |
+
+The deeper design goal is **understanding people through art**, not only understanding artworks through other people. Personal sharing should remain voluntary.
 
 ## 9. Evidence and Version Boundaries
 
-- **Iteration 2:** The earlier Borrowed Eyes Solo / asynchronous Card–Clue–Comment concept underwent prototype testing. Its evidence supports the earlier approach, not automatic validation of every screen or rule in these updated boards.
-- **14 October 2026:** Blind Eyes was tested in four rounds and Face-to-Face in one three-person session. The paper-test question limit and interaction differed from the current digitally designed flows.
-- **Latest boards:** Account management, location verification, matchmaking, live chat, staged clue release, star rewards, upload/publishing and gallery-area logic are presented here as **intended design flows**. Functional implementation and usability must be confirmed separately.
-- **Design-to-test distinction:** Observed communication, coordination and task performance are not equivalent to demonstrated long-term or meaningful human connection.
+- **Iteration 2:** The asynchronous paper prototype was tested, but its exact sequence differs from the latest interface.
+- **14 October 2026:** Four Blind Eyes paper-prototype rounds and one three-person Face-to-Face activity examined conversation and cooperation. Face-to-Face informed **Borrow the Eyes Team**, not a third independent mode.
+- **Latest design:** Revised guessing rules, rewards, location gating, gallery chat, and publishing should be described according to what is actually implemented or simulated.
+- **Task success ≠ social success:** Finding an artwork does not prove personal sharing, mutual understanding, or meaningful human connection.
 
-## 10. Open Questions for the Next Evaluation
+See [Iteration 3 Concept](Concept.md) and [Round 3 Testing Results](../../Evaluation/Round_3/Testing_Results.md).
 
-1. Do players understand the different rules for **Solo**, **Borrow the Eyes team**, and **Blind Eyes**?
-2. Does sharing unique clues lead every team member to contribute, or can one participant still dominate?
-3. After a reveal, do visitors discuss *why* they saw the artwork differently, rather than only celebrating a correct answer?
-4. Are area clues useful without prematurely revealing the target artwork?
-5. Are crop-based difficulty and attempt counts predictable and fair, especially at boundary values and smaller difficulties?
-6. Can on-site location gating, privacy explanations and limited-access paths be understood and used reliably?
-7. Is the publishing flow clear enough to produce useful Personal Comments and distinct Q1–Q5 clues?
+## 10. Next Evaluation Questions
+
+1. Do visitors understand the two core games and their participation routes?
+2. Does each team member have a meaningful opportunity to contribute?
+3. Does the revised Blind Eyes guessing mechanism encourage interpretation beyond factual identification?
+4. Do visitors discuss different perspectives after the artwork is revealed?
+5. Are privacy, consent, and the ability to leave an interaction sufficiently clear?
+6. Are clue and attempt rules consistent across difficulty levels?
+7. Can the map help navigation without revealing the answer too early?
+8. What would be needed for reliable location verification, accessibility, and moderation?
