@@ -28,7 +28,7 @@ The design explores different levels of social participation:
 - independent exploration of visitor-created perspectives;
 - **Blind Eyes**, where two visitors exchange information and interpretations;
 - small-group collaborative artwork finding;
-- **Live Gallery Chat**;
+- **Group Chat**;
 - **Leave Your Eyes**, where visitors create content for future participants.
 
 The final prototype combines real online Blind Eyes matching and chat with local demonstrations of Borrowed Eyes teams, wider gallery chat and creator publication. These differences matter when assessing which safeguards actually operate. The analysis below separates current measures, their limits and proposed improvements.
@@ -286,4 +286,3 @@ Generative AI assisted documentation organisation and language editing, includin
 - [Location permission and sample profiles](https://github.com/iris0324/babear_deco3500/blob/main/Prototype/functional-prototype/src/pages/community.js)
 - [Backend scope and data-access documentation](https://github.com/iris0324/babear_deco3500/blob/main/supabase/BLIND_EYES_SETUP.md)
 - [Design Process Overview](https://github.com/iris0324/babear_deco3500/wiki/Design-Process-Overview)
-

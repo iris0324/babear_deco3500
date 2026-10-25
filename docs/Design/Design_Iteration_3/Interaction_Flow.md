@@ -4,20 +4,22 @@
 
 Borrowed Eyes uses artworks as **shared conversation anchors**. Finding an artwork is a starting point for exchanging perspectives and, potentially, learning about other visitors' experiences.
 
-There are **two core games**:
+The final concept has **four parallel main features**:
 
-| Core game           | Participation route                                       | Interaction                                                  |
-| ------------------- | --------------------------------------------------------- | ------------------------------------------------------------ |
-| **Borrow the Eyes** | **Play Alone** or **Play Together (Face-to-Face / Team)** | Explore a cropped artwork and another visitor's Personal Comment; use clues to identify the original artwork. Team members share different clues. |
-| **Blind Eyes**      | **Two matched visitors**                                  | An anonymous private chat between a Describer (sees the artwork) and a Guesser (does not). |
+| Main feature | Participation and interaction |
+|---|---|
+| **Borrow the Eyes** | Play Alone or Play Together: explore fragments and perspectives; team members write personal interpretations to unlock and share private clues before a collective guess. |
+| **Blind Eyes** | Two matched visitors communicate through complementary Describer and Guesser roles. |
+| **Group Chat** | Gallery communication, teammate finding and coordination. |
+| **Leave Your Eyes** | Artwork-based challenge creation for future participants. |
 
-**Live Gallery Chat** and **Leave Your Eyes** are supporting features. The **Gallery Map** and account/location flows support navigation and participation. **Face-to-Face is not a third core game.**
+These features are equally important conceptually, without a fixed sequence or hierarchy controlled by Group Chat. Their implementation and evaluation status differ. The Gallery Map and account/location flows support navigation. Face-to-Face refers to a tested collaborative activity rather than a fifth main feature.
 
 ```text
 Welcome → Login / Sign Up → Location Request → Home
     ├── Borrow the Eyes → Play Alone / Play Together
     ├── Blind Eyes → Role → Interest Tag → Match → Private Chat → Formal Guess
-    ├── Live Gallery Chat → Meet Visitors → Organise Team
+    ├── Group Chat → Meet Visitors → Organise Team
     ├── Leave Your Eyes → Create Artwork Challenge
     └── Gallery Map → Browse Catalogue / Areas
 ```
@@ -27,7 +29,7 @@ Welcome → Login / Sign Up → Location Request → Home
 1. Choose Login or Sign Up. The proposed sign-up flow includes a display name, email, password, and agreement to terms.
 2. Review the location-permission explanation. Visitors may allow access or continue with limited functionality.
 3. The proposed flow distinguishes visitors inside the gallery, outside it, and those whose location is unavailable.
-4. The Home screen provides the two core games and supporting features.
+4. The Home screen provides the four parallel main features and navigation tools.
 
 **Implementation boundary:** Browser location permission does not reliably verify physical presence inside the gallery. Account, location and access-control screens should not be presented as a production-ready security system.
 
@@ -113,7 +115,7 @@ For a **five-star challenge**, the design specifies **six formal submissions**: 
 
 **Implementation boundary:** Blind Eyes uses Supabase for anonymous sign-in, online matching, room chat, and server-side game state. Successful two-phone matching does not validate all usability, privacy, or social outcomes.
 
-## 5. Live Gallery Chat — Supporting Feature (Board 4)
+## 5. Group Chat (Board 4)
 
 ```text
 Home / Gallery QR → Request Location
@@ -123,11 +125,11 @@ Home / Gallery QR → Request Location
 
 The design includes visitor profiles, team invitations, meeting areas, and proposed report/block and access-expiry behaviour.
 
-**Purpose:** Help visitors find partners and organise a face-to-face activity. It is **not** a separate core game.
+**Purpose:** Provide direct gallery communication, partner finding and activity coordination as one of the four main features.
 
 **Implementation boundary:** Wider visitor chat, profiles, team invitations, and related safety controls are local demonstrations. Reliable gallery-boundary verification and operational moderation are not established.
 
-## 6. Leave Your Eyes — Supporting Feature (Board 5)
+## 6. Leave Your Eyes (Board 5)
 
 ```text
 Select / Upload Artwork → Enter Title and Catalogue ID
@@ -169,7 +171,7 @@ The public catalogue and active challenge's answer-reveal rules must be distingu
 | Borrow the Eyes — Solo | Asynchronous encounter with another visitor's perspective | Does it encourage reflection and re-observation?             |
 | Borrow the Eyes — Team | Shared clues, self-coordination, collective decisions     | Whose contributions influence the outcome?                   |
 | Blind Eyes             | Anonymous interest matching and conversation              | Do players respond to interpretations, or use them only to solve the task? |
-| Live Gallery Chat      | Finding partners and organising participation             | Can visitors join, decline, and leave comfortably?           |
+| Group Chat      | Finding partners and organising participation             | Can visitors join, decline, and leave comfortably?           |
 | Leave Your Eyes        | Personal contributions for future visitors                | Do comments express meaningful associations and provide useful clues? |
 
 The deeper design goal is **understanding people through art**, not only understanding artworks through other people. Personal sharing should remain voluntary.
@@ -185,7 +187,7 @@ See [Iteration 3 Concept](Concept.md) and [Round 3 Testing Results](../../Evalua
 
 ## 10. Next Evaluation Questions
 
-1. Do visitors understand the two core games and their participation routes?
+1. Do visitors understand the four main features and their participation routes?
 2. Does each team member have a meaningful opportunity to contribute?
 3. Does the revised Blind Eyes guessing mechanism encourage interpretation beyond factual identification?
 4. Do visitors discuss different perspectives after the artwork is revealed?

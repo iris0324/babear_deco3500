@@ -6,14 +6,15 @@ Borrowed Eyes explores how artworks can become starting points for conversations
 
 Our earlier iterations helped us recognise a tension in gallery participation. Visitors may be curious about how others see an artwork, but this does not necessarily mean they feel comfortable approaching strangers or joining a group discussion. We therefore wanted to create opportunities for social interaction without making direct conversation compulsory.
 
-In Iteration 3, we developed Borrowed Eyes into two core games:
+In Iteration 3, we developed Borrowed Eyes into four parallel main features:
 
 - **Borrow the Eyes:** Visitors explore artwork details and perspectives left by others. They can participate individually or work with a team.
 - **Blind Eyes:** Two visitors communicate with different access to visual information. One describes an artwork while the other tries to identify it through conversation.
 
-The wider prototype also includes **Live Gallery Chat**, which supports finding other visitors and organising teams, and **Leave Your Eyes**, which allows visitors to create artwork challenges for others.
+- **Group Chat:** Visitors communicate, find teammates and coordinate shared activities.
+- **Leave Your Eyes:** Visitors create artwork-based challenges and perspectives for future participants.
 
-These features support the same design opportunity but serve different purposes. Borrow the Eyes and Blind Eyes are the main gameplay experiences; Gallery Chat and Leave Your Eyes extend how visitors connect and contribute.
+All four features are equally important parts of the final concept. They are not successive stages or a hierarchy controlled by Group Chat. Their implementation and evaluation status differ. The Gallery Map and entry/account flows support navigation; Face-to-Face refers to an evaluated collaborative activity, not a separate final feature.
 
 > **Design Opportunity:** There is an opportunity to use artworks as shared conversation anchors, helping gallery visitors move beyond discussing art to sharing personal experiences, understanding different backgrounds, and building meaningful human connections.
 
@@ -151,13 +152,13 @@ A possible next step is to investigate whether a short post-reveal comparison ca
 
 **Current implementation:** The online prototype uses Supabase for anonymous authentication, partner matching, room messaging, and server-side game state. The team has checked QR-code access and successful matching on two phones. These checks do not constitute a complete evaluation of the digital gameplay or its social outcomes.
 
-### 3.3 Supporting Feature — Live Gallery Chat
+### 3.3 Group Chat
 
-Live Gallery Chat is intended to help visitors find others who are interested in participating and coordinate team activities within the gallery.
+Group Chat is intended to help visitors find others who are interested in participating and coordinate team activities within the gallery.
 
 The design includes visitor discovery, messaging, team invitations, and access linked to gallery presence.
 
-Its role is to support participation rather than function as a third core artwork-finding game.
+As a main feature, Group Chat supports direct communication and coordination; it does not control access to the other three features.
 
 This feature responds to practical questions raised during the design process: How do visitors find a partner? How do they decide whether to join a group? How can they communicate before beginning an activity?
 
@@ -165,7 +166,7 @@ The current prototype demonstrates wider gallery chat and related social interfa
 
 These distinctions matter when discussing the current prototype's readiness for use in a real public gallery.
 
-### 3.4 Supporting Feature — Leave Your Eyes
+### 3.4 Leave Your Eyes
 
 Leave Your Eyes allows visitors to contribute their own way of seeing an artwork.
 
@@ -315,14 +316,14 @@ Anonymity, clear expectations, and exit options can support this goal, but techn
 
 ## 6. Current Prototype and Implementation Scope
 
-The latest prototype brings together the two core games and supporting features in a mobile-oriented web interface.
+The latest prototype brings together the four parallel features in a mobile-oriented web interface, with different levels of backend implementation.
 
 | Component | Current status |
 | --- | --- |
 | Borrow the Eyes — Solo | Local interactive gameplay |
 | Borrow the Eyes — Team | Local demonstration of individual comments, clue sharing, and collective guessing |
 | Blind Eyes | Online anonymous matching, room chat, and game state supported by Supabase |
-| Live Gallery Chat | Local demonstration of visitor and team communication |
+| Group Chat | Local demonstration of visitor and team communication |
 | Leave Your Eyes | Browser-local challenge creation and publication |
 | Gallery Map | Interactive catalogue and area-based clue interface |
 | Location verification | Permission and demonstration flow; no reliable gallery-boundary verification |
