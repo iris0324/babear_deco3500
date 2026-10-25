@@ -11,6 +11,11 @@ Borrowed Eyes explores how visitors' observations can become starting points for
 - **[Design Process Overview](https://github.com/iris0324/babear_deco3500/wiki/Design-Process-Overview)**
 - **[Ethical Considerations](https://github.com/iris0324/babear_deco3500/wiki/Ethical-Considerations)**
 - **[Internal Meeting Records](https://github.com/iris0324/babear_deco3500/wiki/Internal-Meeting-Records)**
+- **[Complete documentation guide](docs/README.md)**
+
+## Final design features
+
+The final concept offers four parallel features: **Borrow the Eyes** for independent or team artwork discovery, **Blind Eyes** for paired descriptions and questions, **Group Chat** for communication and coordination, and **Leave Your Eyes** for visitor-created challenges. Visitors need not complete them in sequence. Their implementation and evaluation status differ, as documented below.
 
 ## Try the core two-person experience
 
@@ -64,7 +69,7 @@ Responsibilities overlapped; all members participated in testing and design disc
 | Member | Main contributions |
 |---|---|
 | Yunlin Wang (Iris) | Initial website architecture, frontend and UI/UX foundation; completed the backend used in the final prototype; code integration and repository organisation. |
-| Yining Zhu (Ning) | Research documentation, survey design and interview synthesis; GitHub, Wiki and submission organisation and review; developed an earlier backend version not adopted in the final prototype.|
+| Yining Zhu (Ning) | Research documentation, survey design and interview synthesis; GitHub, Wiki and submission organisation and review; developed an earlier backend version not adopted in the final prototype. |
 | Binyan Zhang (Zoe) | Interviews, testing and analysis; user flows for both rounds; later website and prototype refinement. |
 | Muchu Wang (Muchu) | Wiki/process documentation, interviews, testing, evaluation synthesis and collaborative concept development. |
 | Xinyue Chang (Ivy) | Team coordination, concept/interaction design, prototype development, visual refinement and poster design. |
@@ -73,9 +78,8 @@ See the published Wiki, meeting records and commit history for context. Files in
 
 ## Assessment hand-in
 
-Submit this public repository URL and the combined **Design Process Overview + Ethical Considerations** PDF named **Babear_3DesignPrototype.pdf** through Blackboard. Export after the final Wiki review so both versions match. A repository update is not a Blackboard submission.
+One student submits on behalf of the team a single PDF named **Team6_DesignPrototypeDocs.pdf** through Blackboard. Page 1 lists the team name, all member names and student numbers, and this repository URL. The document must include the **Design Process Overview** (approximately 1,000 words according to the brief) and **Ethical Considerations**. Other process and product evidence is accessed through this repository. Check the final cover details, length and hyperlinks before exporting. A repository update is not a Blackboard submission.
 
 ## AI use
 
 Generative AI assisted documentation organisation and language editing. Research data, participant records and design decisions belong to the team and participants. The team is responsible for reviewing the final submission and following course AI disclosure requirements.
-

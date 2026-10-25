@@ -14,7 +14,7 @@ Our iterative process is:
 | --------- | ---------------------------- | ------------------------------------------------------------ |
 | **1**     | Art Persona                  | Playful prompts encouraged observation and personal interpretation; direct social interaction was limited. |
 | **2**     | Borrowed Eyes (asynchronous) | Artwork fragments, clues, comments, and contributions allowed one visitor's perspective to shape another's experience. |
-| **3**     | Borrow the Eyes + Blind Eyes | Two core games support individual/team artwork exploration and anonymous paired conversation, with supporting social and creation features. |
+| **3**     | Borrow the Eyes + Blind Eyes | Flexible participation through four parallel features: Borrow the Eyes, Blind Eyes, Group Chat and Leave Your Eyes. |
 
 ### Iteration 1 — Art Persona
 
@@ -34,9 +34,9 @@ It enabled indirect interaction across time without requiring strangers to talk.
 
 - [Iteration 2 Concept](Design_Iteration_2/Concept.md)
 - [Low-Fidelity Prototype](Design_Iteration_2/Low_Fidelity_Prototype.md)
-- `Design_Iteration_2/Borrowed_Eyes_Paper_Prototype_Testing_Pack.pdf` — testing materials
+- [Paper prototype testing pack](Design_Iteration_2/Borrowed_Eyes_Paper_Prototype_Testing_Pack.pdf) — testing materials
 
-### Iteration 3 — Two Core Games
+### Iteration 3 — Flexible social participation
 
 **1. Borrow the Eyes**
 
@@ -49,7 +49,11 @@ Two visitors choose a shared interest tag and complementary roles, then communic
 
 The latest design allows unrestricted ordinary chat, while incorrect formal submissions consume attempts and unlock clues. This differs from the **three-factual-question limit** used during the 14 October paper testing.
 
-**Supporting features:** **Live Gallery Chat** helps visitors find partners and form teams; **Leave Your Eyes** supports creating challenges for future visitors; the **Gallery Map** supports browsing and area-based clues. These are not additional core games.
+**3. Group Chat** enables gallery communication, teammate finding and activity coordination.
+
+**4. Leave Your Eyes** supports creating artwork-based challenges for future visitors.
+
+These four features are parallel parts of the final concept; visitors do not follow a fixed sequence, and Group Chat does not control the other features. The Gallery Map supports browsing and area-based clues. Face-to-Face refers to a tested collaborative activity, rather than a separate final feature. Implementation levels are summarised below.
 
 #### Iteration 3 Files
 
@@ -75,7 +79,7 @@ The active build is [`Prototype/functional-prototype/`](../../Prototype/function
 | Borrow the Eyes — Solo | Local interactive gameplay                                   |
 | Borrow the Eyes — Team | Local demonstration, not the Blind Eyes online multiplayer system |
 | Blind Eyes             | Supabase-backed anonymous matching, private room chat, and game state |
-| Live Gallery Chat      | Local demonstration of wider social features                 |
+| Group Chat             | Local demonstration of wider social features                 |
 | Leave Your Eyes        | Browser-local challenge creation                             |
 | Location verification  | Permission/demo flow; no reliable physical gallery-boundary check |
 

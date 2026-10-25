@@ -1,10 +1,19 @@
-# Poster and promotional materials
+# Poster and tradeshow materials
 
-**[Open the tradeshow poster](poster.png)**
+**[Open the final Borrowed Eyes poster](poster.png)**
 
 ![Borrowed Eyes tradeshow poster](poster.png)
 
-The poster is the self-contained visual introduction to the gallery domain, design opportunity, experience and process. The assessment brief specifies A2 portrait (420 × 594 mm); confirm these physical print/export settings in the source design, since a PNG alone does not establish print size.
+The team completed the tradeshow demonstration and short pitch. The poster introduces the gallery context, design opportunity, experience and design process. Its physical print target is A2 portrait, 420 × 594 mm.
 
-The brief also requires a 2–3 minute pitch and an interactive demonstration. Additional videos/brochures are optional. The team confirmed that the tradeshow and pitch were completed and that supporting materials exist. Their file locations are being consolidated; no script or exhibition evidence is currently stored in this folder. See the [live prototype](https://iris0324.github.io/babear_deco3500/) and [process overview](https://github.com/iris0324/babear_deco3500/wiki/Design-Process-Overview).
+## Exhibition evidence
 
+- [Pitch photograph](pitch_1.jpg)
+- [Poster discussion photograph](tradeshow-poster-discussion.jpeg)
+- [Phone interaction beside artwork materials](tradeshow-phone-interaction.jpeg)
+
+These photographs document the exhibition setting. They do not independently establish exact pitch wording, duration, task success or participant satisfaction. No verbatim pitch transcript is stored in this folder.
+
+Separately, the team confirmed that two phones scanned the QR code, accessed the online prototype, matched successfully and displayed the partner. See the [two-phone guide](../../Prototype/README.md) and [earlier formative evaluation](../Evaluation/Round_3/Testing_Results.md) for their distinct scopes.
+
+[Live prototype](https://iris0324.github.io/babear_deco3500/) · [Design Process Overview](https://github.com/iris0324/babear_deco3500/wiki/Design-Process-Overview) · [Evaluation index](../Evaluation/README.md)
