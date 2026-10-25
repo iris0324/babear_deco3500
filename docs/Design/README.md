@@ -49,8 +49,9 @@ This creates an asynchronous visitor-to-visitor experience without requiring dir
 ### Design Iteration 2 Files
 
 - [Concept](Design_Iteration_2/Concept.md) — concept, design goals and interaction
-- [Paper Prototype](Design_Iteration_2/paper_prototype.md) — low-fidelity prototype structure and flow
+- [Paper Prototype](Design_Iteration_2/Low_Fidelity_Prototype.md) — low-fidelity prototype structure and flow
 - `Design_Iteration_2/Borrowed_Eyes_Paper_Prototype_Testing_Pack.pdf` — paper prototype materials used for testing
 
 Testing plans, evidence and findings are documented separately in [`../Evaluation`](../Evaluation/).
+
 
